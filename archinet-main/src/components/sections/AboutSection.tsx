@@ -46,8 +46,8 @@ export default function AboutSection() {
               </div>
             </div>
             
-            <span className="text-[10px] font-mono text-[var(--accent-gold)] tracking-widest uppercase block mb-1">PROMO REEL</span>
-            <p className="text-xs font-serif text-white font-medium">Inside ArchiNet Summit Experience</p>
+            <span className="text-[10px] font-mono text-[var(--accent-gold)] tracking-widest uppercase block mb-1">Our Founder</span>
+            <p className="text-xs font-serif text-white font-medium">Setting new benchmark</p>
           </RevealZoom>
         </RevealLeft>
 
