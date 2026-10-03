@@ -124,7 +124,7 @@ export default function ContactSection() {
                     type="text"
                     value={formState.designation}
                     onChange={(e) => setFormState({ ...formState, designation: e.target.value })}
-                    placeholder="Principal Architect / Founder"
+                    placeholder="Full Name / Designation"
                     className="w-full px-4 py-3 rounded-xl bg-[#141414] border border-[rgba(255,255,255,0.1)] text-xs font-mono text-white focus:outline-none focus:border-[var(--accent-gold)] transition-colors"
                   />
                 </div>
