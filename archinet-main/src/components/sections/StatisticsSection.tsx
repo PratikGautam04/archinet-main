@@ -4,12 +4,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { STATISTICS_DATA } from '../../data';
 import { StaggerContainer, StaggerItem } from '../animations/ScrollReveal';
 import { useInView, animate, motion } from 'framer-motion';
+import { MetadataField } from '../../types/metadata';
+import { getField, getCardJsonData } from '../../utils/metadata';
 
 function CountNumber({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   // once: false ensures the countdown / count-up motion re-triggers every time user scrolls to section
   const isInView = useInView(ref, { once: false, amount: 0.2 });
-  
+
   // Extract number and suffix, e.g. "2500+" -> number: 2500, suffix: "+"
   const match = value.match(/(\d+)/);
   const targetNumber = match ? parseInt(match[0], 10) : 0;
@@ -54,7 +56,30 @@ function CountNumber({ value }: { value: string }) {
   );
 }
 
-export default function StatisticsSection() {
+interface StatisticsSectionProps {
+  data?: MetadataField[];
+}
+
+export default function StatisticsSection({ data }: StatisticsSectionProps) {
+  const statKeys = ['statistic_1', 'statistic_2', 'statistic_3', 'statistic_4'];
+  const dynamicStats: { value: string; label: string }[] = [];
+
+  statKeys.forEach((key) => {
+    const field = getField(data, key);
+    const cardData = getCardJsonData<Record<string, string>>(field);
+    if (cardData && cardData.length > 0) {
+      const item = cardData[0];
+      if (item.value || item.count || item.number) {
+        dynamicStats.push({
+          value: item.value || item.count || item.number || '',
+          label: item.label || item.title || item.name || '',
+        });
+      }
+    }
+  });
+
+  const stats = dynamicStats.length > 0 ? dynamicStats : STATISTICS_DATA;
+
   return (
     <section className="w-full py-24 bg-[#070707] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -63,9 +88,9 @@ export default function StatisticsSection() {
           once={false}
           className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12"
         >
-          {STATISTICS_DATA.map((stat) => (
+          {stats.map((stat, idx) => (
             <StaggerItem
-              key={stat.label}
+              key={`${stat.label}-${idx}`}
               direction="up"
               className="flex flex-col items-center text-center"
             >

@@ -2,17 +2,32 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { CUBIC_EASE } from "../animations/motionVariants";
+import { MetadataField } from "../../types/metadata";
+import { getFieldValue, parseButtonValue } from "../../utils/metadata";
 
-export default function HeroSectionVideo() {
-  const scrollToNext = () => {
-    const nextSection =
-      document.querySelector("#about") ||
-      document.querySelector("main > section:nth-child(2)");
-    nextSection?.scrollIntoView({ behavior: "smooth" });
-  };
+interface HeroSectionVideoProps {
+  data?: MetadataField[];
+}
+
+export default function HeroSectionVideo({ data }: HeroSectionVideoProps) {
+  const heroVideo =
+    getFieldValue(data, "hero_video") || "/assets/videos/hero_section_video.mp4";
+  const mobileVideo =
+    getFieldValue(data, "mobile_video") ||
+    "/assets/videos/hero_section_video_mobile.mp4";
+  const featuredLabel =
+    getFieldValue(data, "featured_label") || "FEATURED";
+  const heroDescription =
+    getFieldValue(data, "hero_description") ||
+    getFieldValue(data, "hero_subtitle") ||
+    "A CURATED PLATFORM FOR DESIGN & ARCHITECTURE";
+  const cta = parseButtonValue(
+    getFieldValue(data, "cta_button"),
+    "REQUEST AN INVITATION",
+    "#contact"
+  );
 
   return (
     <section
@@ -21,10 +36,11 @@ export default function HeroSectionVideo() {
       aria-label="Archinet featured architectural summit hero"
     >
       {/* =========================================================
-          BACKGROUND MP4 VIDEO (assets/videos/hero_section_video.mp4)
+          BACKGROUND MP4 VIDEO (Direct Azure Blob / Local Asset)
       ========================================================== */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
         <video
+          key={`${heroVideo}-${mobileVideo}`}
           autoPlay
           loop
           muted
@@ -38,19 +54,19 @@ export default function HeroSectionVideo() {
         >
           {/* Desktop hero video (16:9). */}
           <source
-            src="/assets/videos/hero_section_video.mp4"
+            src={heroVideo}
             type="video/mp4"
             media="(min-width: 768px)"
           />
           {/* Mobile hero video (9:16), supplied specifically for small screens. */}
           <source
-            src="/assets/videos/hero_section_video_mobile.mp4"
+            src={mobileVideo}
             type="video/mp4"
             media="(max-width: 767px)"
           />
           {/* Fallback for browsers that do not evaluate source media queries. */}
           <source
-            src="/assets/videos/hero_section_video.mp4"
+            src={heroVideo}
             type="video/mp4"
           />
         </video>
@@ -83,7 +99,7 @@ export default function HeroSectionVideo() {
               uppercase
             "
           >
-            FEATURED
+            {featuredLabel}
           </span>
 
           <div className="relative h-[145px] w-px bg-white/20">
@@ -100,30 +116,6 @@ export default function HeroSectionVideo() {
       ========================================================== */}
       <div className="relative z-20 flex min-h-[100svh] w-full max-w-[1280px] flex-col justify-end items-center px-6 pb-16 pt-24 text-center">
         <div className="mx-auto flex max-w-[1100px] flex-col items-center">
-          {/* Mobile/tablet FEATURED badge intentionally hidden.
-              The desktop vertical FEATURED indicator remains above (md+). */}
-
-          {/* Commented out "Where Visionaries Meet" headline as requested */}
-          {/* 
-          <motion.h1
-            initial={{ opacity: 0, x: -60 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: CUBIC_EASE }}
-            className="
-              max-w-[1100px]
-              font-serif
-              text-[clamp(2.75rem,6.2vw,6.8rem)]
-              font-normal
-              leading-[0.93]
-              tracking-[-0.04em]
-              text-[#f4f0e8]
-              drop-shadow-lg
-            "
-          >
-            Where Visionaries Meet
-          </motion.h1>
-          */}
-
           {/* Supporting Text at Bottom */}
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -140,7 +132,7 @@ export default function HeroSectionVideo() {
               sm:text-[11px]
             "
           >
-            A CURATED PLATFORM FOR DESIGN &amp; ARCHITECTURE
+            {heroDescription}
           </motion.p>
 
           {/* Primary Call to Action Button: Slide IN from Right */}
@@ -151,7 +143,7 @@ export default function HeroSectionVideo() {
             className="mt-8"
           >
             <Link
-              href="#contact"
+              href={cta.link || "#contact"}
               className="
                 group
                 inline-flex
@@ -183,7 +175,7 @@ export default function HeroSectionVideo() {
                 focus:ring-offset-[#050505]
               "
             >
-              REQUEST AN INVITATION
+              {cta.text}
             </Link>
           </motion.div>
         </div>

@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { TESTIMONIALS_DATA } from '../../data';
+import { TESTIMONIALS_DATA, Testimonial } from '../../data';
 import { motion } from 'framer-motion';
 import { RevealLeft, RevealRight, RevealTitle, RevealZoom } from '../animations/ScrollReveal';
+import { MetadataField } from '../../types/metadata';
+import { getField, getFieldValue, getCardJsonData } from '../../utils/metadata';
 
 const TESTIMONIAL_VIDEOS = [
   { id: 'vid-canna-patel', label: 'AR. CANNA PATEL', src: '/assets/testimonials videos/AR. Canna Patel_.mp4' },
@@ -13,11 +15,43 @@ const TESTIMONIAL_VIDEOS = [
   { id: 'vid-aakif-habib', label: 'ID. AAKIF HABIB', src: '/assets/testimonials videos/ID. Aakif Habib.mp4' },
 ];
 
-export default function TestimonialsSection() {
+interface TestimonialsSectionProps {
+  data?: MetadataField[];
+}
+
+export default function TestimonialsSection({ data }: TestimonialsSectionProps) {
+  const sectionLabel = getFieldValue(data, 'section_label') || 'Voices from the network';
+  const title = getFieldValue(data, 'title');
+
+  const testimonialKeys = ['testimonial_1', 'testimonial_2', 'testimonial_3', 'testimonial_4'];
+  const dynamicTestimonials: Testimonial[] = [];
+
+  testimonialKeys.forEach((key, idx) => {
+    const field = getField(data, key);
+    const cardData = getCardJsonData<Record<string, string>>(field);
+    if (cardData && cardData.length > 0) {
+      const item = cardData[0];
+      if (item.quote || item.author || item.name) {
+        const fallback = TESTIMONIALS_DATA[idx % TESTIMONIALS_DATA.length];
+        dynamicTestimonials.push({
+          id: `test-${idx + 1}`,
+          quote: item.quote || item.message || item.text || fallback.quote,
+          author: item.author || item.name || fallback.author,
+          title: item.title || item.role || item.designation || fallback.title,
+          company: item.company || fallback.company,
+          rating: item.rating ? parseInt(item.rating, 10) : fallback.rating,
+          avatar: item.avatar || item.image || item.photo || fallback.avatar,
+        });
+      }
+    }
+  });
+
+  const testimonials = dynamicTestimonials.length > 0 ? dynamicTestimonials : TESTIMONIALS_DATA;
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
   const [cardStep, setCardStep] = useState(404);
-  const total = TESTIMONIALS_DATA.length;
+  const total = testimonials.length;
 
   useEffect(() => {
     const updateStep = () => setCardStep(window.innerWidth >= 1280 ? 404 : 364);
@@ -34,8 +68,8 @@ export default function TestimonialsSection() {
     return offset;
   };
 
-  const extendedDesktopData = [...TESTIMONIALS_DATA, TESTIMONIALS_DATA[0]];
-  const currentVideo = TESTIMONIAL_VIDEOS[activeVideoIndex];
+  const extendedDesktopData = [...testimonials, testimonials[0] || TESTIMONIALS_DATA[0]];
+  const currentVideo = TESTIMONIAL_VIDEOS[activeVideoIndex] || TESTIMONIAL_VIDEOS[0];
 
   return (
     <section
@@ -47,17 +81,19 @@ export default function TestimonialsSection() {
         <RevealLeft className="flex w-full self-start flex-col items-center justify-start px-5 py-8 sm:px-8 lg:px-10 lg:py-10 xl:px-14">
           <div className="relative w-full max-w-[370px] overflow-hidden rounded-[18px] border border-[#f0ab44]/45 bg-black shadow-[0_18px_60px_rgba(0,0,0,0.45)] sm:max-w-[390px]">
             <div className="aspect-[9/16] w-full">
-              <video
-                key={currentVideo.id}
-                controls
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="block h-full w-full object-cover"
-              >
-                <source src={currentVideo.src} type="video/mp4" />
-              </video>
+              {currentVideo?.src && (
+                <video
+                  key={currentVideo.id}
+                  controls
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="block h-full w-full object-cover"
+                >
+                  <source src={currentVideo.src} type="video/mp4" />
+                </video>
+              )}
             </div>
           </div>
 
@@ -85,14 +121,20 @@ export default function TestimonialsSection() {
             <div className="mb-7 flex items-end gap-5">
               <div className="h-px w-14 bg-[#f0ab44]/65" />
               <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.32em] text-[#f0ab44]">
-                Voices from the network
+                {sectionLabel}
               </span>
             </div>
-            <h2 className="max-w-[760px] font-serif text-[42px] font-normal uppercase leading-[0.9] tracking-[-0.025em] text-white sm:text-[52px] lg:text-[58px] xl:text-[64px]">
-              WHAT OUR ATTENDEES
-              <br />
-              SAY
-            </h2>
+            {title ? (
+              <h2 className="max-w-[760px] font-serif text-[42px] font-normal uppercase leading-[0.9] tracking-[-0.025em] text-white sm:text-[52px] lg:text-[58px] xl:text-[64px] whitespace-pre-line">
+                {title}
+              </h2>
+            ) : (
+              <h2 className="max-w-[760px] font-serif text-[42px] font-normal uppercase leading-[0.9] tracking-[-0.025em] text-white sm:text-[52px] lg:text-[58px] xl:text-[64px]">
+                WHAT OUR ATTENDEES
+                <br />
+                SAY
+              </h2>
+            )}
           </RevealTitle>
 
           <RevealRight delay={0.12} className="mt-8 hidden w-full overflow-hidden lg:block">
@@ -132,11 +174,17 @@ export default function TestimonialsSection() {
 
                     <div className="border-t border-white/10 pt-4">
                       <div className="flex items-center gap-3.5">
-                        <img
-                          src={item.avatar}
-                          alt={item.author}
-                          className="h-11 w-11 shrink-0 rounded-full border border-[#f0ab44]/45 object-cover"
-                        />
+                        {item.avatar ? (
+                          <img
+                            src={item.avatar}
+                            alt={item.author}
+                            className="h-11 w-11 shrink-0 rounded-full border border-[#f0ab44]/45 object-cover"
+                          />
+                        ) : (
+                          <div className="h-11 w-11 shrink-0 rounded-full border border-[#f0ab44]/45 bg-[#141414] flex items-center justify-center text-xs font-mono text-[#f0ab44]">
+                            {item.author.slice(0, 2).toUpperCase()}
+                          </div>
+                        )}
                         <div className="min-w-0">
                           <h4 className="truncate font-serif text-[13px] font-bold uppercase tracking-wide text-white xl:text-sm">
                             {item.author}
@@ -153,9 +201,9 @@ export default function TestimonialsSection() {
             </motion.div>
 
             <div className="mt-5 flex items-center gap-2.5">
-              {TESTIMONIALS_DATA.map((item, index) => (
+              {testimonials.map((item, index) => (
                 <button
-                  key={item.id}
+                  key={`dot-${item.id}-${index}`}
                   type="button"
                   onClick={() => goToSlide(index)}
                   aria-label={`Go to testimonial ${index + 1}`}
@@ -170,12 +218,12 @@ export default function TestimonialsSection() {
           {/* Mobile */}
           <RevealZoom delay={0.12} className="mt-7 block w-full lg:hidden">
             <div className="relative h-[370px] w-full overflow-hidden">
-              {TESTIMONIALS_DATA.map((item, index) => {
+              {testimonials.map((item, index) => {
                 const offset = getOffset(index);
                 if (offset < -1 || offset > 1) return null;
                 return (
                   <motion.article
-                    key={item.id}
+                    key={`mobile-${item.id}-${index}`}
                     initial={false}
                     animate={{
                       x: offset === -1 ? '-105%' : offset === 1 ? '105%' : '0%',
@@ -198,7 +246,17 @@ export default function TestimonialsSection() {
                     </div>
                     <div className="border-t border-white/10 pt-4">
                       <div className="flex items-center gap-3">
-                        <img src={item.avatar} alt={item.author} className="h-11 w-11 rounded-full border border-[#f0ab44]/45 object-cover" />
+                        {item.avatar ? (
+                          <img
+                            src={item.avatar}
+                            alt={item.author}
+                            className="h-11 w-11 rounded-full border border-[#f0ab44]/45 object-cover"
+                          />
+                        ) : (
+                          <div className="h-11 w-11 rounded-full border border-[#f0ab44]/45 bg-[#141414] flex items-center justify-center text-xs font-mono text-[#f0ab44]">
+                            {item.author.slice(0, 2).toUpperCase()}
+                          </div>
+                        )}
                         <div className="min-w-0">
                           <h4 className="truncate font-serif text-xs font-bold uppercase text-white">{item.author}</h4>
                           <p className="mt-0.5 truncate font-sans text-[9px] uppercase tracking-[0.15em] text-[#f0ab44]">{item.title}</p>
@@ -211,9 +269,9 @@ export default function TestimonialsSection() {
             </div>
 
             <div className="mt-4 flex items-center gap-2.5">
-              {TESTIMONIALS_DATA.map((item, index) => (
+              {testimonials.map((item, index) => (
                 <button
-                  key={item.id}
+                  key={`mob-dot-${item.id}-${index}`}
                   type="button"
                   onClick={() => goToSlide(index)}
                   aria-label={`Go to testimonial ${index + 1}`}

@@ -5,9 +5,12 @@ import { EDITIONS_DATA, Edition } from '../../data';
 import { ChevronLeft, ChevronRight, Calendar, MapPin, Play, Maximize2, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RevealTitle, RevealUp, RevealZoom } from '../animations/ScrollReveal';
+import { MetadataField } from '../../types/metadata';
+import { getField, getFieldValue, getCardJsonData } from '../../utils/metadata';
 
-function EditionVideo({ src, isCenter }: { src: string; isCenter: boolean }) {
+function EditionVideo({ src, isCenter }: { src?: string; isCenter: boolean }) {
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  const videoSrc = src && src.trim().length > 0 ? src.trim() : undefined;
 
   React.useEffect(() => {
     const video = videoRef.current;
@@ -20,10 +23,14 @@ function EditionVideo({ src, isCenter }: { src: string; isCenter: boolean }) {
     }
   }, [isCenter]);
 
+  if (!videoSrc) {
+    return <div className="w-full h-full bg-black/60" />;
+  }
+
   return (
     <video
       ref={videoRef}
-      src={src}
+      src={videoSrc}
       loop
       muted
       playsInline
@@ -32,20 +39,58 @@ function EditionVideo({ src, isCenter }: { src: string; isCenter: boolean }) {
   );
 }
 
-export default function EditionsSection() {
-  const [activeIndex, setActiveIndex] = useState(2); // Default to the 11th Edition (Hyderabad)
+interface EditionsSectionProps {
+  data?: MetadataField[];
+}
+
+export default function EditionsSection({ data }: EditionsSectionProps) {
+  const title = getFieldValue(data, 'title');
+  const subtitle =
+    getFieldValue(data, 'subtitle') || 'FROM ONE IDEA TO A CURATED DESIGN NETWORK';
+
+  // Construct editions from API if present, else fallback to EDITIONS_DATA
+  const editionKeys = ['edition_9', 'edition_10', 'edition_11', 'edition_12', 'edition_13'];
+  const dynamicEditions: Edition[] = [];
+
+  editionKeys.forEach((key, idx) => {
+    const field = getField(data, key);
+    const cardData = getCardJsonData<Record<string, string>>(field);
+    if (cardData && cardData.length > 0) {
+      const item = cardData[0];
+      if (item.video || item.city || item.venue) {
+        const fallback = EDITIONS_DATA[idx % EDITIONS_DATA.length];
+        dynamicEditions.push({
+          id: key.replace('_', '-'),
+          number: item.number || item.title || fallback.number,
+          city: item.city || fallback.city,
+          venue: item.venue || fallback.venue,
+          date: item.date || fallback.date,
+          year: item.year || fallback.year,
+          video: item.video || fallback.video,
+          referenceUrl: item.referenceUrl || item.reference_url || fallback.referenceUrl,
+        });
+      }
+    }
+  });
+
+  const editions = dynamicEditions.length > 0 ? dynamicEditions : EDITIONS_DATA;
+
+  const [activeIndex, setActiveIndex] = useState(
+    editions.length > 2 ? 2 : 0
+  );
   const [selectedEdition, setSelectedEdition] = useState<Edition | null>(null);
 
   const handlePrev = () => {
-    setActiveIndex((prev) => (prev === 0 ? EDITIONS_DATA.length - 1 : prev - 1));
+    setActiveIndex((prev) => (prev === 0 ? editions.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setActiveIndex((prev) => (prev === EDITIONS_DATA.length - 1 ? 0 : prev + 1));
+    setActiveIndex((prev) => (prev === editions.length - 1 ? 0 : prev + 1));
   };
 
   const getIndices = () => {
-    const len = EDITIONS_DATA.length;
+    const len = editions.length;
+    if (len === 0) return { prev: 0, active: 0, next: 0 };
     const prev = (activeIndex - 1 + len) % len;
     const next = (activeIndex + 1) % len;
     return { prev, active: activeIndex, next };
@@ -64,30 +109,32 @@ export default function EditionsSection() {
 
   return (
     <section id="editions" className="relative z-10 w-full bg-[#050505] text-[#f4f2ed] overflow-hidden">
-      
       {/* Main Content Body */}
       <div className="w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center">
-        
         {/* 2. Centered Hero Typography */}
         <div className="text-center mb-10 sm:mb-14 max-w-3xl">
           <RevealTitle>
-            <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl text-[#f4f2ed] font-normal tracking-tight leading-tight">
-              Built <span className="editorial-italic italic text-[#f0ab44] font-serif">Over Time.</span>
-            </h2>
+            {title ? (
+              <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl text-[#f4f2ed] font-normal tracking-tight leading-tight whitespace-pre-line">
+                {title}
+              </h2>
+            ) : (
+              <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl text-[#f4f2ed] font-normal tracking-tight leading-tight">
+                Built <span className="editorial-italic italic text-[#f0ab44] font-serif">Over Time.</span>
+              </h2>
+            )}
           </RevealTitle>
 
           <RevealUp delay={0.15}>
             <p className="text-[11px] sm:text-xs font-sans text-[#d7d4ce] tracking-[0.3em] uppercase mt-3 sm:mt-4 font-medium max-w-xs sm:max-w-none mx-auto leading-relaxed">
-              FROM ONE IDEA TO A CURATED DESIGN NETWORK
+              {subtitle}
             </p>
           </RevealUp>
         </div>
 
         {/* 3. Coverflow Carousel */}
         <RevealZoom delay={0.2} className="relative w-full flex flex-col items-center overflow-x-hidden">
-          
           <div className="relative w-full flex items-center justify-center py-6 sm:py-8 lg:py-10 min-h-[480px] sm:min-h-[600px] lg:min-h-[460px]">
-            
             {/* Left Circular Arrow Button */}
             <button
               type="button"
@@ -109,7 +156,7 @@ export default function EditionsSection() {
             </button>
 
             {/* Drag-enabled Cards Track with Desktop Overlap */}
-            <motion.div 
+            <motion.div
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.2}
@@ -118,11 +165,12 @@ export default function EditionsSection() {
             >
               {[prev, active, next].map((itemIndex, positionIdx) => {
                 const isCenter = positionIdx === 1;
-                const edition = EDITIONS_DATA[itemIndex];
+                const edition = editions[itemIndex];
+                if (!edition) return null;
 
                 return (
                   <motion.div
-                    key={edition.id}
+                    key={`${edition.id}-${itemIndex}`}
                     layout
                     initial={false}
                     animate={{
@@ -134,7 +182,7 @@ export default function EditionsSection() {
                       layout: { duration: 0.75, ease: [0.16, 1, 0.3, 1] },
                       scale: { duration: 0.75, ease: [0.16, 1, 0.3, 1] },
                       opacity: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
-                      filter: { duration: 0.55 }
+                      filter: { duration: 0.55 },
                     }}
                     onClick={() => {
                       if (!isCenter) {
@@ -144,11 +192,11 @@ export default function EditionsSection() {
                       }
                     }}
                     className={[
-                      "shrink-0 cursor-pointer select-none rounded-[20px] overflow-hidden relative group/card",
+                      'shrink-0 cursor-pointer select-none rounded-[20px] overflow-hidden relative group/card',
                       isCenter
-                        ? "w-[74vw] max-w-[310px] sm:w-[490px] lg:w-[380px] xl:w-[390px] bg-[#080808] border border-[#f0ab44]/60 shadow-[0_0_40px_rgba(190,150,60,0.12)] p-3 sm:p-5 z-20 relative"
-                        : "w-[70vw] max-w-[285px] sm:w-[460px] lg:w-[350px] xl:w-[360px] bg-[#0a0a0a] border border-white/10 p-3 sm:p-5 hover:opacity-75 z-10 relative"
-                    ].join(" ")}
+                        ? 'w-[74vw] max-w-[310px] sm:w-[490px] lg:w-[380px] xl:w-[390px] bg-[#080808] border border-[#f0ab44]/60 shadow-[0_0_40px_rgba(190,150,60,0.12)] p-3 sm:p-5 z-20 relative'
+                        : 'w-[70vw] max-w-[285px] sm:w-[460px] lg:w-[350px] xl:w-[360px] bg-[#0a0a0a] border border-white/10 p-3 sm:p-5 hover:opacity-75 z-10 relative',
+                    ].join(' ')}
                   >
                     {/* Video Box */}
                     <div className="relative w-full h-[220px] sm:h-[300px] lg:h-[280px] xl:h-[300px] rounded-xl overflow-hidden bg-black/60">
@@ -165,7 +213,7 @@ export default function EditionsSection() {
                           </span>
                         </div>
                       )}
-                      
+
                       {/* Bottom-Left Floating Location Badge */}
                       <div className="absolute bottom-3 left-3 z-10 flex items-center gap-1.5 px-3 py-1 bg-[#17140e]/95 border border-[#f0ab44]/50 text-[#f0ab44] rounded-full text-xs font-mono tracking-wider uppercase shadow-md">
                         <MapPin className="w-3 h-3 text-[#f0ab44]" />
@@ -177,7 +225,9 @@ export default function EditionsSection() {
                     <div className="mt-4 px-1">
                       <h3 className="font-serif text-xl sm:text-2xl lg:text-2xl text-[#f4f2ed] font-medium tracking-tight truncate flex items-center justify-between">
                         <span>{edition.venue}</span>
-                        {isCenter && <Maximize2 className="w-4 h-4 text-[#f0ab44] opacity-70 group-hover/card:opacity-100 transition-opacity" />}
+                        {isCenter && (
+                          <Maximize2 className="w-4 h-4 text-[#f0ab44] opacity-70 group-hover/card:opacity-100 transition-opacity" />
+                        )}
                       </h3>
 
                       <div className="flex items-center justify-between gap-4 mt-2.5 pt-2.5 border-t border-white/[0.08] text-xs sm:text-sm font-sans text-[#d7d4ce]">
@@ -190,7 +240,6 @@ export default function EditionsSection() {
                         </span>
                       </div>
                     </div>
-
                   </motion.div>
                 );
               })}
@@ -199,9 +248,9 @@ export default function EditionsSection() {
 
           {/* 4. Pagination Capsule Indicators */}
           <div className="flex items-center justify-center gap-2 mt-6 sm:mt-10">
-            {EDITIONS_DATA.map((edition, idx) => (
+            {editions.map((edition, idx) => (
               <button
-                key={edition.id}
+                key={`${edition.id}-${idx}`}
                 type="button"
                 onClick={() => setActiveIndex(idx)}
                 className={`transition-all duration-500 cursor-pointer ${
@@ -213,12 +262,10 @@ export default function EditionsSection() {
               />
             ))}
           </div>
-
         </RevealZoom>
-
       </div>
 
-      {/* Vertical Reel Story Lightbox Modal Matching User Screenshot */}
+      {/* Vertical Reel Story Lightbox Modal */}
       <AnimatePresence>
         {selectedEdition && (
           <motion.div
@@ -228,7 +275,7 @@ export default function EditionsSection() {
             className="fixed inset-0 z-40 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 pt-[90px] pb-6 select-none"
             onClick={() => setSelectedEdition(null)}
           >
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -237,13 +284,17 @@ export default function EditionsSection() {
               onClick={(e) => e.stopPropagation()}
             >
               {/* Fullscreen Video Background */}
-              <video
-                src={selectedEdition.video}
-                controls
-                autoPlay
-                playsInline
-                className="absolute inset-0 w-full h-full object-cover z-0"
-              />
+              {selectedEdition.video ? (
+                <video
+                  src={selectedEdition.video}
+                  controls
+                  autoPlay
+                  playsInline
+                  className="absolute inset-0 w-full h-full object-cover z-0"
+                />
+              ) : (
+                <div className="absolute inset-0 w-full h-full bg-black z-0" />
+              )}
 
               {/* Floating Top Header Overlay */}
               <div className="relative z-10 bg-gradient-to-b from-black/95 via-black/60 to-transparent p-4 sm:p-5 flex items-center justify-between border-b border-white/10">
@@ -268,7 +319,9 @@ export default function EditionsSection() {
               {/* Floating Bottom Footer Overlay */}
               <div className="relative z-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent p-4 sm:p-5 flex flex-col gap-2 border-t border-white/10">
                 <div className="flex items-center justify-between gap-4 text-[10px] font-mono text-[#f0ab44]">
-                  <span>{selectedEdition.city} · {selectedEdition.venue}</span>
+                  <span>
+                    {selectedEdition.city} · {selectedEdition.venue}
+                  </span>
                   <span className="bg-black/60 px-2.5 py-0.5 rounded-full border border-[#f0ab44]/40">
                     {selectedEdition.date}
                   </span>
@@ -285,12 +338,10 @@ export default function EditionsSection() {
                   </a>
                 )}
               </div>
-
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-
     </section>
   );
 }

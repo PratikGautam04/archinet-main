@@ -9,8 +9,36 @@ import {
   RevealUp,
   RevealZoom,
 } from '../animations/ScrollReveal';
+import { MetadataField } from '../../types/metadata';
+import { getField, getFieldValue, getCardJsonData } from '../../utils/metadata';
 
-export default function ContactSection() {
+interface ContactSectionProps {
+  data?: MetadataField[];
+}
+
+export default function ContactSection({ data }: ContactSectionProps) {
+  const sectionLabel = getFieldValue(data, 'section_label') || 'GET IN TOUCH';
+  const title = getFieldValue(data, 'title');
+  const subtitle =
+    getFieldValue(data, 'subtitle') || 'THANK YOU FOR BEING PART OF THE ROOM.';
+  const email = getFieldValue(data, 'email') || 'invitations@archinet.ai.studio';
+  const phone = getFieldValue(data, 'phone') || '+91 (022) 4890 1200';
+
+  const eventInfoField = getField(data, 'event_information');
+  const eventInfoCard = getCardJsonData<Record<string, string>>(eventInfoField);
+  const eventBadge =
+    eventInfoCard[0]?.badge ||
+    eventInfoCard[0]?.heading ||
+    'ONE CITY. ONE DAY. ONE VISION.';
+  const eventLocation =
+    eventInfoCard[0]?.location ||
+    eventInfoCard[0]?.edition ||
+    '14TH EDITION · MUMBAI 2027';
+  const eventVenue =
+    eventInfoCard[0]?.venue ||
+    eventInfoCard[0]?.date ||
+    '20 FEBRUARY · THE ST. REGIS';
+
   const [formState, setFormState] = useState({
     designation: '',
     city: '',
@@ -43,41 +71,45 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="w-full py-24 lg:py-36 px-6 lg:px-12 bg-[#070707] border-b border-[rgba(255,255,255,0.06)] overflow-hidden">
-      
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-        
         {/* Left Info Column (Enters from Left) */}
         <div className="lg:col-span-5 flex flex-col gap-6">
           <RevealTitle>
             <span className="text-xs font-mono tracking-[0.25em] text-[var(--accent-gold)] uppercase font-semibold">
-              GET IN TOUCH
+              {sectionLabel}
             </span>
           </RevealTitle>
 
           <RevealLeft delay={0.1}>
-            <h2 className="font-serif text-4xl sm:text-6xl text-white font-light tracking-tight leading-tight">
-              The <span className="editorial-italic">Conversation</span> Continues.
-            </h2>
+            {title ? (
+              <h2 className="font-serif text-4xl sm:text-6xl text-white font-light tracking-tight leading-tight whitespace-pre-line">
+                {title}
+              </h2>
+            ) : (
+              <h2 className="font-serif text-4xl sm:text-6xl text-white font-light tracking-tight leading-tight">
+                The <span className="editorial-italic">Conversation</span> Continues.
+              </h2>
+            )}
           </RevealLeft>
 
           <RevealLeft delay={0.2}>
             <p className="text-xs font-mono text-[var(--accent-gold)] tracking-widest uppercase">
-              THANK YOU FOR BEING PART OF THE ROOM.
+              {subtitle}
             </p>
           </RevealLeft>
 
           <RevealZoom delay={0.25}>
             <div className="p-6 rounded-2xl bg-[#0d0d0d] border border-[rgba(240,171,68,0.2)] flex flex-col gap-4 my-2">
               <span className="text-xs font-mono text-white font-bold tracking-widest uppercase">
-                ONE CITY. ONE DAY. ONE VISION.
+                {eventBadge}
               </span>
               <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-secondary)]">
                 <MapPin className="w-4 h-4 text-[var(--accent-gold)]" />
-                <span>14TH EDITION · MUMBAI 2027</span>
+                <span>{eventLocation}</span>
               </div>
               <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-secondary)]">
                 <span className="w-2 h-2 rounded-full bg-[var(--accent-gold)]" />
-                <span>20 FEBRUARY · THE ST. REGIS</span>
+                <span>{eventVenue}</span>
               </div>
             </div>
           </RevealZoom>
@@ -86,11 +118,11 @@ export default function ContactSection() {
             <div className="flex flex-col gap-3 font-mono text-xs text-[var(--text-secondary)] pt-2">
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-[var(--accent-gold)]" />
-                <span>invitations@archinet.ai.studio</span>
+                <span>{email}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-[var(--accent-gold)]" />
-                <span>+91 (022) 4890 1200</span>
+                <span>{phone}</span>
               </div>
             </div>
           </RevealUp>
@@ -114,7 +146,6 @@ export default function ContactSection() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-              
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-[10px] font-mono text-[var(--text-muted)] tracking-widest uppercase mb-2">
@@ -216,13 +247,10 @@ export default function ContactSection() {
                 <span>SUBMIT INVITATION REQUEST</span>
                 <Send className="w-4 h-4" />
               </button>
-
             </form>
           )}
         </RevealRight>
-
       </div>
-
     </section>
   );
 }

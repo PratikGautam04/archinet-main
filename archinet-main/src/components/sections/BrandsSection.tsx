@@ -3,6 +3,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { RevealTitle, RevealUp, RevealZoom } from '../animations/ScrollReveal';
+import { MetadataField } from '../../types/metadata';
+import { getField, getFieldValue, getCardJsonData } from '../../utils/metadata';
 
 const ROW_1_BRANDS = [
   'Magnum',
@@ -25,7 +27,7 @@ const ROW_1_BRANDS = [
   'Loom Craft',
   'Hastens',
   'Fenesta',
-  'Red Card'
+  'Red Card',
 ];
 
 const ROW_2_BRANDS = [
@@ -48,21 +50,55 @@ const ROW_2_BRANDS = [
   'Siemens',
   'Legrand',
   'Marshalls',
-  'Vihan'
+  'Vihan',
 ];
 
-export default function BrandsSection() {
+interface BrandsSectionProps {
+  data?: MetadataField[];
+}
+
+export default function BrandsSection({ data }: BrandsSectionProps) {
+  const title = getFieldValue(data, 'title');
+  const subtitle =
+    getFieldValue(data, 'subtitle') ||
+    'A legacy built with brands that shape the spaces we live in.';
+  const description =
+    getFieldValue(data, 'description') ||
+    'A selection of brands that have partnered with Archinet™ across thirteen editions.';
+
+  const brandListField = getField(data, 'brand_list');
+  const dynamicBrands = getCardJsonData<Record<string, string>>(brandListField);
+
+  let row1 = ROW_1_BRANDS;
+  let row2 = ROW_2_BRANDS;
+
+  if (dynamicBrands.length > 0) {
+    const brandNames = dynamicBrands
+      .map((b) => b.name || b.brand || b.title || '')
+      .filter((n) => n.length > 0);
+    if (brandNames.length > 0) {
+      const half = Math.ceil(brandNames.length / 2);
+      row1 = brandNames.slice(0, half);
+      row2 = brandNames.slice(half);
+      if (row2.length === 0) row2 = row1;
+    }
+  }
+
   return (
     <section className="w-full py-20 lg:py-28 bg-[#050505] border-b border-white/10 overflow-hidden relative">
-      
       <div className="max-w-7xl mx-auto px-6 flex flex-col items-center">
-        
         {/* Main Section Header */}
         <div className="text-center max-w-3xl mb-14 sm:mb-16">
           <RevealTitle>
-            <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-[#f0ab44] tracking-tight leading-[1.06] uppercase">
-              THE COMPANY<br />WE KEEP.
-            </h2>
+            {title ? (
+              <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-[#f0ab44] tracking-tight leading-[1.06] uppercase whitespace-pre-line">
+                {title}
+              </h2>
+            ) : (
+              <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-[#f0ab44] tracking-tight leading-[1.06] uppercase">
+                THE COMPANY<br />WE KEEP.
+              </h2>
+            )}
           </RevealTitle>
 
           {/* Golden Line Divider with Star Icon */}
@@ -77,23 +113,21 @@ export default function BrandsSection() {
           {/* Gold Italic Subtitle 1 */}
           <RevealUp delay={0.15}>
             <p className="font-serif italic text-lg sm:text-2xl text-white font-normal tracking-wide leading-relaxed">
-              A legacy built with brands that shape the spaces we live in.
+              {subtitle}
             </p>
           </RevealUp>
 
           {/* Small Subtitle 2 */}
           <RevealUp delay={0.2}>
             <p className="text-[11px] sm:text-xs font-mono text-[#d7d4ce] tracking-wider mt-3">
-              A selection of brands that have partnered with Archinet™ across thirteen editions.
+              {description}
             </p>
           </RevealUp>
         </div>
-
       </div>
 
       {/* Dual Row Continuous Infinite Marquee Ticker */}
       <div className="w-full bg-[#050505] py-7 sm:py-9 relative overflow-hidden flex flex-col gap-6 sm:gap-8">
-        
         {/* Left & Right Gradient Fade Vignettes */}
         <div className="absolute left-0 top-0 bottom-0 w-24 sm:w-44 z-20 bg-gradient-to-r from-[#050505] to-transparent pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-24 sm:w-44 z-20 bg-gradient-to-l from-[#050505] to-transparent pointer-events-none" />
@@ -109,7 +143,7 @@ export default function BrandsSection() {
               duration: 120,
             }}
           >
-            {[...ROW_1_BRANDS, ...ROW_1_BRANDS].map((brand, idx) => (
+            {[...row1, ...row1].map((brand, idx) => (
               <span
                 key={`row1-${brand}-${idx}`}
                 className="font-serif text-base sm:text-lg md:text-xl text-[#f0ab44]/80 hover:text-[#f0ab44] tracking-[0.24em] font-light uppercase transition-colors cursor-pointer select-none"
@@ -131,7 +165,7 @@ export default function BrandsSection() {
               duration: 130,
             }}
           >
-            {[...ROW_2_BRANDS, ...ROW_2_BRANDS].map((brand, idx) => (
+            {[...row2, ...row2].map((brand, idx) => (
               <span
                 key={`row2-${brand}-${idx}`}
                 className="font-serif text-base sm:text-lg md:text-xl text-[#f0ab44]/80 hover:text-[#f0ab44] tracking-[0.24em] font-light uppercase transition-colors cursor-pointer select-none"
@@ -141,9 +175,7 @@ export default function BrandsSection() {
             ))}
           </motion.div>
         </div>
-
       </div>
-
     </section>
   );
 }

@@ -3,6 +3,8 @@
 import React, { useRef, useState } from 'react';
 import { Play } from 'lucide-react';
 import { RevealZoom } from '../animations/ScrollReveal';
+import { MetadataField } from '../../types/metadata';
+import { getFieldValue } from '../../utils/metadata';
 
 const createScallopPath = (
   cx: number,
@@ -26,12 +28,19 @@ const createScallopPath = (
   return `${path} Z`;
 };
 
-export default function Archinet2026VideoSection() {
-  const videoRef = useRef<HTMLVideoElement>(null);
+interface Archinet2026VideoSectionProps {
+  data?: MetadataField[];
+}
 
+export default function Archinet2026VideoSection({ data }: Archinet2026VideoSectionProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const scallopPath = createScallopPath(100, 100, 95, 89, 36);
+
+  const videoSrc = getFieldValue(data, 'video') || '/assets/videos/archinet-2026-final.mp4';
+  const posterVal = getFieldValue(data, 'poster');
+  const posterSrc = posterVal && posterVal.trim().length > 0 ? posterVal.trim() : undefined;
 
   const togglePlayback = () => {
     const video = videoRef.current;
@@ -65,8 +74,6 @@ export default function Archinet2026VideoSection() {
 
     if (!video) return;
 
-    // Only pause when the video is currently playing.
-    // The play button handles starting/resuming playback.
     if (!video.paused) {
       video.pause();
       setIsPlaying(false);
@@ -95,19 +102,23 @@ export default function Archinet2026VideoSection() {
       >
         <video
           ref={videoRef}
+          key={videoSrc}
           loop
           playsInline
           preload="metadata"
           controls={false}
+          poster={posterSrc}
           className="h-full w-full object-cover"
           style={{
             filter: 'brightness(0.78) contrast(1.04) saturate(0.92)',
           }}
         >
-          <source
-            src="/assets/videos/archinet-2026-final.mp4"
-            type="video/mp4"
-          />
+          {videoSrc && (
+            <source
+              src={videoSrc}
+              type="video/mp4"
+            />
+          )}
         </video>
       </div>
 

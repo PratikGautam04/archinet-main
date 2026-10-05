@@ -5,6 +5,8 @@ import { EVENT_DATA } from '../../data';
 import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
 import { ScrollReveal, RevealItem } from '../animations/ScrollReveal';
 import { fadeUp } from '../animations/motionVariants';
+import { MetadataField } from '../../types/metadata';
+import { getFieldValue } from '../../utils/metadata';
 
 interface WordProps {
   word: string;
@@ -18,7 +20,7 @@ function Word({ word, index, total, progress, isReducedMotion }: WordProps) {
   // Map index across 75% of total scroll progress window with a 25% overlap for a smooth brightness gradient
   const start = (index / total) * 0.75;
   const end = start + 0.25;
-  
+
   const opacity = useTransform(progress, [start, end], [0.14, 1]);
 
   if (isReducedMotion) {
@@ -30,8 +32,8 @@ function Word({ word, index, total, progress, isReducedMotion }: WordProps) {
   }
 
   return (
-    <motion.span 
-      style={{ opacity }} 
+    <motion.span
+      style={{ opacity }}
       className="inline-block mx-[0.15em] text-white transition-opacity duration-150 select-none"
     >
       {word}
@@ -39,7 +41,11 @@ function Word({ word, index, total, progress, isReducedMotion }: WordProps) {
   );
 }
 
-export default function IntroStatement() {
+interface IntroStatementProps {
+  data?: MetadataField[];
+}
+
+export default function IntroStatement({ data }: IntroStatementProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
 
@@ -55,19 +61,20 @@ export default function IntroStatement() {
     offset: ['start 80%', 'end 35%'],
   });
 
-  const words = EVENT_DATA.introStatement.split(' ');
+  const sectionLabel = getFieldValue(data, 'section_label') || 'OUR PURPOSE // VISION STATEMENT';
+  const statement = getFieldValue(data, 'vision_statement') || EVENT_DATA.introStatement;
+  const words = statement.split(' ');
 
   return (
-    <section 
+    <section
       ref={containerRef}
       className="w-full py-32 sm:py-48 px-6 lg:px-12 bg-[#050505] flex flex-col items-center justify-center text-center overflow-hidden border-b border-white/10"
     >
       <ScrollReveal className="max-w-6xl mx-auto flex flex-col items-center text-center">
-        
         {/* Purpose Eyebrow Tag */}
         <RevealItem variants={fadeUp}>
           <span className="text-xs font-mono tracking-[0.35em] text-[#f0ab44] uppercase block mb-10 font-medium text-center">
-            OUR PURPOSE // VISION STATEMENT
+            {sectionLabel}
           </span>
         </RevealItem>
 
@@ -86,9 +93,7 @@ export default function IntroStatement() {
           ))}
           <span className="text-[#f0ab44]/50 ml-1 font-normal">&rdquo;</span>
         </h2>
-
       </ScrollReveal>
     </section>
   );
 }
-

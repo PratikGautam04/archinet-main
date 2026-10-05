@@ -10,10 +10,35 @@ import {
   StaggerContainer,
   StaggerItem,
 } from '../animations/ScrollReveal';
+import { MetadataField } from '../../types/metadata';
+import { getFieldValue, parseButtonValue } from '../../utils/metadata';
 
-export default function EventHero() {
+interface EventHeroProps {
+  data?: MetadataField[];
+}
+
+export default function EventHero({ data }: EventHeroProps) {
   const { days, hours, minutes, seconds } = useCountdown(
     EVENT_DATA.targetDateISO
+  );
+
+  const eyebrow = getFieldValue(data, 'section_label') || EVENT_DATA.eyebrow || 'THE REFINED CHAPTER';
+  const editionTitle = getFieldValue(data, 'edition') || '14th Edition';
+  const eventDate = getFieldValue(data, 'event_date') || '20 FEBRUARY 2027';
+  const venue = getFieldValue(data, 'venue') || 'THE ST. REGIS, MUMBAI';
+  const eventStatus = getFieldValue(data, 'event_status') || 'BY INVITATION ONLY';
+  const backgroundImage = getFieldValue(data, 'background_image') || '/images/audience-hero.jpg';
+
+  const downloadBrochure = parseButtonValue(
+    getFieldValue(data, 'download_brochure'),
+    'DOWNLOAD E-BROCHURE',
+    '/brochure/Archinet-14th-Edition-Brochure.pdf'
+  );
+
+  const exhibitWithUs = parseButtonValue(
+    getFieldValue(data, 'exhibit_with_us'),
+    'EXHIBIT WITH US',
+    '#contact'
   );
 
   return (
@@ -25,10 +50,8 @@ export default function EventHero() {
       <div id="14th-edition" className="absolute top-0 left-0" />
 
       <div className="w-full min-h-[620px] lg:min-h-[700px] grid grid-cols-1 lg:grid-cols-12 items-stretch">
-
         {/* LEFT COLUMN: EVENT CONTENT, COUNTDOWN & CTAs */}
         <div className="lg:col-span-6 relative flex flex-col justify-center px-8 sm:px-12 lg:px-16 py-16 sm:py-20 lg:py-24 bg-[#050505] order-2 lg:order-1">
-
           {/* Giant Faint "14" Watermark in Background */}
           <span
             className="absolute left-4 bottom-2 sm:bottom-4 font-serif text-[240px] sm:text-[340px] font-extrabold text-white/[0.03] select-none pointer-events-none leading-none z-0"
@@ -38,29 +61,28 @@ export default function EventHero() {
           </span>
 
           <div className="relative z-10 flex flex-col gap-7 max-w-xl">
-
             {/* Eyebrow */}
             <RevealTitle>
               <span className="text-xs font-mono tracking-[0.35em] text-[#f0ab44] font-medium uppercase">
-                {EVENT_DATA.eyebrow || 'THE REFINED CHAPTER'}
+                {eyebrow}
               </span>
             </RevealTitle>
 
             {/* Main Title */}
             <RevealLeft delay={0.1}>
               <h2 className="font-serif text-5xl sm:text-7xl font-normal text-[#f4f0e8] tracking-tight leading-none">
-                14th Edition
+                {editionTitle}
               </h2>
             </RevealLeft>
 
             {/* Event Meta Line */}
             <RevealLeft delay={0.15}>
               <p className="text-[11px] sm:text-xs font-mono text-[#f0ab44] tracking-[0.18em] uppercase leading-relaxed">
-                20 FEBRUARY 2027
+                {eventDate}
                 <span className="mx-2 text-[#f0ab44]/60">•</span>
-                THE ST. REGIS, MUMBAI
+                {venue}
                 <span className="mx-2 text-[#f0ab44]/60">•</span>
-                BY INVITATION ONLY
+                {eventStatus}
               </p>
             </RevealLeft>
 
@@ -70,7 +92,6 @@ export default function EventHero() {
               delayChildren={0.2}
               className="grid grid-cols-4 gap-3 sm:gap-5 py-4"
             >
-
               {/* DAYS */}
               <StaggerItem
                 direction="scale"
@@ -126,33 +147,29 @@ export default function EventHero() {
                   SECS
                 </span>
               </StaggerItem>
-
             </StaggerContainer>
 
             {/* Action Buttons */}
             <RevealLeft delay={0.35}>
               <div className="flex flex-col sm:flex-row items-center gap-4 pt-2">
-
                 {/* FIRST BUTTON: DOWNLOAD E-BROCHURE */}
                 <a
-                  href="/brochure/Archinet-14th-Edition-Brochure.pdf"
-                  download
+                  href={downloadBrochure.link}
+                  download={downloadBrochure.link.endsWith('.pdf') ? true : undefined}
                   className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 hover:border-[#f0ab44]/60 hover:bg-[#f0ab44]/10 text-white hover:text-[#f0ab44] text-xs font-mono font-semibold tracking-[0.14em] uppercase transition-colors duration-300 text-center"
                 >
-                  DOWNLOAD E-BROCHURE
+                  {downloadBrochure.text}
                 </a>
 
                 {/* SECOND BUTTON: EXHIBIT WITH US */}
                 <a
-                  href="#contact"
+                  href={exhibitWithUs.link}
                   className="w-full sm:w-auto px-8 py-4 bg-transparent border border-[#f0ab44]/60 hover:bg-[#f0ab44]/10 text-[#f0ab44] hover:text-white text-xs font-mono font-semibold tracking-[0.14em] uppercase transition-colors duration-300 text-center"
                 >
-                  EXHIBIT WITH US
+                  {exhibitWithUs.text}
                 </a>
-
               </div>
             </RevealLeft>
-
           </div>
         </div>
 
@@ -161,7 +178,7 @@ export default function EventHero() {
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 hover:scale-105"
             style={{
-              backgroundImage: `url('/images/audience-hero.jpg')`,
+              backgroundImage: `url('${backgroundImage}')`,
               filter: 'grayscale(100%) contrast(120%) brightness(48%)',
             }}
           />
@@ -170,7 +187,6 @@ export default function EventHero() {
 
           <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent lg:hidden" />
         </RevealRight>
-
       </div>
     </section>
   );
