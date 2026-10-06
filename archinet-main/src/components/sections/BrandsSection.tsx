@@ -212,7 +212,7 @@ export default function BrandsSection({ data }: BrandsSectionProps) {
               ease: 'linear',
 
               // MEDIUM-FAST SPEED
-              duration: 35,
+              duration: 30,
             }}
           >
             {marqueeRow1.map((brand, index) => (
@@ -254,7 +254,7 @@ export default function BrandsSection({ data }: BrandsSectionProps) {
               ease: 'linear',
 
               // MEDIUM-FAST SPEED
-              duration: 40,
+              duration: 35,
             }}
           >
             {marqueeRow2.map((brand, index) => (
