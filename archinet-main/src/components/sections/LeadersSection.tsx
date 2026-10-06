@@ -21,26 +21,48 @@ export default function LeadersSection({ data }: LeadersSectionProps) {
     getFieldValue(data, 'description') ||
     'DISTINGUISHED PRINCIPALS & CREATIVE DIRECTORS SHAPING GLOBAL SKYLINE DESIGN';
 
-  const leaderKeys = ['leader_1', 'leader_2', 'leader_3', 'leader_4'];
-  const dynamicLeaders: Leader[] = [];
+  // 1. Try single repeatable card field first (e.g. 'leader_deatils', 'leader_details', 'leaders', 'leader_list')
+  const leaderField = getField(data, 'leader_deatils', 'leader_details', 'leaders', 'leader_list');
+  const leaderCardData = getCardJsonData<Record<string, string>>(leaderField);
 
-  leaderKeys.forEach((key, idx) => {
-    const field = getField(data, key);
-    const cardData = getCardJsonData<Record<string, string>>(field);
-    if (cardData && cardData.length > 0) {
-      const item = cardData[0];
-      if (item.name || item.title || item.image) {
+  let dynamicLeaders: Leader[] = [];
+
+  if (leaderCardData.length > 0) {
+    dynamicLeaders = leaderCardData
+      .map((item, idx) => {
         const fallback = LEADERS_DATA[idx % LEADERS_DATA.length];
-        dynamicLeaders.push({
+        return {
           id: `leader-${idx + 1}`,
           name: item.name || item.title || fallback.name,
-          role: item.role || item.designation || fallback.role,
+          role: item.designation || item.role || item.title || fallback.role,
           company: item.company || item.organization || fallback.company,
-          image: item.image || item.photo || fallback.image,
-        });
+          image: item.image || item.photo || item.person_image || fallback.image,
+        };
+      })
+      .filter((l) => l.name || l.image);
+  }
+
+  // 2. Fallback to individual leader keys if repeatable card wasn't provided
+  if (dynamicLeaders.length === 0) {
+    const leaderKeys = ['leader_1', 'leader_2', 'leader_3', 'leader_4'];
+    leaderKeys.forEach((key, idx) => {
+      const field = getField(data, key);
+      const cardData = getCardJsonData<Record<string, string>>(field);
+      if (cardData && cardData.length > 0) {
+        const item = cardData[0];
+        if (item.name || item.title || item.image) {
+          const fallback = LEADERS_DATA[idx % LEADERS_DATA.length];
+          dynamicLeaders.push({
+            id: `leader-${idx + 1}`,
+            name: item.name || item.title || fallback.name,
+            role: item.role || item.designation || fallback.role,
+            company: item.company || item.organization || fallback.company,
+            image: item.image || item.photo || fallback.image,
+          });
+        }
       }
-    }
-  });
+    });
+  }
 
   const leaders = dynamicLeaders.length > 0 ? dynamicLeaders : LEADERS_DATA;
 

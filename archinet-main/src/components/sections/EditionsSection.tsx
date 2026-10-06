@@ -48,30 +48,63 @@ export default function EditionsSection({ data }: EditionsSectionProps) {
   const subtitle =
     getFieldValue(data, 'subtitle') || 'FROM ONE IDEA TO A CURATED DESIGN NETWORK';
 
-  // Construct editions from API if present, else fallback to EDITIONS_DATA
-  const editionKeys = ['edition_9', 'edition_10', 'edition_11', 'edition_12', 'edition_13'];
-  const dynamicEditions: Edition[] = [];
+  // 1. Try single repeatable card field first (e.g. 'edition', 'editions', 'edition_details', 'edition_list')
+  const editionField = getField(data, 'edition', 'editions', 'edition_details', 'edition_list');
+  const editionCardData = getCardJsonData<Record<string, string>>(editionField);
 
-  editionKeys.forEach((key, idx) => {
-    const field = getField(data, key);
-    const cardData = getCardJsonData<Record<string, string>>(field);
-    if (cardData && cardData.length > 0) {
-      const item = cardData[0];
-      if (item.video || item.city || item.venue) {
+  let dynamicEditions: Edition[] = [];
+
+  if (editionCardData.length > 0) {
+    dynamicEditions = editionCardData
+      .map((item, idx) => {
         const fallback = EDITIONS_DATA[idx % EDITIONS_DATA.length];
-        dynamicEditions.push({
-          id: key.replace('_', '-'),
-          number: item.number || item.title || fallback.number,
+        return {
+          id: `edition-${idx + 1}`,
+          number: item.edition || item.number || item.title || fallback.number,
           city: item.city || fallback.city,
           venue: item.venue || fallback.venue,
           date: item.date || fallback.date,
-          year: item.year || fallback.year,
+          year: item.year || fallback.year || '',
           video: item.video || fallback.video,
-          referenceUrl: item.referenceUrl || item.reference_url || fallback.referenceUrl,
-        });
+          referenceUrl:
+            item.instagram_link ||
+            item.instagramLink ||
+            item.referenceUrl ||
+            item.reference_url ||
+            fallback.referenceUrl,
+        };
+      })
+      .filter((ed) => ed.venue || ed.city || ed.video);
+  }
+
+  // 2. Fallback to individual edition keys if repeatable card wasn't provided
+  if (dynamicEditions.length === 0) {
+    const editionKeys = ['edition_9', 'edition_10', 'edition_11', 'edition_12', 'edition_13'];
+    editionKeys.forEach((key, idx) => {
+      const field = getField(data, key);
+      const cardData = getCardJsonData<Record<string, string>>(field);
+      if (cardData && cardData.length > 0) {
+        const item = cardData[0];
+        if (item.video || item.city || item.venue) {
+          const fallback = EDITIONS_DATA[idx % EDITIONS_DATA.length];
+          dynamicEditions.push({
+            id: key.replace('_', '-'),
+            number: item.number || item.title || item.edition || fallback.number,
+            city: item.city || fallback.city,
+            venue: item.venue || fallback.venue,
+            date: item.date || fallback.date,
+            year: item.year || fallback.year,
+            video: item.video || fallback.video,
+            referenceUrl:
+              item.referenceUrl ||
+              item.reference_url ||
+              item.instagram_link ||
+              fallback.referenceUrl,
+          });
+        }
       }
-    }
-  });
+    });
+  }
 
   const editions = dynamicEditions.length > 0 ? dynamicEditions : EDITIONS_DATA;
 

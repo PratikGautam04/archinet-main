@@ -24,18 +24,22 @@ export default function ContactSection({ data }: ContactSectionProps) {
   const email = getFieldValue(data, 'email') || 'invitations@archinet.ai.studio';
   const phone = getFieldValue(data, 'phone') || '+91 (022) 4890 1200';
 
-  const eventInfoField = getField(data, 'event_information');
+  const eventInfoField = getField(data, 'event_information', 'event_info', 'event');
   const eventInfoCard = getCardJsonData<Record<string, string>>(eventInfoField);
   const eventBadge =
     eventInfoCard[0]?.badge ||
     eventInfoCard[0]?.heading ||
+    eventInfoCard[0]?.title ||
     'ONE CITY. ONE DAY. ONE VISION.';
   const eventLocation =
     eventInfoCard[0]?.location ||
+    eventInfoCard[0]?.event ||
     eventInfoCard[0]?.edition ||
     '14TH EDITION · MUMBAI 2027';
   const eventVenue =
     eventInfoCard[0]?.venue ||
+    eventInfoCard[0]?.data_venue ||
+    eventInfoCard[0]?.dataVenue ||
     eventInfoCard[0]?.date ||
     '20 FEBRUARY · THE ST. REGIS';
 

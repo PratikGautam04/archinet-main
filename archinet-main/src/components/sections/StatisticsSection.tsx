@@ -61,22 +61,38 @@ interface StatisticsSectionProps {
 }
 
 export default function StatisticsSection({ data }: StatisticsSectionProps) {
-  const statKeys = ['statistic_1', 'statistic_2', 'statistic_3', 'statistic_4'];
-  const dynamicStats: { value: string; label: string }[] = [];
+  // 1. Try single repeatable card field first (e.g. 'statistic', 'statistics', 'statistic_details', 'statistic_list')
+  const statField = getField(data, 'statistic', 'statistics', 'statistic_details', 'statistic_list');
+  const statCardData = getCardJsonData<Record<string, string>>(statField);
 
-  statKeys.forEach((key) => {
-    const field = getField(data, key);
-    const cardData = getCardJsonData<Record<string, string>>(field);
-    if (cardData && cardData.length > 0) {
-      const item = cardData[0];
-      if (item.value || item.count || item.number) {
-        dynamicStats.push({
-          value: item.value || item.count || item.number || '',
-          label: item.label || item.title || item.name || '',
-        });
+  let dynamicStats: { value: string; label: string }[] = [];
+
+  if (statCardData.length > 0) {
+    dynamicStats = statCardData
+      .map((item) => ({
+        value: item.value || item.count || item.number || '',
+        label: item.label || item.title || item.name || '',
+      }))
+      .filter((s) => s.value || s.label);
+  }
+
+  // 2. Fallback to individual stat keys if repeatable card wasn't provided
+  if (dynamicStats.length === 0) {
+    const statKeys = ['statistic_1', 'statistic_2', 'statistic_3', 'statistic_4'];
+    statKeys.forEach((key) => {
+      const field = getField(data, key);
+      const cardData = getCardJsonData<Record<string, string>>(field);
+      if (cardData && cardData.length > 0) {
+        const item = cardData[0];
+        if (item.value || item.count || item.number) {
+          dynamicStats.push({
+            value: item.value || item.count || item.number || '',
+            label: item.label || item.title || item.name || '',
+          });
+        }
       }
-    }
-  });
+    });
+  }
 
   const stats = dynamicStats.length > 0 ? dynamicStats : STATISTICS_DATA;
 

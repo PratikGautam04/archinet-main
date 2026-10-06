@@ -4,6 +4,7 @@ import React, { use, useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_CONFIG } from '../../config/api';
 import { WebTemplate } from '../../types/metadata';
+import { getSection } from '../../utils/metadata';
 
 import Header from '../../components/layout/Header';
 import HeroSectionVideo from '../../components/sections/HeroSectionVideo';
@@ -68,11 +69,11 @@ export default function DynamicPage({ params }: DynamicPageProps) {
     <div className="min-h-screen w-full max-w-full overflow-x-hidden relative bg-[#070707] text-[#f5f2eb] selection:bg-[var(--accent-gold)] selection:text-[#070707]">
       <Header />
       <main>
-        <HeroSectionVideo data={metadataValues?.hero} />
-        <AboutSection data={metadataValues?.about} />
-        <Archinet2026VideoSection data={metadataValues?.archinet_video} />
-        <EventHero data={metadataValues?.event_hero} />
-        <IntroStatement data={metadataValues?.purpose} />
+        <HeroSectionVideo data={getSection(metadataValues, 'hero')} />
+        <AboutSection data={getSection(metadataValues, 'about')} />
+        <Archinet2026VideoSection data={getSection(metadataValues, 'archinet_video', 'archinet video')} />
+        <EventHero data={getSection(metadataValues, 'event_hero', 'event hero')} />
+        <IntroStatement data={getSection(metadataValues, 'purpose')} />
 
         <FixedBackgroundSection
           image="/images/hero/hero-01.jpg"
@@ -80,15 +81,15 @@ export default function DynamicPage({ params }: DynamicPageProps) {
           minHeight="60vh"
         />
 
-        <EditionsSection data={metadataValues?.build_over_time} />
-        <StatisticsSection data={metadataValues?.statistics} />
-        <LeadersSection data={metadataValues?.leaders} />
-        <TestimonialsSection data={metadataValues?.testimonials} />
-        <BrandsSection data={metadataValues?.brands} />
-        <ContactSection data={metadataValues?.contact} />
-        <GalleryStrip data={metadataValues?.gallery} />
+        <EditionsSection data={getSection(metadataValues, 'build_over_time', 'build over time', 'editions')} />
+        <StatisticsSection data={getSection(metadataValues, 'statistics')} />
+        <LeadersSection data={getSection(metadataValues, 'leaders')} />
+        <TestimonialsSection data={getSection(metadataValues, 'testimonials')} />
+        <BrandsSection data={getSection(metadataValues, 'brands')} />
+        <ContactSection data={getSection(metadataValues, 'contact')} />
+        <GalleryStrip data={getSection(metadataValues, 'gallery')} />
       </main>
-      <Footer data={metadataValues?.footer} />
+      <Footer data={getSection(metadataValues, 'footer')} />
     </div>
   );
 }

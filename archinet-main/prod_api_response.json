@@ -1,0 +1,2813 @@
+[
+  {
+    "id": 4,
+    "tenantId": 13,
+    "metadataMasterId": 4,
+    "metadataKey": "Archinet Website",
+    "metadataValues": {
+      "hero": [
+        {
+          "keyName": "hero_title",
+          "required": false,
+          "response": "ARCHINET",
+          "inputType": "heading",
+          "fieldLabel": "Hero",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "hero_subtitle",
+          "required": false,
+          "response": "ARCHITECTURE • DESIGN • INNOVATION",
+          "inputType": "sub_heading",
+          "fieldLabel": "Hero Subititle",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "hero_description",
+          "required": false,
+          "response": "A curated platform connecting architects, designers and leading brand",
+          "inputType": "paragraph",
+          "fieldLabel": "Hero Description",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "hero_video",
+          "required": false,
+          "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-videos%2F2f5e97ba816e4277b0beed845641cbce.mp4",
+          "inputType": "video_file_upload",
+          "fieldLabel": "Hero Video",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "mobile_video",
+          "required": false,
+          "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-videos%2F0f8b8c19a5184c0ca8a62050ca18efe5.mp4",
+          "inputType": "video_file_upload",
+          "fieldLabel": "Mobile Hero Video",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "featured_label",
+          "required": false,
+          "response": "Featured",
+          "inputType": "sub_heading",
+          "fieldLabel": "Featured Label",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "cta_button",
+          "required": false,
+          "response": "Explore Archinet-#leaders",
+          "inputType": "button",
+          "fieldLabel": "CTA Button",
+          "placeholder": "",
+          "defaultValue": ""
+        }
+      ],
+      "about": [
+        {
+          "keyName": "section_label",
+          "required": false,
+          "response": "ABOUT ARCHINET",
+          "inputType": "sub_heading",
+          "fieldLabel": "Section Label",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "title",
+          "required": false,
+          "response": "A bridge between brands & visionaries",
+          "inputType": "heading",
+          "fieldLabel": "Title",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "description",
+          "required": false,
+          "response": "We curate premium industry experiences that bring together leading architects, interior designers, developers, and forward-thinking brands. Every Archinet experience is designed to create meaningful conversations, strengthen professional relationships, and open doors to new opportunities.",
+          "inputType": "paragraph",
+          "fieldLabel": "Description",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "main_image",
+          "required": false,
+          "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F05d86e95699740b9a26c434cd6c98b7f.jpg",
+          "inputType": "image_file_upload",
+          "fieldLabel": "Main Image",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "curated_network",
+          "cardJson": [
+            {
+              "fields": [
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "title",
+                  "required": false,
+                  "response": "CURATED NETWORK",
+                  "inputType": "heading",
+                  "fieldLabel": "Title",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "description",
+                  "required": false,
+                  "response": "We create an environment where the industry's most relevant people connect.",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Description",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "inputType": "card",
+          "fieldLabel": "Curated Network",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "exclusive_formats",
+          "cardJson": [
+            {
+              "fields": [
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "title",
+                  "required": false,
+                  "response": "EXCLUSIVE FORMATS",
+                  "inputType": "heading",
+                  "fieldLabel": "Title",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "description",
+                  "required": false,
+                  "response": "Archinet is where architecture, design, and business connect",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Description",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "inputType": "card",
+          "fieldLabel": "Exclusive Format",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "feature_1",
+          "required": false,
+          "response": "Quality and exclusivity over pure footfall",
+          "inputType": "paragraph",
+          "fieldLabel": "Feature Point 1",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "feature_2",
+          "required": false,
+          "response": "Bespoke design dialogue and structural interactions",
+          "inputType": "paragraph",
+          "fieldLabel": "Feature Point 2",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "founder_video",
+          "cardJson": [
+            {
+              "fields": [
+                {
+                  "keyName": "label",
+                  "required": false,
+                  "response": "OUR FOUNDER",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Label",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "video",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-videos%2F2f5e97ba816e4277b0beed845641cbce.mp4",
+                  "inputType": "video_file_upload",
+                  "fieldLabel": "Video",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "title",
+                  "required": false,
+                  "response": "Setting new benchmark",
+                  "inputType": "heading",
+                  "fieldLabel": "Title",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "inputType": "card",
+          "fieldLabel": "Founder Video Card",
+          "placeholder": "",
+          "defaultValue": ""
+        }
+      ],
+      "brands": [
+        {
+          "keyName": "title",
+          "required": false,
+          "response": "THE COMPANY WE KEEP.",
+          "inputType": "heading",
+          "fieldLabel": "Title",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "subtitle",
+          "required": false,
+          "response": "A legacy built with brands that shape the spaces we live in.",
+          "inputType": "sub_heading",
+          "fieldLabel": "Subtitle",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "description",
+          "required": false,
+          "response": "A selection of brands that have partnered with Archinet™ across thirteen editions.",
+          "inputType": "paragraph",
+          "fieldLabel": "Description ",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "brand_list",
+          "cardJson": [
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Magnum",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Galaxy Parking",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Glasarc",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Verbin & Arkos",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Veneto",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ultavo",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "NUGREEN",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Greatwhite",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Supreme Petrochem",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Laze",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Pare",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Abrado",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Dona Modular",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Nugreen",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Jaipur Rugs",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "JSW Avante",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Assa Abloy",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Changi",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Loom Craft",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Hastens",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Fenesta",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Red Card",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Wadbros",
+                  "inputType": "heading",
+                  "fieldLabel": "Brand Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "inputType": "card",
+          "fieldLabel": "Brand List ",
+          "placeholder": "",
+          "defaultValue": ""
+        }
+      ],
+      "footer": [
+        {
+          "keyName": "logo",
+          "required": false,
+          "response": "",
+          "inputType": "image_file_upload",
+          "fieldLabel": "Logo",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "tagline",
+          "required": false,
+          "response": "WE BRIDGE THE GAP.",
+          "inputType": "sub_heading",
+          "fieldLabel": "Tagline",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "description",
+          "required": false,
+          "response": "The premier invitation-only architectural matrix connecting visionary global principals with world-class luxury interior & structural innovators.",
+          "inputType": "paragraph",
+          "fieldLabel": "Description",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "explore_links",
+          "cardJson": [
+            {
+              "fields": [
+                {
+                  "keyName": "title",
+                  "required": false,
+                  "response": "ABOUT SUMMIT",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Section Link",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "links",
+                  "required": false,
+                  "response": "#about",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Links",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "title",
+                  "required": false,
+                  "response": "14TH EDITION",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Section Link",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "links",
+                  "required": false,
+                  "response": "#edition-14",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Links",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "title",
+                  "required": false,
+                  "response": "PAST EDITIONS",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Section Link",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "links",
+                  "required": false,
+                  "response": "#editions",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Links",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "title",
+                  "required": false,
+                  "response": "INDUSTRY LEADERS",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Section Link",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "links",
+                  "required": false,
+                  "response": "#leaders",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Links",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "inputType": "card",
+          "fieldLabel": "Explore Links",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "contact_information",
+          "cardJson": [
+            {
+              "fields": [
+                {
+                  "keyName": "title",
+                  "required": false,
+                  "response": "CONTACT",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Section Title",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "details",
+                  "required": false,
+                  "response": "Mumbai: +91 (022) 4890 1200\ninvitations@archinet.ai.studio\nThe St. Regis, Lower Parel\nMumbai, MH 400013, India",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Conatct Details",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "inputType": "card",
+          "fieldLabel": "Contact Information",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "copyright",
+          "required": false,
+          "response": "© 2026 Archinet. All rights reserved.",
+          "inputType": "paragraph",
+          "fieldLabel": "Copyright",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "managed_by",
+          "required": false,
+          "response": "SalesUpp",
+          "inputType": "sub_heading",
+          "fieldLabel": "Managed By",
+          "placeholder": "",
+          "defaultValue": ""
+        }
+      ],
+      "contact": [
+        {
+          "keyName": "section_label",
+          "required": false,
+          "response": "GET IN TOUCH",
+          "inputType": "sub_heading",
+          "fieldLabel": "Section Label",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "title",
+          "required": false,
+          "response": "The Conversation Continues.",
+          "inputType": "heading",
+          "fieldLabel": "Title",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "subtitle",
+          "required": false,
+          "response": "THANK YOU FOR BEING PART OF THE ROOM.",
+          "inputType": "sub_heading",
+          "fieldLabel": "Subtitle",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "event_information",
+          "cardJson": [
+            {
+              "fields": [
+                {
+                  "keyName": "title",
+                  "required": false,
+                  "response": "ONE CITY. ONE DAY. ONE VISION.",
+                  "inputType": "heading",
+                  "fieldLabel": "Card Title",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "event",
+                  "required": false,
+                  "response": "14TH EDITION · MUMBAI 2027",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Event ",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "data_venue",
+                  "required": false,
+                  "response": "20 FEBRUARY · THE ST. REGIS",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Date & Venue",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "inputType": "card",
+          "fieldLabel": "Event Information",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "email",
+          "required": false,
+          "response": "invitations@archinet.ai.studio",
+          "inputType": "paragraph",
+          "fieldLabel": "Email",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "phone",
+          "required": false,
+          "response": "+91 (022) 4890 1200",
+          "inputType": "paragraph",
+          "fieldLabel": "Phone",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "contact_form",
+          "cardJson": [
+            {
+              "fields": [
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Full Name / Designation",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Designation / Title",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "city_country",
+                  "required": false,
+                  "response": "Mumbai, India",
+                  "inputType": "paragraph",
+                  "fieldLabel": "City & Country",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "email",
+                  "required": false,
+                  "response": "architect@studio.com",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Business Email",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "phone",
+                  "required": false,
+                  "response": "+91 98200 00000",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Phone / WhatsApp",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "interest",
+                  "required": false,
+                  "response": "ATTENDING EXHIBITING PARTNERSHIP GENERAL ENQUIRY",
+                  "inputType": "dropdown",
+                  "fieldLabel": "Interest",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "message",
+                  "required": false,
+                  "response": "Tell us about your practice or delegation requirement...",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Message / Notes",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "submit",
+                  "required": false,
+                  "response": "SUBMIT INVITATION REQUEST",
+                  "inputType": "button",
+                  "fieldLabel": "Submit Button",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "inputType": "card",
+          "fieldLabel": "Contact Form",
+          "placeholder": "",
+          "defaultValue": ""
+        }
+      ],
+      "gallery": [
+        {
+          "keyName": "gallery_image",
+          "cardJson": [
+            {
+              "fields": [
+                {
+                  "keyName": "gallery_image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2Fc3d8bdde408b473f9846acde928aa72e.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Gallery Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "gallery_image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F05d86e95699740b9a26c434cd6c98b7f.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Gallery Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "gallery_image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F6f1c07f7f6024e74a807bac45216e991.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Gallery Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "gallery_image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2Fc3d8bdde408b473f9846acde928aa72e.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Gallery Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "gallery_image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F6f1c07f7f6024e74a807bac45216e991.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Gallery Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "inputType": "card",
+          "fieldLabel": "Gallery Image ",
+          "placeholder": "",
+          "defaultValue": ""
+        }
+      ],
+      "leaders": [
+        {
+          "keyName": "section_label",
+          "required": false,
+          "response": "KEYNOTE VISIONARIES",
+          "inputType": "sub_heading",
+          "fieldLabel": "Section Label",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "title",
+          "required": false,
+          "response": "Our Industry Leaders.",
+          "inputType": "heading",
+          "fieldLabel": "Title",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "description",
+          "required": false,
+          "response": "DISTINGUISHED PRINCIPALS & CREATIVE DIRECTORS SHAPING GLOBAL SKYLINE DESIGN",
+          "inputType": "paragraph",
+          "fieldLabel": "Description",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "leader_deatils",
+          "cardJson": [
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Ahmed Shaikh",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Principal Architect",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "Principal Architect",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F46e7be394781490b98c13c02593ebbc1.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Annkur Khosla",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Principal Architect",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "Annkur Khosla Design Studio",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2Fc09da614aa4241308754871a7b3678cd.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Behzad Kharas",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Chairman & Managing Director",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "BNK Group",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2Fd6fe1cf7428141679131dca1d5778627.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Canna Patel",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Principal Architect",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "HCP Interior Design",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F939df3cb932a4fd2bfd045ca8e40759a.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Hiren Patel",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Principal Architect",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "Hiren Patel Architects",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F513d7cb6dcf54cbab7aae91f6f13b325.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Kavita Talib",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Principal Architect",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "Kavita Talib Architecture",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2Ffebea5251da44aad815586cf0d5a1458.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Khozema Chitalwala",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Principal Architect",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "Design Matrix",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2Fb9fa1ad5c8b64be3a66bdc9cb56d4dc5.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Lakshmi Govekar",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Principal Architect",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "Zuari Design Studio",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F54c7295b40ea40a9a5bf88b18c43eb14.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Manish Dikshit",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Founding Principal",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "ADesignStudio",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F15cf79c4952d44f791a3ef6cae534243.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Milind Pai",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Principal Architect",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "Milind Pai Architects",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F78c227502d1444fd979979d0e607c206.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Prashant Sutaria",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Principal Architect",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "PSA Architects",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2Fa2e611c30f7c4deb92b8af33d1db91c0.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Santha Gour",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Principal Architect",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "Planet 3 Studios",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F4e4f09c58a3d427d99770405ce8fc012.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Saurabh Chaterjee",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Principal Architect",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "Spatial Design Associates",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F8606d8b851af45b5bbaa7f247736e06e.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Seema Puri",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Principal Architect",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "Seema Puri & Associates",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F55b85ca4f7a24dae98b728bca2f2ae6e.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "Ar. Sonali Bhagwati",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "President & Principal",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "DesignPlus Architecture",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2Fb9a5b9c883ac4a758c195c7dc7ed04d8.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "ID. Aakif Habib",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Lead Interior Designer",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "Atelier Aakif",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2Fbd6c07bc411240e3a5fef34cef776d19.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "ID. Ketan Sheth",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "ID. Ketan Sheth",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "Goldmine Project Consultant",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F65db8aca1cb44bea8a09540276dce690.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "ID. Neeraj Shah",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Principal Interior Designer",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "Neeraj Shah Design",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F7c2e20faa78c4836a10b32fa683c1c23.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "ID. Sapana Jain",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Design Director",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "I-Design Studios",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F957a868476214bf197578c513c3091ae.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "ID. Soniya Potdarr",
+                  "inputType": "heading",
+                  "fieldLabel": "Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "Lead Interior Designer",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "company",
+                  "required": false,
+                  "response": "Studio Poddar",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Company",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F3b4aa0816ee141babe636e0b5f73d20d.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "inputType": "card",
+          "fieldLabel": "Leader Deatils",
+          "placeholder": "",
+          "defaultValue": ""
+        }
+      ],
+      "purpose": [
+        {
+          "keyName": "section_label",
+          "required": false,
+          "response": "OUR PURPOSE // VISION STATEMENT",
+          "inputType": "sub_heading",
+          "fieldLabel": "Section Label",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "vision_statement",
+          "required": false,
+          "response": "THE ARCHINET SUMMIT 2027 IS SET TO BRING MORE VISIONARIES TOGETHER FROM AROUND THE WORLD TO EXPLORE THE LATEST TRENDS AND ADVANCEMENTS IN DESIGN AND WILL CREATE A PLACE OF HARMONY AND CREATIVITY.",
+          "inputType": "heading",
+          "fieldLabel": "Vision Statement",
+          "placeholder": "",
+          "defaultValue": ""
+        }
+      ],
+      "event hero": [
+        {
+          "keyName": "section_label",
+          "required": false,
+          "response": "THE REFINED CHAPTER",
+          "inputType": "sub_heading",
+          "fieldLabel": "Section Label",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "edition",
+          "required": false,
+          "response": "14th Edition",
+          "inputType": "heading",
+          "fieldLabel": "Edition",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "event_date",
+          "required": false,
+          "response": "20 FEBRUARY 2027",
+          "inputType": "sub_heading",
+          "fieldLabel": "Event Date",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "venue",
+          "required": false,
+          "response": "THE ST. REGIS, MUMBAI",
+          "inputType": "sub_heading",
+          "fieldLabel": "Venue",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "event_status",
+          "required": false,
+          "response": "BY INVITATION ONLY",
+          "inputType": "sub_heading",
+          "fieldLabel": "Event Status",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "background_image",
+          "required": false,
+          "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2Fd748963045184eaebe9b83d456e32c12.jpg",
+          "inputType": "image_file_upload",
+          "fieldLabel": "Background Image",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "download_brochure",
+          "required": false,
+          "response": "DOWNLOAD E-BROCHURE",
+          "inputType": "button",
+          "fieldLabel": "Download Brochure",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "exhibit_with_us",
+          "required": false,
+          "response": "EXHIBIT WITH US",
+          "inputType": "button",
+          "fieldLabel": "Exhibit With Us",
+          "placeholder": "",
+          "defaultValue": ""
+        }
+      ],
+      "statistics": [
+        {
+          "keyName": "statistic",
+          "cardJson": [
+            {
+              "fields": [
+                {
+                  "keyName": "value",
+                  "required": false,
+                  "response": "2500+",
+                  "inputType": "heading",
+                  "fieldLabel": "Value",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "label",
+                  "required": false,
+                  "response": "ARCHITECTS & DESIGNERS",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Label",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "value",
+                  "required": false,
+                  "response": "150+",
+                  "inputType": "heading",
+                  "fieldLabel": "Value",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "label",
+                  "required": false,
+                  "response": "LEADING BRANDS",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Label",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "value",
+                  "required": false,
+                  "response": "13",
+                  "inputType": "heading",
+                  "fieldLabel": "Value",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "label",
+                  "required": false,
+                  "response": "COMPLETED EDITIONS",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Label",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "value",
+                  "required": false,
+                  "response": "5",
+                  "inputType": "heading",
+                  "fieldLabel": "Value",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "label",
+                  "required": false,
+                  "response": "MAJOR CITIES",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Label",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "inputType": "card",
+          "fieldLabel": "Statistic ",
+          "placeholder": "",
+          "defaultValue": ""
+        }
+      ],
+      "testimonials": [
+        {
+          "keyName": "section_label",
+          "required": false,
+          "response": "WHAT OUR ATTENDEES SAY",
+          "inputType": "sub_heading",
+          "fieldLabel": "Section Label",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "title",
+          "required": false,
+          "response": "WHAT OUR ATTENDEES SAY",
+          "inputType": "heading",
+          "fieldLabel": "Title",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "testimonial_deatils",
+          "cardJson": [
+            {
+              "fields": [
+                {
+                  "keyName": "rating",
+                  "required": false,
+                  "response": "5",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Rating",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "testimonial",
+                  "required": false,
+                  "response": "Working with Archinet transformed our network. Their strategic insights improved our operations and boosted our overall efficiency. We saw a 30% increase in meaningful connections within six months!",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Testimonial",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "AR. KHOZEMA CHITALWALA",
+                  "inputType": "heading",
+                  "fieldLabel": "Person Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "PRINCIPAL ARCHITECT",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2Fb9fa1ad5c8b64be3a66bdc9cb56d4dc5.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Person Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "rating",
+                  "required": false,
+                  "response": "5",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Rating",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "testimonial",
+                  "required": false,
+                  "response": "The curated environment is engineered for absolute focus of conversation and bespoke dialogue at Archinet is simply in the entire industry.",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Testimonial",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "ID. SONIA PODDAR",
+                  "inputType": "heading",
+                  "fieldLabel": "Person Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "LEAD INTERIOR DESIGNER",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F3b4aa0816ee141babe636e0b5f73d20d.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Person Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "rating",
+                  "required": false,
+                  "response": "5",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Rating",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "testimonial",
+                  "required": false,
+                  "response": "ArchiNet Summit is unequivocally the finest architectural congregation in Asia. The level of dialogue and curated networking is unmatched.",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Testimonial",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "AR. SANJAY PURI",
+                  "inputType": "heading",
+                  "fieldLabel": "Person Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "PRINCIPAL ARCHITECT",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F8606d8b851af45b5bbaa7f247736e06e.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Person Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "rating",
+                  "required": false,
+                  "response": "5",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Rating",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "testimonial",
+                  "required": false,
+                  "response": "An extraordinary convergence of visionary architects, structural innovators, and top-tier luxury brands under one pristine roof.",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Testimonial",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "AR. MANIT RASTOGI",
+                  "inputType": "heading",
+                  "fieldLabel": "Person Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "designation",
+                  "required": false,
+                  "response": "FOUNDER PRINCIPAL",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Designation",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-images%2F15cf79c4952d44f791a3ef6cae534243.jpg",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Person Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "inputType": "card",
+          "fieldLabel": "Testimonial deatils",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "testimonial_video_details",
+          "cardJson": [
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "AR. CANNA PATEL",
+                  "inputType": "heading",
+                  "fieldLabel": "Person Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "video",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-videos%2F4d29bde9d4c0492780119dcffe2e2de1.mp4",
+                  "inputType": "video_file_upload",
+                  "fieldLabel": "Video",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "AR. REZA KABUL",
+                  "inputType": "heading",
+                  "fieldLabel": "Person Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "video",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-videos%2Fc42d5d2363da4595b5a8b6b44faf587e.mp4",
+                  "inputType": "video_file_upload",
+                  "fieldLabel": "Video",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "AR. SANTHA GOUR",
+                  "inputType": "heading",
+                  "fieldLabel": "Person Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "video",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-videos%2F7b9df5597c89435aae616e232891ab56.mp4",
+                  "inputType": "video_file_upload",
+                  "fieldLabel": "Video",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "AR. SEEMA PURI",
+                  "inputType": "heading",
+                  "fieldLabel": "Person Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "video",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-videos%2Ff9f92f9185534b3d946ae58582c516e2.mp4",
+                  "inputType": "video_file_upload",
+                  "fieldLabel": "Video",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "name",
+                  "required": false,
+                  "response": "ID. AAKIF HABIB",
+                  "inputType": "heading",
+                  "fieldLabel": "Person Name",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "video",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-videos%2F0e4849af94a54beaae7ddfcb740bb4a9.mp4",
+                  "inputType": "video_file_upload",
+                  "fieldLabel": "Video",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "inputType": "card",
+          "fieldLabel": "Testimonial Videos",
+          "placeholder": "",
+          "defaultValue": ""
+        }
+      ],
+      "archinet_video": [
+        {
+          "keyName": "section_label",
+          "required": false,
+          "response": "ARCHINET 2026",
+          "inputType": "sub_heading",
+          "fieldLabel": "Section Label",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "title",
+          "required": false,
+          "response": "ARCHINET 2026",
+          "inputType": "heading",
+          "fieldLabel": "Title",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "subtitle",
+          "required": false,
+          "response": "",
+          "inputType": "sub_heading",
+          "fieldLabel": "Subtitle",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "video",
+          "required": false,
+          "response": "",
+          "inputType": "video_file_upload",
+          "fieldLabel": "Video",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "poster",
+          "required": false,
+          "response": "",
+          "inputType": "image_file_upload",
+          "fieldLabel": "Poster Image",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "play_button",
+          "required": false,
+          "response": "Play",
+          "inputType": "button",
+          "fieldLabel": "Play Button",
+          "placeholder": "",
+          "defaultValue": ""
+        }
+      ],
+      "build_over_time": [
+        {
+          "keyName": "title",
+          "required": false,
+          "response": "Built Over Time.",
+          "inputType": "heading",
+          "fieldLabel": "Title",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "subtitle",
+          "required": false,
+          "response": "FROM ONE IDEA TO A CURATED DESIGN NETWORK",
+          "inputType": "sub_heading",
+          "fieldLabel": "Subtitle",
+          "placeholder": "",
+          "defaultValue": ""
+        },
+        {
+          "keyName": "edition",
+          "cardJson": [
+            {
+              "fields": [
+                {
+                  "keyName": "edition",
+                  "required": false,
+                  "response": "13TH EDITION",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Edition",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "city",
+                  "required": false,
+                  "response": "MUMBAI",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "City",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "venue",
+                  "required": false,
+                  "response": "St. Regis",
+                  "inputType": "heading",
+                  "fieldLabel": "Venue",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "date",
+                  "required": false,
+                  "response": "June 2026",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Month & Year",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "video",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-videos%2F1f9d302419404964992e3fd7b5bd1ac9.mp4",
+                  "inputType": "video_file_upload",
+                  "fieldLabel": "Video",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "instagram_link",
+                  "required": false,
+                  "response": "",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Instagram Link",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "edition",
+                  "required": false,
+                  "response": "12TH EDITION",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Edition",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "city",
+                  "required": false,
+                  "response": "PUNE",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "City",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "venue",
+                  "required": false,
+                  "response": "The Westin",
+                  "inputType": "heading",
+                  "fieldLabel": "Venue",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "date",
+                  "required": false,
+                  "response": "Feb 2026",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Month & Year",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "video",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-videos%2F73e82f06020f435a88a639628ee0bb96.mp4",
+                  "inputType": "video_file_upload",
+                  "fieldLabel": "Video",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "instagram_link",
+                  "required": false,
+                  "response": "",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Instagram Link",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "edition",
+                  "required": false,
+                  "response": "11TH EDITION",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Edition",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "city",
+                  "required": false,
+                  "response": "HYDERABAD",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "City",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "venue",
+                  "required": false,
+                  "response": "ITC Kohinoor",
+                  "inputType": "heading",
+                  "fieldLabel": "Venue",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "date",
+                  "required": false,
+                  "response": "Nov 2025",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Month & Year",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "video",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-videos%2Fe2f71aa6a2dc41509a52cbf62803dc1e.mp4",
+                  "inputType": "video_file_upload",
+                  "fieldLabel": "Video",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "instagram_link",
+                  "required": false,
+                  "response": "",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Instagram Link",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "edition",
+                  "required": false,
+                  "response": "10TH EDITION",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Edition",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "city",
+                  "required": false,
+                  "response": "BENGALURU",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "City",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "venue",
+                  "required": false,
+                  "response": "Ritz Carlton",
+                  "inputType": "heading",
+                  "fieldLabel": "Venue",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "date",
+                  "required": false,
+                  "response": "Oct 2025",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Month & Year",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "video",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-videos%2F57a37b4cc5c04ac68847074851b0b10d.mp4",
+                  "inputType": "video_file_upload",
+                  "fieldLabel": "Video",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "instagram_link",
+                  "required": false,
+                  "response": "",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Instagram Link",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "keyName": "edition",
+                  "required": false,
+                  "response": "9TH EDITION",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Edition",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "city",
+                  "required": false,
+                  "response": "MUMBAI",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "City",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "venue",
+                  "required": false,
+                  "response": "St. Regis",
+                  "inputType": "heading",
+                  "fieldLabel": "Venue",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "date",
+                  "required": false,
+                  "response": "Nov 2025",
+                  "inputType": "sub_heading",
+                  "fieldLabel": "Month & Year",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "image",
+                  "required": false,
+                  "response": "",
+                  "inputType": "image_file_upload",
+                  "fieldLabel": "Image",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "video",
+                  "required": false,
+                  "response": "https://utkarshsite.blob.core.windows.net/archinet/ecom-videos%2Ffe05cdb6464b4a38bf03f5b1bb665bd0.mp4",
+                  "inputType": "video_file_upload",
+                  "fieldLabel": "Video",
+                  "placeholder": "",
+                  "defaultValue": ""
+                },
+                {
+                  "keyName": "instagram_link",
+                  "required": false,
+                  "response": "",
+                  "inputType": "paragraph",
+                  "fieldLabel": "Instagram Link",
+                  "placeholder": "",
+                  "defaultValue": ""
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "inputType": "card",
+          "fieldLabel": "Edition ",
+          "placeholder": "",
+          "defaultValue": ""
+        }
+      ]
+    },
+    "createdAt": "2026-10-06T13:30:50.931",
+    "updatedAt": "2026-10-07T00:15:25.845"
+  }
+]
