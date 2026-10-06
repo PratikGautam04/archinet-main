@@ -2,30 +2,30 @@
 
 import React, { use, useEffect, useState } from 'react';
 import axios from 'axios';
-import { API_CONFIG } from '../../../config/api';
-import { WebTemplate } from '../../../types/metadata';
+import { API_CONFIG } from '../../config/api';
+import { WebTemplate } from '../../types/metadata';
 
-import Header from '../../../components/layout/Header';
-import HeroSectionVideo from '../../../components/sections/HeroSectionVideo';
-import AboutSection from '../../../components/sections/AboutSection';
-import Archinet2026VideoSection from '../../../components/sections/Archinet2026VideoSection';
-import EventHero from '../../../components/sections/EventHero';
-import IntroStatement from '../../../components/sections/IntroStatement';
-import FixedBackgroundSection from '../../../components/sections/FixedBackgroundSection';
-import EditionsSection from '../../../components/sections/EditionsSection';
-import StatisticsSection from '../../../components/sections/StatisticsSection';
-import LeadersSection from '../../../components/sections/LeadersSection';
-import TestimonialsSection from '../../../components/sections/TestimonialsSection';
-import BrandsSection from '../../../components/sections/BrandsSection';
-import ContactSection from '../../../components/sections/ContactSection';
-import GalleryStrip from '../../../components/sections/GalleryStrip';
-import Footer from '../../../components/layout/Footer';
+import Header from '../../components/layout/Header';
+import HeroSectionVideo from '../../components/sections/HeroSectionVideo';
+import AboutSection from '../../components/sections/AboutSection';
+import Archinet2026VideoSection from '../../components/sections/Archinet2026VideoSection';
+import EventHero from '../../components/sections/EventHero';
+import IntroStatement from '../../components/sections/IntroStatement';
+import FixedBackgroundSection from '../../components/sections/FixedBackgroundSection';
+import EditionsSection from '../../components/sections/EditionsSection';
+import StatisticsSection from '../../components/sections/StatisticsSection';
+import LeadersSection from '../../components/sections/LeadersSection';
+import TestimonialsSection from '../../components/sections/TestimonialsSection';
+import BrandsSection from '../../components/sections/BrandsSection';
+import ContactSection from '../../components/sections/ContactSection';
+import GalleryStrip from '../../components/sections/GalleryStrip';
+import Footer from '../../components/layout/Footer';
 
-interface CollectionPageProps {
+interface DynamicPageProps {
   params: Promise<{ slug: string }> | { slug: string };
 }
 
-export default function CollectionPage({ params }: CollectionPageProps) {
+export default function DynamicPage({ params }: DynamicPageProps) {
   const resolvedParams =
     params && typeof (params as any).then === 'function'
       ? use(params as Promise<{ slug: string }>)
