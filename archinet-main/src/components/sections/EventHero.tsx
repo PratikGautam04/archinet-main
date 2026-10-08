@@ -51,7 +51,7 @@ export default function EventHero({ data }: EventHeroProps) {
 
       <div className="w-full min-h-[620px] lg:min-h-[700px] grid grid-cols-1 lg:grid-cols-12 items-stretch">
         {/* LEFT COLUMN: EVENT CONTENT, COUNTDOWN & CTAs */}
-        <div className="lg:col-span-6 relative flex flex-col justify-center px-8 sm:px-12 lg:px-16 py-16 sm:py-20 lg:py-24 bg-[#050505] order-2 lg:order-1">
+        <div className="lg:col-span-6 relative flex flex-col justify-center px-8 sm:px-12 lg:px-16 py-16 sm:py-20 lg:py-24 bg-[#050505] order-1 lg:order-1">
           {/* Giant Faint "14" Watermark in Background */}
           <span
             className="absolute left-4 bottom-2 sm:bottom-4 font-serif text-[240px] sm:text-[340px] font-extrabold text-white/[0.03] select-none pointer-events-none leading-none z-0"
@@ -174,7 +174,7 @@ export default function EventHero({ data }: EventHeroProps) {
         </div>
 
         {/* RIGHT COLUMN: FULL-HEIGHT DARK MONOCHROME AUDIENCE PHOTO */}
-        <RevealRight className="lg:col-span-6 relative min-h-[350px] sm:min-h-[450px] lg:min-h-full w-full overflow-hidden order-1 lg:order-2">
+        <RevealRight className="lg:col-span-6 relative min-h-[350px] sm:min-h-[450px] lg:min-h-full w-full overflow-hidden order-2 lg:order-2">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 hover:scale-105"
             style={{

@@ -54,6 +54,22 @@ export default function AboutSection({ data }: AboutSectionProps) {
     'Archinet is where architecture, design, and business connect.';
 
   const founderCardList = getCardJsonData(getField(data, 'founder_video'));
+  const videoUrl =
+    founderCardList[0]?.video ||
+    founderCardList[0]?.url ||
+    founderCardList[0]?.src ||
+    founderCardList[0]?.link ||
+    getFieldValue(data, 'founder_video');
+
+  // Check if a real client video is provided (exclude dummy/placeholder assets)
+  const isDummyVideo =
+    !videoUrl ||
+    videoUrl.includes('2f5e97ba816e4277b0beed845641cbce') ||
+    videoUrl.includes('placeholder') ||
+    videoUrl.includes('dummy');
+
+  const hasVideo = Boolean(videoUrl && videoUrl.trim().length > 0 && !isDummyVideo);
+
   const founderSubtitle =
     founderCardList[0]?.subtitle || founderCardList[0]?.role || 'Our Founder';
   const founderTitle =
@@ -85,28 +101,30 @@ export default function AboutSection({ data }: AboutSectionProps) {
           </div>
 
           {/* Floating Video Preview Card */}
-          <RevealZoom
-            delay={0.2}
-            className="absolute -bottom-6 -right-4 sm:bottom-8 sm:-right-8 w-64 sm:w-72 p-4 rounded-xl bg-[#0d0d0d]/90 backdrop-blur-md border border-[var(--accent-gold)]/50 shadow-2xl"
-          >
-            <div className="relative aspect-video rounded-lg overflow-hidden mb-3 bg-[#141414] group cursor-pointer flex items-center justify-center">
-              <div
-                className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform"
-                style={{
-                  backgroundImage: `url('${founderImage}')`,
-                  filter: 'grayscale(100%) brightness(60%)',
-                }}
-              />
-              <div className="w-10 h-10 rounded-full bg-[var(--accent-gold)] flex items-center justify-center text-[#070707] shadow-lg relative z-10 group-hover:scale-110 transition-transform">
-                <Play className="w-4 h-4 fill-[#070707] ml-0.5" />
+          {hasVideo && (
+            <RevealZoom
+              delay={0.2}
+              className="absolute -bottom-6 -right-4 sm:bottom-8 sm:-right-8 w-64 sm:w-72 p-4 rounded-xl bg-[#0d0d0d]/90 backdrop-blur-md border border-[var(--accent-gold)]/50 shadow-2xl"
+            >
+              <div className="relative aspect-video rounded-lg overflow-hidden mb-3 bg-[#141414] group cursor-pointer flex items-center justify-center">
+                <div
+                  className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform"
+                  style={{
+                    backgroundImage: `url('${founderImage}')`,
+                    filter: 'grayscale(100%) brightness(60%)',
+                  }}
+                />
+                <div className="w-10 h-10 rounded-full bg-[var(--accent-gold)] flex items-center justify-center text-[#070707] shadow-lg relative z-10 group-hover:scale-110 transition-transform">
+                  <Play className="w-4 h-4 fill-[#070707] ml-0.5" />
+                </div>
               </div>
-            </div>
 
-            <span className="text-[10px] font-mono text-[var(--accent-gold)] tracking-widest uppercase block mb-1">
-              {founderSubtitle}
-            </span>
-            <p className="text-xs font-serif text-white font-medium">{founderTitle}</p>
-          </RevealZoom>
+              <span className="text-[10px] font-mono text-[var(--accent-gold)] tracking-widest uppercase block mb-1">
+                {founderSubtitle}
+              </span>
+              <p className="text-xs font-serif text-white font-medium">{founderTitle}</p>
+            </RevealZoom>
+          )}
         </RevealLeft>
 
         {/* Right Column: Copy & Specs (Enters with staggered sequence) */}
