@@ -76,7 +76,7 @@ export default function DynamicPage({ params }: DynamicPageProps) {
         <IntroStatement data={getSection(metadataValues, 'purpose')} />
 
         <FixedBackgroundSection
-          image="/images/hero/hero-01.jpg"
+          image="/images/building-divider.jpg"
           overlayOpacity={0.18}
           minHeight="60vh"
         />
