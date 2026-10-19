@@ -94,10 +94,8 @@ export default function AboutSection({ data }: AboutSectionProps) {
               className="absolute inset-0 bg-cover bg-center"
               style={{
                 backgroundImage: `url('${mainImage}')`,
-                filter: 'grayscale(100%) contrast(110%) brightness(70%)',
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#070707] via-transparent to-transparent opacity-60" />
           </div>
 
           {/* Floating Video Preview Card */}

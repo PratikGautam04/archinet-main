@@ -173,19 +173,14 @@ export default function EventHero({ data }: EventHeroProps) {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: FULL-HEIGHT DARK MONOCHROME AUDIENCE PHOTO */}
+        {/* RIGHT COLUMN: FULL-HEIGHT AUDIENCE PHOTO */}
         <RevealRight className="lg:col-span-6 relative min-h-[350px] sm:min-h-[450px] lg:min-h-full w-full overflow-hidden order-2 lg:order-2">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 hover:scale-105"
             style={{
               backgroundImage: `url('${backgroundImage}')`,
-              filter: 'grayscale(100%) contrast(120%) brightness(48%)',
             }}
           />
-
-          <div className="absolute inset-0 bg-gradient-to-l from-black/40 via-transparent to-[#050505] hidden lg:block" />
-
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent lg:hidden" />
         </RevealRight>
       </div>
     </section>
