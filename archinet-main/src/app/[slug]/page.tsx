@@ -11,6 +11,10 @@ import HeroSectionVideo from '../../components/sections/HeroSectionVideo';
 import AboutSection from '../../components/sections/AboutSection';
 import Archinet2026VideoSection from '../../components/sections/Archinet2026VideoSection';
 import EventHero from '../../components/sections/EventHero';
+import ArchinetExperienceSection from '../../components/sections/ArchinetExperienceSection';
+import HowArchinetWorksSection from '../../components/sections/HowArchinetWorksSection';
+import WhoWeInviteSection from '../../components/sections/WhoWeInviteSection';
+import ArchinetCoreSection from '../../components/sections/ArchinetCoreSection';
 import IntroStatement from '../../components/sections/IntroStatement';
 import FixedBackgroundSection from '../../components/sections/FixedBackgroundSection';
 import EditionsSection from '../../components/sections/EditionsSection';
@@ -73,6 +77,10 @@ export default function DynamicPage({ params }: DynamicPageProps) {
         <AboutSection data={getSection(metadataValues, 'about')} />
         <Archinet2026VideoSection data={getSection(metadataValues, 'archinet_video', 'archinet video')} />
         <EventHero data={getSection(metadataValues, 'event_hero', 'event hero')} />
+        <ArchinetExperienceSection data={getSection(metadataValues, 'archinet_experience', 'the_archinet_experience', 'experience', 'pillars', 'four_pillars')} />
+        <HowArchinetWorksSection data={getSection(metadataValues, 'how_it_works', 'how_archinet_works', 'how it works', 'how archinet works')} />
+        <WhoWeInviteSection data={getSection(metadataValues, 'who_we_invite', 'who we invite', 'attendee_profile', 'attendee profile', 'attendees')} />
+        {/* <ArchinetCoreSection data={getSection(metadataValues, 'archinet_core', 'the_archinet_core', 'core', 'the archinet core', 'brand_intro')} /> */}
         <IntroStatement data={getSection(metadataValues, 'purpose')} />
 
         <FixedBackgroundSection

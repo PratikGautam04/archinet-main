@@ -44,9 +44,55 @@ interface EditionsSectionProps {
 }
 
 export default function EditionsSection({ data }: EditionsSectionProps) {
-  const title = getFieldValue(data, 'title');
-  const subtitle =
-    getFieldValue(data, 'subtitle') || 'FROM ONE IDEA TO A CURATED DESIGN NETWORK';
+  const eyebrow =
+    getFieldValue(data, 'section_label', 'eyebrow', 'label') || 'PREVIOUS EDITIONS';
+
+  const rawTitle = getFieldValue(data, 'title');
+  const isDefaultOrOldTitle =
+    !rawTitle || rawTitle.toLowerCase().includes('built over time');
+
+  const description1 =
+    getFieldValue(data, 'description', 'description_1', 'intro_1') ||
+    'Every Archinet edition brings participating manufacturing brands and architecture and interior-design professionals together in a curated environment designed for product discovery, networking and professional engagement.';
+
+  const description2Val = getFieldValue(data, 'description_2', 'subtitle', 'intro_2');
+  const description2 =
+    description2Val &&
+    description2Val !== 'FROM ONE IDEA TO A CURATED DESIGN NETWORK'
+      ? description2Val
+      : 'Explore moments from our previous editions, including brand showcases, product displays and conversations between the people shaping the architecture and design industry.';
+
+  const renderTitle = () => {
+    if (isDefaultOrOldTitle) {
+      return (
+        <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[#f4f2ed] font-normal tracking-tight leading-tight">
+          A Look Back at{' '}
+          <span className="editorial-italic italic font-serif text-[#f0ab44]">
+            Archinet.
+          </span>
+        </h2>
+      );
+    }
+
+    if (rawTitle && /archinet\.?/i.test(rawTitle)) {
+      const parts = rawTitle.split(/archinet\.?/i);
+      return (
+        <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[#f4f2ed] font-normal tracking-tight leading-tight">
+          {parts[0]}
+          <span className="editorial-italic italic font-serif text-[#f0ab44]">
+            Archinet.
+          </span>
+          {parts[1] || ''}
+        </h2>
+      );
+    }
+
+    return (
+      <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[#f4f2ed] font-normal tracking-tight leading-tight whitespace-pre-line">
+        {rawTitle}
+      </h2>
+    );
+  };
 
   // 1. Try single repeatable card field first (e.g. 'edition', 'editions', 'edition_details', 'edition_list')
   const editionField = getField(data, 'edition', 'editions', 'edition_details', 'edition_list');
@@ -145,23 +191,33 @@ export default function EditionsSection({ data }: EditionsSectionProps) {
       {/* Main Content Body */}
       <div className="w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center">
         {/* 2. Centered Hero Typography */}
-        <div className="text-center mb-10 sm:mb-14 max-w-3xl">
+        <div className="text-center mb-10 sm:mb-14 max-w-3xl mx-auto flex flex-col items-center">
+          {/* Eyebrow */}
           <RevealTitle>
-            {title ? (
-              <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl text-[#f4f2ed] font-normal tracking-tight leading-tight whitespace-pre-line">
-                {title}
-              </h2>
-            ) : (
-              <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl text-[#f4f2ed] font-normal tracking-tight leading-tight">
-                Built <span className="editorial-italic italic text-[#f0ab44] font-serif">Over Time.</span>
-              </h2>
-            )}
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="w-8 h-[1px] bg-[#f0ab44]/40" />
+              <span className="text-xs font-mono text-[#f0ab44] tracking-[0.25em] uppercase font-semibold">
+                {eyebrow}
+              </span>
+              <span className="w-8 h-[1px] bg-[#f0ab44]/40" />
+            </div>
+          </RevealTitle>
+
+          <RevealTitle>
+            {renderTitle()}
           </RevealTitle>
 
           <RevealUp delay={0.15}>
-            <p className="text-[11px] sm:text-xs font-sans text-[#d7d4ce] tracking-[0.3em] uppercase mt-3 sm:mt-4 font-medium max-w-xs sm:max-w-none mx-auto leading-relaxed">
-              {subtitle}
-            </p>
+            <div className="flex flex-col gap-3 mt-4 sm:mt-5 max-w-2xl mx-auto">
+              <p className="text-xs sm:text-sm font-sans text-white/70 leading-relaxed font-normal">
+                {description1}
+              </p>
+              {description2 && (
+                <p className="text-xs sm:text-sm font-sans text-white/50 leading-relaxed font-normal">
+                  {description2}
+                </p>
+              )}
+            </div>
           </RevealUp>
         </div>
 

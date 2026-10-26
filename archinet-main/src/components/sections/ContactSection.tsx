@@ -1,13 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Send, CheckCircle2, Mail, Phone, MapPin } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import {
   RevealTitle,
   RevealLeft,
   RevealRight,
   RevealUp,
-  RevealZoom,
 } from '../animations/ScrollReveal';
 import { MetadataField } from '../../types/metadata';
 import { getField, getFieldValue, getCardJsonData } from '../../utils/metadata';
@@ -17,169 +16,239 @@ interface ContactSectionProps {
 }
 
 export default function ContactSection({ data }: ContactSectionProps) {
-  const sectionLabel = getFieldValue(data, 'section_label') || 'GET IN TOUCH';
+  const eyebrow = getFieldValue(data, 'section_label', 'eyebrow', 'label') || 'GET IN TOUCH';
   const title = getFieldValue(data, 'title');
-  const subtitle =
-    getFieldValue(data, 'subtitle') || 'THANK YOU FOR BEING PART OF THE ROOM.';
-  const email = getFieldValue(data, 'email') || 'invitations@archinet.ai.studio';
-  const phone = getFieldValue(data, 'phone') || '+91 (022) 4890 1200';
 
-  const eventInfoField = getField(data, 'event_information', 'event_info', 'event');
-  const eventInfoCard = getCardJsonData<Record<string, string>>(eventInfoField);
-  const eventBadge =
-    eventInfoCard[0]?.badge ||
-    eventInfoCard[0]?.heading ||
-    eventInfoCard[0]?.title ||
-    'ONE CITY. ONE DAY. ONE VISION.';
-  const eventLocation =
-    eventInfoCard[0]?.location ||
-    eventInfoCard[0]?.event ||
-    eventInfoCard[0]?.edition ||
-    '14TH EDITION · MUMBAI 2027';
-  const eventVenue =
-    eventInfoCard[0]?.venue ||
-    eventInfoCard[0]?.data_venue ||
-    eventInfoCard[0]?.dataVenue ||
-    eventInfoCard[0]?.date ||
-    '20 FEBRUARY · THE ST. REGIS';
+  const desc1 =
+    getFieldValue(data, 'desc_1', 'description_1') ||
+    'Are you a building-material or architectural-product brand looking to connect with established architects and interior designers?';
+  const desc2 =
+    getFieldValue(data, 'desc_2', 'description_2') ||
+    'Get in touch with the Archinet team to learn more about exhibiting opportunities, brand participation and upcoming editions.';
+  const desc3 =
+    getFieldValue(data, 'desc_3', 'description_3') ||
+    'Whether you represent a manufacturing brand, an architecture firm or an interior design practice, we would be happy to hear from you.';
+
+  const companyName = getFieldValue(data, 'company_name') || 'Riverstone Networking Services';
+  const phone = getFieldValue(data, 'phone') || '+91 84208 23676';
+  const email = getFieldValue(data, 'email') || 'anshu@riverstonenetworking.com';
+  const website = getFieldValue(data, 'website') || 'riverstonenetworking.com';
 
   const [formState, setFormState] = useState({
+    fullName: '',
     designation: '',
+    company: '',
     city: '',
     email: '',
     phone: '',
-    interests: [] as string[],
+    enquiryType: 'Manufacturing Brand – Exhibiting Enquiry',
+    productCategory: '',
     message: '',
   });
+
   const [submitted, setSubmitted] = useState(false);
 
-  const interestOptions = ['ATTENDING', 'EXHIBITING', 'PARTNERSHIP', 'GENERAL ENQUIRY'];
-
-  const toggleInterest = (option: string) => {
-    setFormState((prev) => ({
-      ...prev,
-      interests: prev.interests.includes(option)
-        ? prev.interests.filter((i) => i !== option)
-        : [...prev.interests, option],
-    }));
-  };
+  const enquiryOptions = [
+    'Manufacturing Brand – Exhibiting Enquiry',
+    'Architect / Designer – Invitation Request',
+    'Brand Partnership',
+    'General Enquiry',
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formState.email) {
-      alert('Please provide your email address.');
+    if (!formState.email || !formState.fullName) {
+      alert('Please fill in the required fields.');
       return;
     }
     setSubmitted(true);
   };
 
   return (
-    <section id="contact" className="w-full py-24 lg:py-36 px-6 lg:px-12 bg-[#070707] border-b border-[rgba(255,255,255,0.06)] overflow-hidden">
+    <section
+      id="contact"
+      className="w-full py-20 lg:py-32 px-6 lg:px-12 bg-[#050505] text-[#f4f0e8] overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
+    >
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-        {/* Left Info Column (Enters from Left) */}
-        <div className="lg:col-span-5 flex flex-col gap-6">
-          <RevealTitle>
-            <span className="text-xs font-mono tracking-[0.25em] text-[var(--accent-gold)] uppercase font-semibold">
-              {sectionLabel}
-            </span>
-          </RevealTitle>
+        {/* Left Column: Contact Copy, Divider & Event Card */}
+        <div className="lg:col-span-5 flex flex-col justify-between h-full">
+          <div>
+            {/* Eyebrow */}
+            <RevealTitle>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="w-8 h-[1px] bg-[#f0ab44]/40" />
+                <span className="text-xs font-mono text-[#f0ab44] tracking-[0.25em] uppercase font-semibold">
+                  {eyebrow}
+                </span>
+                <span className="w-8 h-[1px] bg-[#f0ab44]/40" />
+              </div>
+            </RevealTitle>
 
-          <RevealLeft delay={0.1}>
-            {title ? (
-              <h2 className="font-serif text-4xl sm:text-6xl text-white font-light tracking-tight leading-tight whitespace-pre-line">
-                {title}
-              </h2>
-            ) : (
-              <h2 className="font-serif text-4xl sm:text-6xl text-white font-light tracking-tight leading-tight">
-                The <span className="editorial-italic">Conversation</span> Continues.
-              </h2>
-            )}
-          </RevealLeft>
+            {/* Heading */}
+            <RevealLeft delay={0.1}>
+              {title ? (
+                <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-white font-normal tracking-tight leading-tight whitespace-pre-line mb-6">
+                  {title}
+                </h2>
+              ) : (
+                <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-white font-normal tracking-tight leading-tight mb-6">
+                  Be Part of the Next<br />
+                  <span className="editorial-italic italic font-serif text-[#f0ab44]">
+                    Archinet Edition.
+                  </span>
+                </h2>
+              )}
+            </RevealLeft>
 
-          <RevealLeft delay={0.2}>
-            <p className="text-xs font-mono text-[var(--accent-gold)] tracking-widest uppercase">
-              {subtitle}
-            </p>
-          </RevealLeft>
+            {/* Paragraphs */}
+            <RevealLeft delay={0.15}>
+              <div className="flex flex-col gap-3 text-xs sm:text-sm font-sans text-white/60 leading-relaxed">
+                <p>{desc1}</p>
+                <p>{desc2}</p>
+                <p>{desc3}</p>
+              </div>
+            </RevealLeft>
 
-          <RevealZoom delay={0.25}>
-            <div className="p-6 rounded-2xl bg-[#0d0d0d] border border-[rgba(240,171,68,0.2)] flex flex-col gap-4 my-2">
-              <span className="text-xs font-mono text-white font-bold tracking-widest uppercase">
-                {eventBadge}
+            {/* Gold Accent Divider */}
+            <div className="w-12 h-[1.5px] bg-[#f0ab44] my-6" />
+
+            {/* Event Card */}
+            <RevealUp delay={0.2}>
+              <div className="p-5 rounded-2xl bg-[#0c0c0c] border border-white/10 flex flex-col gap-2 my-2">
+                <div className="flex items-center justify-between text-xs font-mono tracking-wider text-[#f0ab44] uppercase font-semibold">
+                  <span>14TH EDITION &bull; MUMBAI</span>
+                  <span className="text-white/60">2027</span>
+                </div>
+                <div className="text-xs sm:text-sm font-mono text-white tracking-wide uppercase">
+                  20 FEBRUARY &bull; THE ST. REGIS, MUMBAI
+                </div>
+                <div className="text-[10px] font-mono text-white/50 tracking-widest uppercase">
+                  BY INVITATION &amp; SELECTION ONLY
+                </div>
+              </div>
+            </RevealUp>
+          </div>
+
+          {/* Organization Details at Bottom */}
+          <RevealUp delay={0.25}>
+            <div className="flex flex-col gap-1 text-xs font-sans text-white/50 mt-10">
+              <span className="text-xs text-white/80 font-medium block">
+                {companyName}
               </span>
-              <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-secondary)]">
-                <MapPin className="w-4 h-4 text-[var(--accent-gold)]" />
-                <span>{eventLocation}</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-secondary)]">
-                <span className="w-2 h-2 rounded-full bg-[var(--accent-gold)]" />
-                <span>{eventVenue}</span>
-              </div>
-            </div>
-          </RevealZoom>
-
-          <RevealUp delay={0.3}>
-            <div className="flex flex-col gap-3 font-mono text-xs text-[var(--text-secondary)] pt-2">
-              <div className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-[var(--accent-gold)]" />
-                <span>{email}</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-[var(--accent-gold)]" />
-                <span>{phone}</span>
-              </div>
+              <span>{phone}</span>
+              <a
+                href={`mailto:${email}`}
+                className="hover:text-[#f0ab44] transition-colors"
+              >
+                {email}
+              </a>
+              <a
+                href={`https://${website}`}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-[#f0ab44] transition-colors"
+              >
+                {website}
+              </a>
             </div>
           </RevealUp>
         </div>
 
-        {/* Right Form Column (Enters from Right) */}
-        <RevealRight className="lg:col-span-7 p-8 sm:p-10 rounded-2xl bg-[#0d0d0d] border border-[rgba(255,255,255,0.08)] shadow-2xl">
+        {/* Right Column: Participation & Invitation Enquiry Form */}
+        <RevealRight className="lg:col-span-7 p-7 sm:p-10 rounded-2xl bg-[#0c0c0c] border border-white/10 shadow-2xl">
           {submitted ? (
             <div className="py-12 flex flex-col items-center text-center gap-4">
-              <CheckCircle2 className="w-14 h-14 text-[var(--accent-gold)]" />
-              <h3 className="font-serif text-3xl text-white font-light">Invitation Request Transmitted</h3>
-              <p className="text-xs font-mono text-[var(--text-secondary)] max-w-md">
-                Thank you for your interest in ArchiNet Summit 14th Edition. Our curatorial committee will review your credentials and contact you directly.
+              <CheckCircle2 className="w-14 h-14 text-[#f0ab44]" />
+              <h3 className="font-serif text-2xl sm:text-3xl text-white font-normal">
+                Enquiry Received
+              </h3>
+              <p className="text-xs font-sans text-white/70 max-w-md leading-relaxed">
+                Thank you for your enquiry. Our curation team will review your submission and connect with you shortly.
               </p>
               <button
+                type="button"
                 onClick={() => setSubmitted(false)}
-                className="mt-4 px-6 py-2.5 rounded-full border border-[var(--accent-gold)] text-[var(--accent-gold)] font-mono text-xs hover:bg-[var(--accent-gold)] hover:text-[#070707] transition-colors"
+                className="mt-4 px-6 py-2.5 rounded-full border border-[#f0ab44] text-[#f0ab44] font-mono text-xs hover:bg-[#f0ab44] hover:text-black transition-colors"
               >
-                SUBMIT ANOTHER INQUIRY
+                SUBMIT ANOTHER ENQUIRY
               </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-[10px] font-mono text-[var(--text-muted)] tracking-widest uppercase mb-2">
-                    DESIGNATION / TITLE
-                  </label>
-                  <input
-                    type="text"
-                    value={formState.designation}
-                    onChange={(e) => setFormState({ ...formState, designation: e.target.value })}
-                    placeholder="Full Name / Designation"
-                    className="w-full px-4 py-3 rounded-xl bg-[#141414] border border-[rgba(255,255,255,0.1)] text-xs font-mono text-white focus:outline-none focus:border-[var(--accent-gold)] transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-mono text-[var(--text-muted)] tracking-widest uppercase mb-2">
-                    CITY & COUNTRY
-                  </label>
-                  <input
-                    type="text"
-                    value={formState.city}
-                    onChange={(e) => setFormState({ ...formState, city: e.target.value })}
-                    placeholder="Mumbai, India"
-                    className="w-full px-4 py-3 rounded-xl bg-[#141414] border border-[rgba(255,255,255,0.1)] text-xs font-mono text-white focus:outline-none focus:border-[var(--accent-gold)] transition-colors"
-                  />
-                </div>
+              <div>
+                <h3 className="font-serif text-2xl sm:text-3xl text-white font-normal mb-1">
+                  Participation &amp; Invitation Enquiry
+                </h3>
+                <p className="text-xs font-sans text-white/60">
+                  Complete the details below and our team will get in touch with you.
+                </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {/* 2-Column Inputs Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                {/* Full Name */}
                 <div>
-                  <label className="block text-[10px] font-mono text-[var(--text-muted)] tracking-widest uppercase mb-2">
+                  <label className="block text-[10px] font-mono text-white/60 tracking-wider uppercase mb-1.5 font-semibold">
+                    FULL NAME *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formState.fullName}
+                    onChange={(e) => setFormState({ ...formState, fullName: e.target.value })}
+                    placeholder="e.g. Ar. Rajesh Mehta"
+                    className="w-full px-4 py-3 rounded-xl bg-[#070707] border border-white/10 text-xs font-sans text-white placeholder-white/25 focus:outline-none focus:border-[#f0ab44] transition-colors"
+                  />
+                </div>
+
+                {/* Designation */}
+                <div>
+                  <label className="block text-[10px] font-mono text-white/60 tracking-wider uppercase mb-1.5 font-semibold">
+                    DESIGNATION *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formState.designation}
+                    onChange={(e) => setFormState({ ...formState, designation: e.target.value })}
+                    placeholder="e.g. Principal Architect / Managing Director"
+                    className="w-full px-4 py-3 rounded-xl bg-[#070707] border border-white/10 text-xs font-sans text-white placeholder-white/25 focus:outline-none focus:border-[#f0ab44] transition-colors"
+                  />
+                </div>
+
+                {/* Company Name */}
+                <div>
+                  <label className="block text-[10px] font-mono text-white/60 tracking-wider uppercase mb-1.5 font-semibold">
+                    COMPANY / FIRM NAME *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formState.company}
+                    onChange={(e) => setFormState({ ...formState, company: e.target.value })}
+                    placeholder="e.g. Studio Vista Architecture / Brand Ltd"
+                    className="w-full px-4 py-3 rounded-xl bg-[#070707] border border-white/10 text-xs font-sans text-white placeholder-white/25 focus:outline-none focus:border-[#f0ab44] transition-colors"
+                  />
+                </div>
+
+                {/* City */}
+                <div>
+                  <label className="block text-[10px] font-mono text-white/60 tracking-wider uppercase mb-1.5 font-semibold">
+                    CITY *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formState.city}
+                    onChange={(e) => setFormState({ ...formState, city: e.target.value })}
+                    placeholder="e.g. Mumbai, Bengaluru, Hyderabad"
+                    className="w-full px-4 py-3 rounded-xl bg-[#070707] border border-white/10 text-xs font-sans text-white placeholder-white/25 focus:outline-none focus:border-[#f0ab44] transition-colors"
+                  />
+                </div>
+
+                {/* Business Email */}
+                <div>
+                  <label className="block text-[10px] font-mono text-white/60 tracking-wider uppercase mb-1.5 font-semibold">
                     BUSINESS EMAIL *
                   </label>
                   <input
@@ -187,70 +256,109 @@ export default function ContactSection({ data }: ContactSectionProps) {
                     required
                     value={formState.email}
                     onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                    placeholder="architect@studio.com"
-                    className="w-full px-4 py-3 rounded-xl bg-[#141414] border border-[rgba(255,255,255,0.1)] text-xs font-mono text-white focus:outline-none focus:border-[var(--accent-gold)] transition-colors"
+                    placeholder="name@company.com"
+                    className="w-full px-4 py-3 rounded-xl bg-[#070707] border border-white/10 text-xs font-sans text-white placeholder-white/25 focus:outline-none focus:border-[#f0ab44] transition-colors"
                   />
                 </div>
+
+                {/* Phone Number */}
                 <div>
-                  <label className="block text-[10px] font-mono text-[var(--text-muted)] tracking-widest uppercase mb-2">
-                    PHONE / WHATSAPP
+                  <label className="block text-[10px] font-mono text-white/60 tracking-wider uppercase mb-1.5 font-semibold">
+                    PHONE NUMBER *
                   </label>
                   <input
                     type="tel"
+                    required
                     value={formState.phone}
                     onChange={(e) => setFormState({ ...formState, phone: e.target.value })}
-                    placeholder="+91 98200 00000"
-                    className="w-full px-4 py-3 rounded-xl bg-[#141414] border border-[rgba(255,255,255,0.1)] text-xs font-mono text-white focus:outline-none focus:border-[var(--accent-gold)] transition-colors"
+                    placeholder="+91 98765 43210"
+                    className="w-full px-4 py-3 rounded-xl bg-[#070707] border border-white/10 text-xs font-sans text-white placeholder-white/25 focus:outline-none focus:border-[#f0ab44] transition-colors"
                   />
                 </div>
               </div>
 
-              {/* Checkboxes: I AM INTERESTED IN */}
+              {/* Enquiry Type Options */}
               <div>
-                <label className="block text-[10px] font-mono text-[var(--text-muted)] tracking-widest uppercase mb-3">
-                  I AM INTERESTED IN
+                <label className="block text-[10px] font-mono text-white/60 tracking-wider uppercase mb-2.5 font-semibold">
+                  ENQUIRY TYPE *
                 </label>
-                <div className="flex flex-wrap gap-2">
-                  {interestOptions.map((option) => {
-                    const isSelected = formState.interests.includes(option);
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {enquiryOptions.map((option) => {
+                    const isSelected = formState.enquiryType === option;
                     return (
                       <button
                         type="button"
                         key={option}
-                        onClick={() => toggleInterest(option)}
-                        className={`px-4 py-2 rounded-full font-mono text-xs transition-all ${
+                        onClick={() => setFormState({ ...formState, enquiryType: option })}
+                        className={`px-4 py-3 rounded-xl text-left font-sans text-xs flex items-center gap-2.5 transition-all ${
                           isSelected
-                            ? 'bg-[var(--accent-gold)] text-[#070707] font-bold'
-                            : 'bg-[#141414] text-[var(--text-secondary)] border border-[rgba(255,255,255,0.1)] hover:border-[var(--accent-gold)]'
+                            ? 'bg-[#070707] border border-[#f0ab44] text-[#f4f0e8] shadow-md'
+                            : 'bg-[#070707] border border-white/10 text-white/60 hover:border-white/20'
                         }`}
                       >
-                        {option}
+                        <span
+                          className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 ${
+                            isSelected
+                              ? 'border-[#f0ab44] bg-[#f0ab44]'
+                              : 'border-white/30 bg-transparent'
+                          }`}
+                        >
+                          {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-black" />}
+                        </span>
+                        <span className="truncate">{option}</span>
                       </button>
                     );
                   })}
                 </div>
               </div>
 
+              {/* Conditional Product Category for Manufacturing Brands */}
+              {formState.enquiryType === 'Manufacturing Brand – Exhibiting Enquiry' && (
+                <div className="animate-fadeIn">
+                  <label className="block text-[10px] font-mono text-[#f0ab44] tracking-wider uppercase mb-1.5 font-semibold">
+                    PRODUCT CATEGORY * (FOR MANUFACTURING BRANDS)
+                  </label>
+                  <input
+                    type="text"
+                    value={formState.productCategory}
+                    onChange={(e) => setFormState({ ...formState, productCategory: e.target.value })}
+                    placeholder="e.g. Architectural Lighting, Facades, High-End Surfaces, Bath & Sanitation, Automation"
+                    className="w-full px-4 py-3 rounded-xl bg-[#070707] border border-[#f0ab44]/40 text-xs font-sans text-white placeholder-white/25 focus:outline-none focus:border-[#f0ab44] transition-colors"
+                  />
+                  <p className="text-[10px] font-sans text-white/40 mt-1">
+                    Helps the Archinet curation team verify edition category exclusivity.
+                  </p>
+                </div>
+              )}
+
+              {/* Message */}
               <div>
-                <label className="block text-[10px] font-mono text-[var(--text-muted)] tracking-widest uppercase mb-2">
-                  MESSAGE / NOTES
+                <label className="block text-[10px] font-mono text-white/60 tracking-wider uppercase mb-1.5 font-semibold">
+                  MESSAGE
                 </label>
                 <textarea
                   rows={3}
                   value={formState.message}
                   onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                  placeholder="Tell us about your practice or delegation requirement..."
-                  className="w-full px-4 py-3 rounded-xl bg-[#141414] border border-[rgba(255,255,255,0.1)] text-xs font-mono text-white focus:outline-none focus:border-[var(--accent-gold)] transition-colors"
+                  placeholder="Tell us about your brand, architectural practice or any specific queries..."
+                  className="w-full px-4 py-3 rounded-xl bg-[#070707] border border-white/10 text-xs font-sans text-white placeholder-white/25 focus:outline-none focus:border-[#f0ab44] transition-colors resize-none"
                 />
               </div>
 
-              <button
-                type="submit"
-                className="w-full py-4 rounded-full bg-[var(--accent-gold)] hover:bg-[var(--accent-gold-light)] text-[#070707] font-mono text-xs font-bold tracking-widest transition-all duration-300 flex items-center justify-center gap-2 shadow-lg cursor-pointer"
-              >
-                <span>SUBMIT INVITATION REQUEST</span>
-                <Send className="w-4 h-4" />
-              </button>
+              {/* Footer Row */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
+                <span className="text-[10px] font-sans text-white/40 leading-snug">
+                  Strict confidentiality assured for all firm &amp; brand inquiries.
+                </span>
+
+                <button
+                  type="submit"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#f0ab44] hover:bg-[#d99732] text-black font-mono text-xs font-bold tracking-wider uppercase transition-colors shadow-lg cursor-pointer shrink-0 w-full sm:w-auto"
+                >
+                  <span>SUBMIT ENQUIRY</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
             </form>
           )}
         </RevealRight>
