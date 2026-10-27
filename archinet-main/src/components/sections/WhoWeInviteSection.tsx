@@ -1,11 +1,10 @@
 
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   RevealTitle,
   RevealUp,
-  StaggerContainer,
   StaggerItem,
 } from '../animations/ScrollReveal';
 import { MetadataField } from '../../types/metadata';
@@ -90,6 +89,27 @@ const DEFAULT_ATTENDEE_CARDS: AttendeeCard[] = [
 export default function WhoWeInviteSection({
   data,
 }: WhoWeInviteSectionProps) {
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollCards = (direction: 'left' | 'right') => {
+    const container = cardsContainerRef.current;
+
+    if (!container) return;
+
+    const firstCard =
+      container.querySelector<HTMLElement>('[data-attendee-card]');
+
+    const gap = 16;
+    const amount = firstCard
+      ? firstCard.getBoundingClientRect().width + gap
+      : container.clientWidth * 0.82;
+
+    container.scrollBy({
+      left: direction === 'left' ? -amount : amount,
+      behavior: 'smooth',
+    });
+  };
+
   // Dynamic fields from Metadata Master / API
   const eyebrow =
     getFieldValue(data, 'section_label', 'eyebrow', 'label') ||
@@ -214,55 +234,105 @@ export default function WhoWeInviteSection({
           </p>
         </RevealUp>
 
-        {/* 6 Attendee Cards Grid (3-column on desktop) */}
-        <StaggerContainer
-          staggerChildren={0.1}
-          delayChildren={0.2}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
-        >
-          {attendeeCards.map((card) => (
-            <StaggerItem
-              key={card.number}
-              direction="up"
-              className="rounded-2xl overflow-hidden bg-[#0c0c0c] border border-white/10 hover:border-[#D9BC78]/40 transition-all duration-300 flex flex-col group shadow-xl"
+        {/* Mobile carousel, tablet and desktop grid */}
+        <div className="relative">
+          <div
+            ref={cardsContainerRef}
+            className="w-full overflow-x-auto overflow-y-hidden snap-x snap-mandatory scroll-smooth pb-4 -mx-6 px-[9vw] sm:mx-0 sm:px-0 sm:overflow-visible sm:pb-0"
+          >
+            <div className="flex w-max min-w-full items-stretch gap-4 sm:w-full sm:min-w-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-8">
+              {attendeeCards.map((card) => (
+                <StaggerItem
+                  key={card.number}
+                  direction="up"
+                  data-attendee-card
+                  initial={false}
+                  animate="visible"
+                  className="relative block w-[82vw] max-w-[360px] shrink-0 snap-center self-stretch rounded-2xl overflow-hidden bg-[#0c0c0c] border border-white/10 hover:border-[#D9BC78]/40 transition-all duration-300 flex flex-col group shadow-xl sm:w-auto sm:max-w-none sm:shrink"
+                >
+                  {/* Image with Floating Badges */}
+                  <div className="relative aspect-[4/3] sm:aspect-[16/10] overflow-hidden bg-[#111]">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    />
+
+                    {/* Floating Top Elements */}
+                    <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
+                      <span className="w-7 h-7 rounded-full bg-black/75 backdrop-blur-md border border-[#D9BC78]/30 flex items-center justify-center text-[11px] font-sans font-semibold text-[#D9BC78] shadow-md">
+                        {card.number}
+                      </span>
+
+                      <span className="max-w-[75%] px-2.5 py-1 rounded-md bg-black/75 backdrop-blur-md border border-[#D9BC78]/30 text-[9px] font-sans font-semibold text-[#D9BC78] tracking-wider uppercase shadow-md text-right">
+                        {card.category}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Content Area */}
+                  <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between">
+                    <div>
+                      <h3 className="font-serif text-lg sm:text-xl font-normal mb-2 leading-snug text-[#E8E1D5] group-hover:text-[#D9BC78] transition-colors">
+                        {card.title}
+                      </h3>
+
+                      <p className="text-xs text-[#AAA59B] leading-relaxed font-sans">
+                        {card.description}
+                      </p>
+                    </div>
+                  </div>
+                </StaggerItem>
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile left arrow — centered over the image */}
+          <button
+            type="button"
+            onClick={() => scrollCards('left')}
+            aria-label="Previous attendee card"
+            className="absolute left-2 top-[33%] z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-[#D9BC78]/60 bg-black/90 text-[#D9BC78] shadow-lg backdrop-blur-sm transition-colors hover:bg-[#D9BC78] hover:text-black sm:hidden"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
             >
-              {/* Image with Floating Badges */}
-              <div className="relative aspect-[16/10] overflow-hidden bg-[#111]">
-                <img
-                  src={card.image}
-                  alt={card.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
 
-                {/* Floating Top Elements */}
-                <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
-                  {/* Number Circle */}
-                  <span className="w-7 h-7 rounded-full bg-black/75 backdrop-blur-md border border-[#D9BC78]/30 flex items-center justify-center text-[11px] font-sans font-semibold text-[#D9BC78] shadow-md">
-                    {card.number}
-                  </span>
-
-                  {/* Category Pill */}
-                  <span className="px-2.5 py-1 rounded-md bg-black/75 backdrop-blur-md border border-[#D9BC78]/30 text-[9px] font-sans font-semibold text-[#D9BC78] tracking-wider uppercase shadow-md">
-                    {card.category}
-                  </span>
-                </div>
-              </div>
-
-              {/* Content Area */}
-              <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between">
-                <div>
-                  <h3 className="font-serif text-lg sm:text-xl font-normal mb-2 leading-snug text-[#E8E1D5] group-hover:text-[#D9BC78] transition-colors">
-                    {card.title}
-                  </h3>
-
-                  <p className="text-xs text-[#AAA59B] leading-relaxed font-sans">
-                    {card.description}
-                  </p>
-                </div>
-              </div>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+          {/* Mobile right arrow — centered over the image */}
+          <button
+            type="button"
+            onClick={() => scrollCards('right')}
+            aria-label="Next attendee card"
+            className="absolute right-2 top-[33%] z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-[#D9BC78]/60 bg-black/90 text-[#D9BC78] shadow-lg backdrop-blur-sm transition-colors hover:bg-[#D9BC78] hover:text-black sm:hidden"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+        </div>
       </div>
     </section>
   );

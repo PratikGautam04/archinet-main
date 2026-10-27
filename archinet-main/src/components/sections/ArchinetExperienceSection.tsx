@@ -70,7 +70,7 @@ export default function ArchinetExperienceSection({
   data,
 }: ArchinetExperienceSectionProps) {
   // Start with Pillar 02 expanded as approved in reference
-  const [activePillar, setActivePillar] = useState<number>(1);
+  const [activePillar, setActivePillar] = useState<number>(0);
 
   // Dynamic fields from Metadata Master / API
   const eyebrow =
