@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -53,22 +54,29 @@ export default function TestimonialsSection({
 }: TestimonialsSectionProps) {
   const rawEyebrow = getFieldValue(data, 'section_label', 'eyebrow', 'label');
   const rawHeading = getFieldValue(data, 'title', 'heading');
-  const rawSubtitle = getFieldValue(data, 'subtitle', 'sub_heading', 'description');
+  const rawSubtitle = getFieldValue(
+    data,
+    'subtitle',
+    'sub_heading',
+    'description'
+  );
 
   const eyebrow =
     rawEyebrow && rawEyebrow !== 'WHAT OUR ATTENDEES SAY'
       ? rawEyebrow
       : 'THE COMMUNITY VOICES';
+
   const heading =
     rawHeading && rawHeading !== 'WHAT OUR ATTENDEES SAY'
       ? rawHeading
       : 'Experiences from the Archinet Community';
+
   const subtitle =
     rawSubtitle && rawSubtitle.trim().length > 0
       ? rawSubtitle
       : 'Hear from the brands and design professionals who have been part of Archinet.';
 
-  // 1. Dynamic video testimonials from Metadata Master
+  // Dynamic video testimonials from Metadata Master
   const videoField = getField(
     data,
     'testimonial_video_details',
@@ -76,19 +84,27 @@ export default function TestimonialsSection({
     'videos',
     'video_details'
   );
-  const videoCards = getCardJsonData<Record<string, string>>(videoField);
+
+  const videoCards =
+    getCardJsonData<Record<string, string>>(videoField);
+
   const dynamicVideos = videoCards
     .map((item, idx) => ({
       id: `vid-dyn-${idx}`,
-      label: (item.name || item.person_name || item.title || `VIDEO ${idx + 1}`).toUpperCase(),
+      label: (
+        item.name ||
+        item.person_name ||
+        item.title ||
+        `VIDEO ${idx + 1}`
+      ).toUpperCase(),
       src: item.video || item.video_url || item.url || item.src,
     }))
-    .filter((v) => Boolean(v.src && v.src.trim().length > 0));
+    .filter((video) => Boolean(video.src && video.src.trim().length > 0));
 
   const testimonialVideos =
     dynamicVideos.length > 0 ? dynamicVideos : TESTIMONIAL_VIDEOS;
 
-  // 2. Dynamic testimonial text data from Metadata API
+  // Dynamic testimonial text data from Metadata API
   const testimonialField = getField(
     data,
     'testimonial_deatils',
@@ -96,51 +112,75 @@ export default function TestimonialsSection({
     'testimonials',
     'testimonial_list'
   );
-  const cardList = getCardJsonData<Record<string, string>>(testimonialField);
+
+  const cardList =
+    getCardJsonData<Record<string, string>>(testimonialField);
 
   let dynamicTestimonials: Testimonial[] = [];
 
   if (cardList.length > 0) {
     dynamicTestimonials = cardList.map((item, idx) => {
-      const fallback = TESTIMONIALS_DATA[idx % TESTIMONIALS_DATA.length];
+      const fallback =
+        TESTIMONIALS_DATA[idx % TESTIMONIALS_DATA.length];
+
       return {
         id: `testimonial-${idx + 1}`,
-        quote: item.testimonial || item.quote || item.text || fallback.quote,
-        author: item.person_name || item.name || item.author || fallback.author,
-        title: item.designation || item.title || item.role || fallback.title,
+        quote:
+          item.testimonial ||
+          item.quote ||
+          item.text ||
+          fallback.quote,
+        author:
+          item.person_name ||
+          item.name ||
+          item.author ||
+          fallback.author,
+        title:
+          item.designation ||
+          item.title ||
+          item.role ||
+          fallback.title,
         company: item.company || fallback.company,
         rating: Number(item.rating) || 5,
-        avatar: item.person_image || item.image || item.avatar || fallback.avatar,
+        avatar:
+          item.person_image ||
+          item.image ||
+          item.avatar ||
+          fallback.avatar,
       };
     });
   }
 
   const testimonials =
-    dynamicTestimonials.length > 0 ? dynamicTestimonials : TESTIMONIALS_DATA;
+    dynamicTestimonials.length > 0
+      ? dynamicTestimonials
+      : TESTIMONIALS_DATA;
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
 
   const currentVideo =
-    testimonialVideos[activeVideoIndex % testimonialVideos.length] || testimonialVideos[0];
+    testimonialVideos[activeVideoIndex % testimonialVideos.length] ||
+    testimonialVideos[0];
 
   // Auto advance every 6 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % testimonials.length);
     }, 6000);
+
     return () => clearInterval(timer);
   }, [testimonials.length]);
 
   return (
     <section
       id="testimonials"
-      className="w-full py-20 lg:py-32 px-6 lg:px-12 bg-black text-[#AAA59B] overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
+      className="w-full py-20 lg:py-32 px-6 lg:px-12 bg-black text-[#AAA59B] font-sans overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
         {/* Left Column: Video Testimonial Player */}
         <RevealLeft className="lg:col-span-5 relative w-full flex flex-col items-center justify-center">
-          <div className="relative w-full max-w-[370px] sm:max-w-[390px] overflow-hidden rounded-[18px] border border-[#f0ab44]/45 bg-black shadow-[0_18px_60px_rgba(0,0,0,0.45)]">
+          <div className="relative w-full max-w-[370px] sm:max-w-[390px] overflow-hidden rounded-[18px] border border-[#D9BC78]/45 bg-black shadow-[0_18px_60px_rgba(0,0,0,0.45)]">
             <div className="aspect-[9/16] w-full bg-black">
               {currentVideo?.src && (
                 <video
@@ -167,8 +207,8 @@ export default function TestimonialsSection({
                 onClick={() => setActiveVideoIndex(index)}
                 className={`rounded-full border px-2.5 py-1 font-sans text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.08em] transition-all duration-200 ${
                   activeVideoIndex === index
-                    ? 'border-[#f0ab44] bg-[#f0ab44] text-black shadow-[0_0_12px_rgba(240,171,68,0.35)]'
-                    : 'border-white/10 bg-white/[0.04] text-white/70 hover:border-white/20 hover:text-white'
+                    ? 'border-[#D9BC78] bg-[#D9BC78] text-black shadow-[0_0_12px_rgba(217,188,120,0.25)]'
+                    : 'border-white/10 bg-white/[0.04] text-[#AAA59B] hover:border-white/20 hover:text-[#E8E1D5]'
                 }`}
               >
                 {video.label}
@@ -182,17 +222,19 @@ export default function TestimonialsSection({
           {/* Eyebrow */}
           <RevealTitle>
             <div className="flex items-center gap-3 mb-4">
-              <span className="w-8 h-[1px] bg-[#f0ab44]/40" />
-              <span className="text-xs font-mono text-[#f0ab44] tracking-[0.25em] uppercase font-semibold">
+              <span className="w-8 h-[1px] bg-[#D9BC78]/50" />
+
+              <span className="text-xs font-sans text-[#D9BC78] tracking-[0.25em] uppercase font-semibold">
                 {eyebrow}
               </span>
-              <span className="w-8 h-[1px] bg-[#f0ab44]/40" />
+
+              <span className="w-8 h-[1px] bg-[#D9BC78]/50" />
             </div>
           </RevealTitle>
 
           {/* Heading */}
           <RevealRight delay={0.1}>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white font-normal tracking-tight mb-2 leading-tight">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#E8E1D5] font-normal tracking-tight mb-2 leading-tight">
               {heading}
             </h2>
           </RevealRight>
@@ -204,26 +246,27 @@ export default function TestimonialsSection({
             </p>
           </RevealRight>
 
-          {/* Testimonial Cards Carousel Viewport */}
+          {/* Testimonial Cards Carousel */}
           <RevealUp delay={0.2} className="relative w-full">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
               {[0, 1].map((offset) => {
-                const itemIndex = (activeIndex + offset) % testimonials.length;
+                const itemIndex =
+                  (activeIndex + offset) % testimonials.length;
                 const item = testimonials[itemIndex];
 
                 return (
                   <article
                     key={`${item.id}-${itemIndex}`}
-                    className="relative rounded-2xl bg-[#0c0c0c] border border-white/10 hover:border-[#f0ab44]/40 p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 shadow-xl min-h-[300px]"
+                    className="relative rounded-2xl bg-[#0c0c0c] border border-[#D9BC78]/35 hover:border-[#D9BC78]/65 p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 shadow-xl min-h-[300px]"
                   >
-                    {/* Gold Quote Mark Badge */}
-                    <div className="absolute -top-3.5 left-6 w-8 h-8 rounded-md bg-[#f0ab44] text-black font-serif font-bold text-xl flex items-center justify-center shadow-lg">
+                    {/* Gold Quote Mark */}
+                    <div className="absolute -top-3.5 left-6 w-8 h-8 rounded-md bg-[#D9BC78] text-black font-serif font-bold text-xl flex items-center justify-center shadow-lg">
                       &ldquo;
                     </div>
 
                     <div className="pt-2">
-                      {/* 5 Gold Stars */}
-                      <div className="flex items-center gap-1 text-[#f0ab44] text-xs mb-4">
+                      {/* Gold Stars */}
+                      <div className="flex items-center gap-1 text-[#D9BC78] text-xs mb-4">
                         {[...Array(item.rating || 5)].map((_, i) => (
                           <span key={i}>&#9733;</span>
                         ))}
@@ -241,14 +284,16 @@ export default function TestimonialsSection({
                         <img
                           src={item.avatar}
                           alt={item.author}
-                          className="w-10 h-10 rounded-full object-cover border border-[#f0ab44]/40 grayscale"
+                          className="w-10 h-10 rounded-full object-cover border border-[#D9BC78]/40 grayscale"
                         />
                       )}
+
                       <div className="flex flex-col">
-                        <span className="font-serif text-xs sm:text-sm text-white font-medium uppercase tracking-wider block">
+                        <span className="font-serif text-xs sm:text-sm text-[#E8E1D5] font-medium uppercase tracking-wider block">
                           {item.author}
                         </span>
-                        <span className="text-[10px] font-mono text-[#f0ab44] uppercase tracking-wider block mt-0.5">
+
+                        <span className="text-[10px] font-sans text-[#D9BC78] uppercase tracking-wider block mt-0.5">
                           {item.title}
                         </span>
                       </div>
@@ -267,7 +312,7 @@ export default function TestimonialsSection({
                   onClick={() => setActiveIndex(idx)}
                   className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                     activeIndex === idx
-                      ? 'w-6 bg-[#f0ab44]'
+                      ? 'w-6 bg-[#D9BC78]'
                       : 'w-1.5 bg-white/20 hover:bg-white/40'
                   }`}
                   aria-label={`Go to slide ${idx + 1}`}

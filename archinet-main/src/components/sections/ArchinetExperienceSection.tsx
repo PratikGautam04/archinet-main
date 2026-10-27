@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -75,9 +76,11 @@ export default function ArchinetExperienceSection({
   const eyebrow =
     getFieldValue(data, 'section_label', 'eyebrow', 'label') ||
     'THE ARCHINET EXPERIENCE';
+
   const heading =
     getFieldValue(data, 'title', 'heading') ||
     'Four Pillars. One Focused Environment.';
+
   const subtitle =
     getFieldValue(data, 'subtitle', 'sub_heading', 'description') ||
     'Where material innovation meets specification: purposeful, high-yield dialogue.';
@@ -93,6 +96,7 @@ export default function ArchinetExperienceSection({
           const defaultPillar = DEFAULT_PILLARS[idx % DEFAULT_PILLARS.length];
           const num = String(idx + 1).padStart(2, '0');
           const title = card.title || card.heading || card.name || defaultPillar.title;
+
           return {
             number: card.number || num,
             badge: card.badge || card.tag || `${num} • ${title.toUpperCase()}`,
@@ -144,17 +148,19 @@ export default function ArchinetExperienceSection({
         {/* Eyebrow */}
         <RevealTitle>
           <div className="flex items-center justify-center gap-3 mb-4">
-            <span className="w-8 h-[1px] bg-[#f0ab44]/40" />
-            <span className="text-xs font-mono text-[#f0ab44] tracking-[0.25em] uppercase font-semibold">
+            <span className="w-8 h-[1px] bg-[#D9BC78]/40" />
+
+            <span className="text-xs font-sans text-[#D9BC78] tracking-[0.25em] uppercase font-semibold">
               {eyebrow}
             </span>
-            <span className="w-8 h-[1px] bg-[#f0ab44]/40" />
+
+            <span className="w-8 h-[1px] bg-[#D9BC78]/40" />
           </div>
         </RevealTitle>
 
         {/* Heading */}
         <RevealUp delay={0.1}>
-          <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-white font-normal text-center tracking-tight mb-3">
+          <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-[#E8E1D5] font-normal text-center tracking-tight mb-3">
             {heading}
           </h2>
         </RevealUp>
@@ -177,7 +183,7 @@ export default function ArchinetExperienceSection({
                 onClick={() => setActivePillar(idx)}
                 className={`relative rounded-2xl overflow-hidden border transition-all duration-500 ease-in-out cursor-pointer select-none group ${
                   isExpanded
-                    ? 'border-[#f0ab44]/60 shadow-[0_0_30px_rgba(240,171,68,0.15)] min-h-[460px] sm:min-h-[500px] lg:min-h-full lg:flex-[3.5]'
+                    ? 'border-[#D9BC78]/60 shadow-[0_0_30px_rgba(217,188,120,0.15)] min-h-[460px] sm:min-h-[500px] lg:min-h-full lg:flex-[3.5]'
                     : 'border-white/10 hover:border-white/25 min-h-[88px] lg:min-h-full lg:flex-1'
                 }`}
               >
@@ -193,7 +199,7 @@ export default function ArchinetExperienceSection({
                   }}
                 />
 
-                {/* Subtle vignette gradient */}
+                {/* Subtle Vignette Gradient */}
                 <div
                   className={`absolute inset-0 transition-opacity duration-500 ${
                     isExpanded
@@ -202,49 +208,51 @@ export default function ArchinetExperienceSection({
                   }`}
                 />
 
-                {/* EXPANDED CONTENT */}
+                {/* Expanded Content */}
                 {isExpanded ? (
                   <div className="relative z-10 w-full h-full flex flex-col justify-between p-6 sm:p-7">
                     {/* Top Gold Badge */}
-                    <div className="self-start px-3.5 py-1.5 rounded-full bg-[#f0ab44] text-black text-[10px] font-mono font-bold tracking-wider uppercase shadow-lg">
+                    <div className="self-start px-3.5 py-1.5 rounded-full bg-[#D9BC78] text-black text-[10px] font-sans font-bold tracking-wider uppercase shadow-lg">
                       {pillar.badge}
                     </div>
 
-                    {/* Bottom Cream/Ivory Floating Card */}
-                    <div className="w-full p-5 sm:p-6 rounded-2xl bg-[#faf7f2] text-black shadow-2xl flex items-center justify-between gap-4 border border-black/5 transition-transform duration-300">
+                    {/* Bottom Cream Floating Card */}
+                    <div className="w-full p-5 sm:p-6 rounded-2xl bg-[#FAF7F2] text-black shadow-2xl flex items-center justify-between gap-4 border border-black/5 transition-transform duration-300">
                       <div className="flex flex-col">
-                        <h3 className="font-serif text-xl sm:text-2xl text-[#1a1a1a] font-medium tracking-tight mb-1.5">
+                        <h3 className="font-serif text-xl sm:text-2xl text-[#1A1A1A] font-medium tracking-tight mb-1.5">
                           {pillar.title}
                         </h3>
-                        <p className="text-xs sm:text-sm text-[#4a4a4a] leading-relaxed max-w-xl font-sans">
+
+                        <p className="text-xs sm:text-sm text-[#4A4A4A] leading-relaxed max-w-xl font-sans">
                           {pillar.description}
                         </p>
                       </div>
 
                       {/* Circular Gold Button with Up-Right Arrow */}
-                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#f0ab44] flex items-center justify-center shrink-0 shadow-md">
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#D9BC78] flex items-center justify-center shrink-0 shadow-md">
                         <ArrowUpRight className="w-5 h-5 text-black stroke-[2.5]" />
                       </div>
                     </div>
                   </div>
                 ) : (
-                  /* COLLAPSED CONTENT */
+                  /* Collapsed Content */
                   <div className="relative z-10 w-full h-full flex flex-row lg:flex-col items-center justify-between p-5 lg:py-8 lg:px-2">
                     {/* Number */}
-                    <span className="text-xs sm:text-sm font-mono text-[#f0ab44] font-medium tracking-wider">
+                    <span className="text-xs sm:text-sm font-sans text-[#D9BC78] font-medium tracking-wider">
                       {pillar.number}
                     </span>
 
-                    {/* Title: Horizontal on mobile/tablet, Vertical on Desktop */}
-                    <span className="block lg:hidden text-xs sm:text-sm font-mono tracking-[0.2em] text-white/80 uppercase font-semibold">
+                    {/* Title: Horizontal on Mobile/Tablet, Vertical on Desktop */}
+                    <span className="block lg:hidden text-xs sm:text-sm font-sans tracking-[0.2em] text-[#AAA59B] uppercase font-semibold">
                       {pillar.verticalTitle}
                     </span>
-                    <span className="hidden lg:block [writing-mode:vertical-rl] rotate-180 uppercase tracking-[0.25em] text-[11px] font-mono text-white/60 group-hover:text-white/90 transition-colors font-semibold whitespace-nowrap">
+
+                    <span className="hidden lg:block [writing-mode:vertical-rl] rotate-180 uppercase tracking-[0.25em] text-[11px] font-sans text-[#AAA59B] group-hover:text-[#E8E1D5] transition-colors font-semibold whitespace-nowrap">
                       {pillar.verticalTitle}
                     </span>
 
                     {/* Arrow in Circle */}
-                    <div className="w-8 h-8 rounded-full border border-white/20 bg-black/40 flex items-center justify-center text-white/60 group-hover:border-[#f0ab44] group-hover:text-[#f0ab44] transition-colors shrink-0">
+                    <div className="w-8 h-8 rounded-full border border-white/20 bg-black/40 flex items-center justify-center text-[#AAA59B] group-hover:border-[#D9BC78] group-hover:text-[#D9BC78] transition-colors shrink-0">
                       <ArrowRight className="w-4 h-4 block lg:hidden" />
                       <ArrowUpRight className="w-4 h-4 hidden lg:block" />
                     </div>

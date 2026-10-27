@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -93,26 +94,45 @@ export default function WhoWeInviteSection({
   const eyebrow =
     getFieldValue(data, 'section_label', 'eyebrow', 'label') ||
     'ATTENDEE PROFILE';
+
   const heading = getFieldValue(data, 'title', 'heading');
+
   const subtitle =
     getFieldValue(data, 'subtitle', 'sub_heading', 'description') ||
     'Archinet is an invitation-only gathering engineered specifically for key decision-makers who evaluate, specify and approve building materials and interior solutions.';
 
   // Support repeatable cardJson if provided in Metadata Master
   const cardList = getCardJsonData<Record<string, string>>(
-    getField(data, 'attendee_cards', 'cards', 'profiles', 'invite_cards', 'attendees', 'who_we_invite_cards')
+    getField(
+      data,
+      'attendee_cards',
+      'cards',
+      'profiles',
+      'invite_cards',
+      'attendees',
+      'who_we_invite_cards'
+    )
   );
 
   const attendeeCards: AttendeeCard[] =
     cardList.length > 0
       ? cardList.map((card, idx) => {
-          const defaultCard = DEFAULT_ATTENDEE_CARDS[idx % DEFAULT_ATTENDEE_CARDS.length];
+          const defaultCard =
+            DEFAULT_ATTENDEE_CARDS[idx % DEFAULT_ATTENDEE_CARDS.length];
+
           const num = String(idx + 1).padStart(2, '0');
+
           return {
             number: card.number || num,
-            category: card.category || card.label || card.role || defaultCard.category,
-            title: card.title || card.name || card.heading || defaultCard.title,
-            description: card.description || card.desc || card.text || defaultCard.description,
+            category:
+              card.category || card.label || card.role || defaultCard.category,
+            title:
+              card.title || card.name || card.heading || defaultCard.title,
+            description:
+              card.description ||
+              card.desc ||
+              card.text ||
+              defaultCard.description,
             image: card.image || card.url || card.src || defaultCard.image,
             highlightTitle: idx % 2 === 0,
           };
@@ -167,19 +187,21 @@ export default function WhoWeInviteSection({
         {/* Eyebrow */}
         <RevealTitle>
           <div className="flex items-center justify-center gap-3 mb-4">
-            <span className="w-8 h-[1px] bg-[#f0ab44]/40" />
-            <span className="text-xs font-mono text-[#f0ab44] tracking-[0.25em] uppercase font-semibold">
+            <span className="w-8 h-[1px] bg-[#D9BC78]/40" />
+
+            <span className="text-xs font-sans text-[#D9BC78] tracking-[0.25em] uppercase font-semibold">
               {eyebrow}
             </span>
-            <span className="w-8 h-[1px] bg-[#f0ab44]/40" />
+
+            <span className="w-8 h-[1px] bg-[#D9BC78]/40" />
           </div>
         </RevealTitle>
 
         {/* Heading */}
         <RevealUp delay={0.1}>
-          <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-white font-normal text-center tracking-tight mb-3">
+          <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-[#E8E1D5] font-normal text-center tracking-tight mb-3">
             Who We{' '}
-            <span className="editorial-italic italic font-serif text-[#f0ab44]">
+            <span className="editorial-italic italic font-serif !text-[#D9BC78]">
               Invite.
             </span>
           </h2>
@@ -202,7 +224,7 @@ export default function WhoWeInviteSection({
             <StaggerItem
               key={card.number}
               direction="up"
-              className="rounded-2xl overflow-hidden bg-[#0c0c0c] border border-white/10 hover:border-[#f0ab44]/40 transition-all duration-300 flex flex-col group shadow-xl"
+              className="rounded-2xl overflow-hidden bg-[#0c0c0c] border border-white/10 hover:border-[#D9BC78]/40 transition-all duration-300 flex flex-col group shadow-xl"
             >
               {/* Image with Floating Badges */}
               <div className="relative aspect-[16/10] overflow-hidden bg-[#111]">
@@ -215,12 +237,12 @@ export default function WhoWeInviteSection({
                 {/* Floating Top Elements */}
                 <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
                   {/* Number Circle */}
-                  <span className="w-7 h-7 rounded-full bg-black/75 backdrop-blur-md border border-white/15 flex items-center justify-center text-[11px] font-mono font-semibold text-[#f0ab44] shadow-md">
+                  <span className="w-7 h-7 rounded-full bg-black/75 backdrop-blur-md border border-[#D9BC78]/30 flex items-center justify-center text-[11px] font-sans font-semibold text-[#D9BC78] shadow-md">
                     {card.number}
                   </span>
 
                   {/* Category Pill */}
-                  <span className="px-2.5 py-1 rounded-md bg-black/75 backdrop-blur-md border border-white/15 text-[9px] font-mono font-semibold text-[#f0ab44] tracking-wider uppercase shadow-md">
+                  <span className="px-2.5 py-1 rounded-md bg-black/75 backdrop-blur-md border border-[#D9BC78]/30 text-[9px] font-sans font-semibold text-[#D9BC78] tracking-wider uppercase shadow-md">
                     {card.category}
                   </span>
                 </div>
@@ -229,13 +251,10 @@ export default function WhoWeInviteSection({
               {/* Content Area */}
               <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between">
                 <div>
-                  <h3
-                    className={`font-serif text-lg sm:text-xl font-normal mb-2 leading-snug transition-colors group-hover:text-[#f0ab44] ${
-                      card.highlightTitle ? 'text-[#f0ab44]' : 'text-white'
-                    }`}
-                  >
+                  <h3 className="font-serif text-lg sm:text-xl font-normal mb-2 leading-snug text-[#E8E1D5] group-hover:text-[#D9BC78] transition-colors">
                     {card.title}
                   </h3>
+
                   <p className="text-xs text-[#AAA59B] leading-relaxed font-sans">
                     {card.description}
                   </p>
