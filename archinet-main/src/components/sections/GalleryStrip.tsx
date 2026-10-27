@@ -40,7 +40,7 @@ export default function GalleryStrip({ data }: GalleryStripProps) {
   const images = validImages.length > 0 ? validImages : GALLERY_IMAGES;
 
   return (
-    <section className="w-full py-12 bg-[#050505] overflow-hidden border-b border-[rgba(255,255,255,0.06)]">
+    <section className="w-full py-12 bg-black overflow-hidden border-b border-[rgba(255,255,255,0.06)]">
       <RevealZoom className="w-full">
         <div className="flex gap-4 animate-marquee whitespace-nowrap">
           {images.map((imgUrl, idx) => (

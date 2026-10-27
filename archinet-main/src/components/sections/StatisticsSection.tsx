@@ -97,7 +97,7 @@ export default function StatisticsSection({ data }: StatisticsSectionProps) {
   const stats = dynamicStats.length > 0 ? dynamicStats : STATISTICS_DATA;
 
   return (
-    <section className="w-full py-24 bg-[#070707] overflow-hidden">
+    <section className="w-full py-24 bg-black overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <StaggerContainer
           staggerChildren={0.2}

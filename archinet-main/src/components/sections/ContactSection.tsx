@@ -30,9 +30,24 @@ export default function ContactSection({ data }: ContactSectionProps) {
     'Whether you represent a manufacturing brand, an architecture firm or an interior design practice, we would be happy to hear from you.';
 
   const companyName = getFieldValue(data, 'company_name') || 'Riverstone Networking Services';
-  const phone = getFieldValue(data, 'phone') || '+91 84208 23676';
-  const email = getFieldValue(data, 'email') || 'anshu@riverstonenetworking.com';
-  const website = getFieldValue(data, 'website') || 'riverstonenetworking.com';
+  const phone = getFieldValue(data, 'company_phone', 'phone') || '+91 84208 23676';
+  const email = getFieldValue(data, 'company_email', 'email') || 'anshu@riverstonenetworking.com';
+  const website = getFieldValue(data, 'company_webiste', 'company_website', 'website') || 'riverstonenetworking.com';
+
+  // Dynamic Event Info Card from Metadata Master
+  const eventInfoCards = getCardJsonData<{
+    title?: string;
+    event?: string;
+    data_venue?: string;
+    venue?: string;
+    date?: string;
+    status?: string;
+  }>(getField(data, 'event_information', 'event_info'));
+
+  const eventInfo = eventInfoCards.length > 0 ? eventInfoCards[0] : null;
+  const eventHeader = eventInfo?.title || '14TH EDITION • MUMBAI';
+  const eventVenue = eventInfo?.data_venue || eventInfo?.venue || '20 FEBRUARY • THE ST. REGIS, MUMBAI';
+  const eventSub = eventInfo?.event || 'BY INVITATION & SELECTION ONLY';
 
   const [formState, setFormState] = useState({
     fullName: '',
@@ -67,7 +82,7 @@ export default function ContactSection({ data }: ContactSectionProps) {
   return (
     <section
       id="contact"
-      className="w-full py-20 lg:py-32 px-6 lg:px-12 bg-[#050505] text-[#f4f0e8] overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
+      className="w-full py-20 lg:py-32 px-6 lg:px-12 bg-black text-[#AAA59B] font-sans overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         {/* Left Column: Contact Copy, Divider & Event Card */}
@@ -102,7 +117,7 @@ export default function ContactSection({ data }: ContactSectionProps) {
 
             {/* Paragraphs */}
             <RevealLeft delay={0.15}>
-              <div className="flex flex-col gap-3 text-xs sm:text-sm font-sans text-white/60 leading-relaxed">
+              <div className="flex flex-col gap-3 text-xs sm:text-sm font-sans text-[#AAA59B] leading-relaxed">
                 <p>{desc1}</p>
                 <p>{desc2}</p>
                 <p>{desc3}</p>
@@ -116,14 +131,14 @@ export default function ContactSection({ data }: ContactSectionProps) {
             <RevealUp delay={0.2}>
               <div className="p-5 rounded-2xl bg-[#0c0c0c] border border-white/10 flex flex-col gap-2 my-2">
                 <div className="flex items-center justify-between text-xs font-mono tracking-wider text-[#f0ab44] uppercase font-semibold">
-                  <span>14TH EDITION &bull; MUMBAI</span>
+                  <span>{eventHeader}</span>
                   <span className="text-white/60">2027</span>
                 </div>
                 <div className="text-xs sm:text-sm font-mono text-white tracking-wide uppercase">
-                  20 FEBRUARY &bull; THE ST. REGIS, MUMBAI
+                  {eventVenue}
                 </div>
                 <div className="text-[10px] font-mono text-white/50 tracking-widest uppercase">
-                  BY INVITATION &amp; SELECTION ONLY
+                  {eventSub}
                 </div>
               </div>
             </RevealUp>
@@ -179,7 +194,7 @@ export default function ContactSection({ data }: ContactSectionProps) {
                 <h3 className="font-serif text-2xl sm:text-3xl text-white font-normal mb-1">
                   Participation &amp; Invitation Enquiry
                 </h3>
-                <p className="text-xs font-sans text-white/60">
+                <p className="text-xs font-sans text-[#AAA59B]">
                   Complete the details below and our team will get in touch with you.
                 </p>
               </div>

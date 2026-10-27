@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -10,14 +11,24 @@ const config: Config = {
     extend: {
       colors: {
         gold: {
-          DEFAULT: "#c5a880",
-          light: "#dfc8a8",
-          dark: "#967a54",
+          DEFAULT: "#f0ab44",
+          light: "#ffd07a",
+          dark: "#b87a1d",
+        },
+        cream: {
+          DEFAULT: "#f7f5f0",
+          heading: "#EEEEA2",
+        },
+        warmgrey: {
+          DEFAULT: "#AAA59B",
+          body: "#AAA59B",
+          secondary: "#AAA59B",
         },
       },
       fontFamily: {
-        serif: ["Cormorant Garamond", "Playfair Display", "Georgia", "serif"],
-        sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
+        serif: ["Playfair Display", "Georgia", "serif"],
+        sans: ["Manrope", "system-ui", "-apple-system", "sans-serif"],
+        mono: ["Manrope", "system-ui", "-apple-system", "sans-serif"],
       },
     },
   },

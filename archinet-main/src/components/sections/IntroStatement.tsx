@@ -68,7 +68,7 @@ export default function IntroStatement({ data }: IntroStatementProps) {
   return (
     <section
       ref={containerRef}
-      className="w-full py-32 sm:py-48 px-6 lg:px-12 bg-[#050505] flex flex-col items-center justify-center text-center overflow-hidden border-b border-white/10"
+      className="w-full py-32 sm:py-48 px-6 lg:px-12 bg-black flex flex-col items-center justify-center text-center overflow-hidden border-b border-white/10"
     >
       <ScrollReveal className="max-w-6xl mx-auto flex flex-col items-center text-center">
         {/* Purpose Eyebrow Tag */}

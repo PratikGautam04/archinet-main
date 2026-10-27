@@ -32,8 +32,16 @@ export interface MetadataValues {
   contact?: MetadataField[];
   gallery?: MetadataField[];
   leaders?: MetadataField[];
+  leaders_ship?: MetadataField[];
   purpose?: MetadataField[];
   event_hero?: MetadataField[];
+  'event hero'?: MetadataField[];
+  '14th_edition'?: MetadataField[];
+  archinet_experience?: MetadataField[];
+  how_archinet_works?: MetadataField[];
+  who_we_invite?: MetadataField[];
+  previous_editions?: MetadataField[];
+  'PREVIOUS EDITIONS'?: MetadataField[];
   statistics?: MetadataField[];
   testimonials?: MetadataField[];
   archinet_video?: MetadataField[];

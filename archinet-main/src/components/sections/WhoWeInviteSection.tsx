@@ -103,52 +103,65 @@ export default function WhoWeInviteSection({
     getField(data, 'attendee_cards', 'cards', 'profiles', 'invite_cards', 'attendees', 'who_we_invite_cards')
   );
 
-  const attendeeCards: AttendeeCard[] = DEFAULT_ATTENDEE_CARDS.map((defaultCard, idx) => {
-    const card = cardList[idx];
-    const prefix = `card_${idx + 1}_`;
+  const attendeeCards: AttendeeCard[] =
+    cardList.length > 0
+      ? cardList.map((card, idx) => {
+          const defaultCard = DEFAULT_ATTENDEE_CARDS[idx % DEFAULT_ATTENDEE_CARDS.length];
+          const num = String(idx + 1).padStart(2, '0');
+          return {
+            number: card.number || num,
+            category: card.category || card.label || card.role || defaultCard.category,
+            title: card.title || card.name || card.heading || defaultCard.title,
+            description: card.description || card.desc || card.text || defaultCard.description,
+            image: card.image || card.url || card.src || defaultCard.image,
+            highlightTitle: idx % 2 === 0,
+          };
+        })
+      : DEFAULT_ATTENDEE_CARDS.map((defaultCard, idx) => {
+          const prefix = `card_${idx + 1}_`;
 
-    const title =
-      card?.title ||
-      card?.name ||
-      card?.heading ||
-      getFieldValue(data, `${prefix}title`, `${prefix}name`) ||
-      defaultCard.title;
+          const title =
+            cardList[idx]?.title ||
+            cardList[idx]?.name ||
+            cardList[idx]?.heading ||
+            getFieldValue(data, `${prefix}title`, `${prefix}name`) ||
+            defaultCard.title;
 
-    const category =
-      card?.category ||
-      card?.label ||
-      card?.role ||
-      getFieldValue(data, `${prefix}category`, `${prefix}label`) ||
-      defaultCard.category;
+          const category =
+            cardList[idx]?.category ||
+            cardList[idx]?.label ||
+            cardList[idx]?.role ||
+            getFieldValue(data, `${prefix}category`, `${prefix}label`) ||
+            defaultCard.category;
 
-    const description =
-      card?.description ||
-      card?.desc ||
-      card?.text ||
-      getFieldValue(data, `${prefix}description`, `${prefix}desc`) ||
-      defaultCard.description;
+          const description =
+            cardList[idx]?.description ||
+            cardList[idx]?.desc ||
+            cardList[idx]?.text ||
+            getFieldValue(data, `${prefix}description`, `${prefix}desc`) ||
+            defaultCard.description;
 
-    const image =
-      card?.image ||
-      card?.url ||
-      card?.src ||
-      getFieldValue(data, `${prefix}image`) ||
-      defaultCard.image;
+          const image =
+            cardList[idx]?.image ||
+            cardList[idx]?.url ||
+            cardList[idx]?.src ||
+            getFieldValue(data, `${prefix}image`) ||
+            defaultCard.image;
 
-    return {
-      number: defaultCard.number,
-      category,
-      title,
-      description,
-      image,
-      highlightTitle: defaultCard.highlightTitle,
-    };
-  });
+          return {
+            number: defaultCard.number,
+            category,
+            title,
+            description,
+            image,
+            highlightTitle: defaultCard.highlightTitle,
+          };
+        });
 
   return (
     <section
       id="who-we-invite"
-      className="relative w-full py-20 lg:py-32 px-6 lg:px-12 bg-[#050505] text-[#f4f0e8] overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
+      className="relative w-full py-20 lg:py-32 px-6 lg:px-12 bg-black text-[#AAA59B] font-sans overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
     >
       <div className="max-w-7xl mx-auto flex flex-col">
         {/* Eyebrow */}
@@ -164,23 +177,17 @@ export default function WhoWeInviteSection({
 
         {/* Heading */}
         <RevealUp delay={0.1}>
-          {heading ? (
-            <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-white font-normal text-center tracking-tight mb-3">
-              {heading}
-            </h2>
-          ) : (
-            <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-white font-normal text-center tracking-tight mb-3">
-              Who We{' '}
-              <span className="editorial-italic italic font-serif text-[#f0ab44]">
-                Invite.
-              </span>
-            </h2>
-          )}
+          <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-white font-normal text-center tracking-tight mb-3">
+            Who We{' '}
+            <span className="editorial-italic italic font-serif text-[#f0ab44]">
+              Invite.
+            </span>
+          </h2>
         </RevealUp>
 
         {/* Subtitle */}
         <RevealUp delay={0.15}>
-          <p className="text-xs sm:text-sm font-sans text-white/60 text-center max-w-2xl mx-auto mb-12 sm:mb-16 leading-relaxed">
+          <p className="text-xs sm:text-sm font-sans text-[#AAA59B] text-center max-w-2xl mx-auto mb-12 sm:mb-16 leading-relaxed">
             {subtitle}
           </p>
         </RevealUp>
@@ -229,7 +236,7 @@ export default function WhoWeInviteSection({
                   >
                     {card.title}
                   </h3>
-                  <p className="text-xs text-white/60 leading-relaxed font-sans">
+                  <p className="text-xs text-[#AAA59B] leading-relaxed font-sans">
                     {card.description}
                   </p>
                 </div>

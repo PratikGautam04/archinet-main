@@ -51,17 +51,44 @@ interface TestimonialsSectionProps {
 export default function TestimonialsSection({
   data,
 }: TestimonialsSectionProps) {
-  const eyebrow =
-    getFieldValue(data, 'section_label', 'eyebrow', 'label') ||
-    'THE COMMUNITY VOICES';
-  const heading =
-    getFieldValue(data, 'title', 'heading') ||
-    'Experiences from the Archinet Community';
-  const subtitle =
-    getFieldValue(data, 'subtitle', 'sub_heading', 'description') ||
-    'Hear from the brands and design professionals who have been part of Archinet.';
+  const rawEyebrow = getFieldValue(data, 'section_label', 'eyebrow', 'label');
+  const rawHeading = getFieldValue(data, 'title', 'heading');
+  const rawSubtitle = getFieldValue(data, 'subtitle', 'sub_heading', 'description');
 
-  // Dynamic testimonial data from Metadata API
+  const eyebrow =
+    rawEyebrow && rawEyebrow !== 'WHAT OUR ATTENDEES SAY'
+      ? rawEyebrow
+      : 'THE COMMUNITY VOICES';
+  const heading =
+    rawHeading && rawHeading !== 'WHAT OUR ATTENDEES SAY'
+      ? rawHeading
+      : 'Experiences from the Archinet Community';
+  const subtitle =
+    rawSubtitle && rawSubtitle.trim().length > 0
+      ? rawSubtitle
+      : 'Hear from the brands and design professionals who have been part of Archinet.';
+
+  // 1. Dynamic video testimonials from Metadata Master
+  const videoField = getField(
+    data,
+    'testimonial_video_details',
+    'testimonial_videos',
+    'videos',
+    'video_details'
+  );
+  const videoCards = getCardJsonData<Record<string, string>>(videoField);
+  const dynamicVideos = videoCards
+    .map((item, idx) => ({
+      id: `vid-dyn-${idx}`,
+      label: (item.name || item.person_name || item.title || `VIDEO ${idx + 1}`).toUpperCase(),
+      src: item.video || item.video_url || item.url || item.src,
+    }))
+    .filter((v) => Boolean(v.src && v.src.trim().length > 0));
+
+  const testimonialVideos =
+    dynamicVideos.length > 0 ? dynamicVideos : TESTIMONIAL_VIDEOS;
+
+  // 2. Dynamic testimonial text data from Metadata API
   const testimonialField = getField(
     data,
     'testimonial_deatils',
@@ -95,7 +122,7 @@ export default function TestimonialsSection({
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
 
   const currentVideo =
-    TESTIMONIAL_VIDEOS[activeVideoIndex] || TESTIMONIAL_VIDEOS[0];
+    testimonialVideos[activeVideoIndex % testimonialVideos.length] || testimonialVideos[0];
 
   // Auto advance every 6 seconds
   useEffect(() => {
@@ -108,7 +135,7 @@ export default function TestimonialsSection({
   return (
     <section
       id="testimonials"
-      className="w-full py-20 lg:py-32 px-6 lg:px-12 bg-[#050505] text-[#f4f0e8] overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
+      className="w-full py-20 lg:py-32 px-6 lg:px-12 bg-black text-[#AAA59B] overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
         {/* Left Column: Video Testimonial Player */}
@@ -133,7 +160,7 @@ export default function TestimonialsSection({
 
           {/* Video Selector Buttons */}
           <div className="mt-4 flex max-w-full flex-wrap items-center justify-center gap-1.5 rounded-full border border-white/10 bg-[#050505]/95 px-3 py-1.5 shadow-xl backdrop-blur-md">
-            {TESTIMONIAL_VIDEOS.map((video, index) => (
+            {testimonialVideos.map((video, index) => (
               <button
                 key={video.id}
                 type="button"
@@ -172,7 +199,7 @@ export default function TestimonialsSection({
 
           {/* Subtitle */}
           <RevealRight delay={0.15}>
-            <p className="text-xs sm:text-sm text-white/60 font-sans leading-relaxed mb-8 sm:mb-10">
+            <p className="text-xs sm:text-sm text-[#AAA59B] font-sans leading-relaxed mb-8 sm:mb-10">
               {subtitle}
             </p>
           </RevealRight>
@@ -203,7 +230,7 @@ export default function TestimonialsSection({
                       </div>
 
                       {/* Quote Text */}
-                      <p className="text-xs sm:text-sm text-white/70 font-sans leading-relaxed italic mb-6">
+                      <p className="text-xs sm:text-sm text-[#AAA59B] font-sans leading-relaxed italic mb-6">
                         &ldquo;{item.quote}&rdquo;
                       </p>
                     </div>

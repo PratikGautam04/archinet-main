@@ -84,7 +84,7 @@ export default function Archinet2026VideoSection({ data }: Archinet2026VideoSect
     <section
       id="archinet-2026-video"
       aria-label="Archinet 2026 event film"
-      className="relative isolate flex h-[62vh] min-h-[460px] w-full items-center justify-center overflow-hidden bg-[#050505] sm:h-[68vh] sm:min-h-[520px] lg:h-[74vh] lg:min-h-[580px]"
+      className="relative isolate flex h-[62vh] min-h-[460px] w-full items-center justify-center overflow-hidden bg-black sm:h-[68vh] sm:min-h-[520px] lg:h-[74vh] lg:min-h-[580px]"
     >
       {/* VIDEO */}
       <div

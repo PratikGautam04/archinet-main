@@ -77,7 +77,7 @@ export default function EditionsSection({ data }: EditionsSectionProps) {
     if (rawTitle && /archinet\.?/i.test(rawTitle)) {
       const parts = rawTitle.split(/archinet\.?/i);
       return (
-        <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[#f4f2ed] font-normal tracking-tight leading-tight">
+        <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-white font-normal tracking-tight leading-tight">
           {parts[0]}
           <span className="editorial-italic italic font-serif text-[#f0ab44]">
             Archinet.
@@ -88,7 +88,7 @@ export default function EditionsSection({ data }: EditionsSectionProps) {
     }
 
     return (
-      <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[#f4f2ed] font-normal tracking-tight leading-tight whitespace-pre-line">
+      <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-white font-normal tracking-tight leading-tight whitespace-pre-line">
         {rawTitle}
       </h2>
     );
@@ -187,7 +187,7 @@ export default function EditionsSection({ data }: EditionsSectionProps) {
   };
 
   return (
-    <section id="editions" className="relative z-10 w-full bg-[#050505] text-[#f4f2ed] overflow-hidden">
+    <section id="editions" className="relative z-10 w-full bg-black text-[#AAA59B] font-sans overflow-hidden">
       {/* Main Content Body */}
       <div className="w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center">
         {/* 2. Centered Hero Typography */}
@@ -209,11 +209,11 @@ export default function EditionsSection({ data }: EditionsSectionProps) {
 
           <RevealUp delay={0.15}>
             <div className="flex flex-col gap-3 mt-4 sm:mt-5 max-w-2xl mx-auto">
-              <p className="text-xs sm:text-sm font-sans text-white/70 leading-relaxed font-normal">
+              <p className="text-xs sm:text-sm font-sans text-[#AAA59B] leading-relaxed font-normal">
                 {description1}
               </p>
               {description2 && (
-                <p className="text-xs sm:text-sm font-sans text-white/50 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm font-sans text-[#AAA59B]/80 leading-relaxed font-normal">
                   {description2}
                 </p>
               )}
@@ -312,14 +312,14 @@ export default function EditionsSection({ data }: EditionsSectionProps) {
 
                     {/* Metadata Info Below Image */}
                     <div className="mt-4 px-1">
-                      <h3 className="font-serif text-xl sm:text-2xl lg:text-2xl text-[#f4f2ed] font-medium tracking-tight truncate flex items-center justify-between">
+                      <h3 className="font-serif text-xl sm:text-2xl lg:text-2xl text-white font-medium tracking-tight truncate flex items-center justify-between">
                         <span>{edition.venue}</span>
                         {isCenter && (
                           <Maximize2 className="w-4 h-4 text-[#f0ab44] opacity-70 group-hover/card:opacity-100 transition-opacity" />
                         )}
                       </h3>
 
-                      <div className="flex items-center justify-between gap-4 mt-2.5 pt-2.5 border-t border-white/[0.08] text-xs sm:text-sm font-sans text-[#d7d4ce]">
+                      <div className="flex items-center justify-between gap-4 mt-2.5 pt-2.5 border-t border-white/[0.08] text-xs sm:text-sm font-sans text-[#AAA59B]">
                         <span className="text-[#f0ab44] font-mono text-[10px] sm:text-xs font-semibold tracking-[0.08em] uppercase truncate">
                           {edition.number}
                         </span>

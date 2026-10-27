@@ -32,7 +32,7 @@ export default function HeroSectionVideo({ data }: HeroSectionVideoProps) {
   return (
     <section
       id="hero"
-      className="hero-section relative min-h-[100svh] w-full overflow-hidden bg-[#050505] text-[#f4f0e8] flex items-center justify-center"
+      className="hero-section relative min-h-[100svh] w-full overflow-hidden bg-black text-[#AAA59B] font-sans flex items-center justify-center"
       aria-label="Archinet featured architectural summit hero"
     >
       {/* =========================================================
@@ -128,7 +128,7 @@ export default function HeroSectionVideo({ data }: HeroSectionVideoProps) {
               font-semibold
               uppercase
               tracking-[0.42em]
-              text-[#f1eee7]/90
+              text-white/90
               sm:text-[11px]
             "
           >

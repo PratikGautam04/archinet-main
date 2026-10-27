@@ -65,46 +65,50 @@ export default function HowArchinetWorksSection({
 
   // Support repeatable cardJson if provided in Metadata Master
   const cardList = getCardJsonData<Record<string, string>>(
-    getField(data, 'steps', 'step_list', 'cards', 'how_it_works_cards', 'stages')
+    getField(data, 'experience_cards', 'experience_cards ', 'steps', 'step_list', 'cards', 'how_it_works_cards', 'stages')
   );
 
-  const steps: StepItem[] = DEFAULT_STEPS.map((defaultStep, idx) => {
-    const card = cardList[idx];
-    const prefix = `step_${idx + 1}_`;
+  const steps: StepItem[] =
+    cardList.length > 0
+      ? cardList.map((card, idx) => {
+          const defaultStep = DEFAULT_STEPS[idx % DEFAULT_STEPS.length];
+          const num = String(idx + 1).padStart(2, '0');
+          return {
+            number: card.number || num,
+            icon: defaultStep.icon,
+            title: card.title || card.heading || card.name || defaultStep.title,
+            description: card.description || card.desc || card.text || defaultStep.description,
+            badge: card.badge || card.tag || defaultStep.badge,
+          };
+        })
+      : DEFAULT_STEPS.map((defaultStep, idx) => {
+          const prefix = `step_${idx + 1}_`;
 
-    const title =
-      card?.title ||
-      card?.heading ||
-      card?.name ||
-      getFieldValue(data, `${prefix}title`, `${prefix}heading`) ||
-      defaultStep.title;
+          const title =
+            getFieldValue(data, `${prefix}title`, `${prefix}heading`) ||
+            defaultStep.title;
 
-    const description =
-      card?.description ||
-      card?.desc ||
-      card?.text ||
-      getFieldValue(data, `${prefix}description`, `${prefix}desc`) ||
-      defaultStep.description;
+          const description =
+            getFieldValue(data, `${prefix}description`, `${prefix}desc`) ||
+            defaultStep.description;
 
-    const badge =
-      card?.badge ||
-      card?.tag ||
-      getFieldValue(data, `${prefix}badge`, `${prefix}tag`) ||
-      defaultStep.badge;
+          const badge =
+            getFieldValue(data, `${prefix}badge`, `${prefix}tag`) ||
+            defaultStep.badge;
 
-    return {
-      number: defaultStep.number,
-      icon: defaultStep.icon,
-      title,
-      description,
-      badge,
-    };
-  });
+          return {
+            number: defaultStep.number,
+            icon: defaultStep.icon,
+            title,
+            description,
+            badge,
+          };
+        });
 
   return (
     <section
       id="how-it-works"
-      className="relative w-full py-20 lg:py-32 px-6 lg:px-12 bg-[#070707] text-[#f4f0e8] overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
+      className="relative w-full py-20 lg:py-32 px-6 lg:px-12 bg-black text-[#AAA59B] overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
     >
       <div className="max-w-7xl mx-auto flex flex-col">
         {/* Eyebrow */}
@@ -127,7 +131,7 @@ export default function HowArchinetWorksSection({
 
         {/* Subtitle */}
         <RevealUp delay={0.1}>
-          <p className="text-xs sm:text-sm font-sans text-white/60 text-center max-w-2xl mx-auto mb-14 sm:mb-20 leading-relaxed">
+          <p className="text-xs sm:text-sm font-sans text-[#AAA59B] text-center max-w-2xl mx-auto mb-14 sm:mb-20 leading-relaxed">
             {subtitle}
           </p>
         </RevealUp>
@@ -169,7 +173,7 @@ export default function HowArchinetWorksSection({
                   <h3 className="font-serif text-xl sm:text-2xl text-white font-normal leading-snug mb-3 group-hover:text-[#f0ab44] transition-colors">
                     {step.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-white/60 leading-relaxed font-sans">
+                  <p className="text-xs sm:text-sm text-[#AAA59B] leading-relaxed font-sans">
                     {step.description}
                   </p>
                 </div>

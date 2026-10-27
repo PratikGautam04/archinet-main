@@ -106,7 +106,7 @@ export default function BrandsSection({ data }: BrandsSectionProps) {
   const marqueeRow2 = [...row2, ...row2];
 
   return (
-    <section className="w-full py-20 lg:py-28 bg-[#050505] border-b border-white/10 overflow-hidden relative">
+    <section className="w-full py-20 lg:py-28 bg-black text-[#AAA59B] font-sans border-b border-white/10 overflow-hidden relative">
       
       {/* =========================
           SECTION HEADER
@@ -150,7 +150,7 @@ export default function BrandsSection({ data }: BrandsSectionProps) {
 
           {/* Description */}
           <RevealUp delay={0.4}>
-            <p className="text-[11px] sm:text-xs font-mono text-[#d7d4ce] tracking-wider mt-3">
+            <p className="text-[11px] sm:text-xs font-mono text-[#AAA59B] tracking-wider mt-3">
               {description}
             </p>
           </RevealUp>

@@ -22,7 +22,7 @@ export default function FixedBackgroundSection({
 }: FixedBackgroundSectionProps) {
   return (
     <section
-      className={`relative w-full overflow-clip bg-[#050505] ${className}`}
+      className={`relative w-full overflow-clip bg-black ${className}`}
       style={{ minHeight }}
     >
       {/* Fixed Background Layer (bg-fixed / background-attachment: fixed) */}

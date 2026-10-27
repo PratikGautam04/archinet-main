@@ -87,57 +87,58 @@ export default function ArchinetExperienceSection({
     getField(data, 'pillars', 'pillar_list', 'cards', 'experience_cards', 'experience', 'four_pillars')
   );
 
-  const pillars: Pillar[] = DEFAULT_PILLARS.map((defaultPillar, idx) => {
-    const card = cardList[idx];
-    const prefix = `pillar_${idx + 1}_`;
+  const pillars: Pillar[] =
+    cardList.length > 0
+      ? cardList.map((card, idx) => {
+          const defaultPillar = DEFAULT_PILLARS[idx % DEFAULT_PILLARS.length];
+          const num = String(idx + 1).padStart(2, '0');
+          const title = card.title || card.heading || card.name || defaultPillar.title;
+          return {
+            number: card.number || num,
+            badge: card.badge || card.tag || `${num} • ${title.toUpperCase()}`,
+            verticalTitle: card.vertical_title || card.verticalTitle || title.toUpperCase(),
+            title,
+            description: card.description || card.desc || card.text || defaultPillar.description,
+            image: card.image || card.url || card.src || defaultPillar.image,
+          };
+        })
+      : DEFAULT_PILLARS.map((defaultPillar, idx) => {
+          const prefix = `pillar_${idx + 1}_`;
 
-    const title =
-      card?.title ||
-      card?.heading ||
-      card?.name ||
-      getFieldValue(data, `${prefix}title`, `${prefix}heading`) ||
-      defaultPillar.title;
+          const title =
+            getFieldValue(data, `${prefix}title`, `${prefix}heading`) ||
+            defaultPillar.title;
 
-    const description =
-      card?.description ||
-      card?.desc ||
-      card?.text ||
-      getFieldValue(data, `${prefix}description`, `${prefix}desc`) ||
-      defaultPillar.description;
+          const description =
+            getFieldValue(data, `${prefix}description`, `${prefix}desc`) ||
+            defaultPillar.description;
 
-    const badge =
-      card?.badge ||
-      card?.tag ||
-      getFieldValue(data, `${prefix}badge`, `${prefix}tag`) ||
-      defaultPillar.badge;
+          const badge =
+            getFieldValue(data, `${prefix}badge`, `${prefix}tag`) ||
+            defaultPillar.badge;
 
-    const verticalTitle =
-      card?.vertical_title ||
-      card?.verticalTitle ||
-      getFieldValue(data, `${prefix}vertical_title`) ||
-      defaultPillar.verticalTitle;
+          const verticalTitle =
+            getFieldValue(data, `${prefix}vertical_title`) ||
+            defaultPillar.verticalTitle;
 
-    const image =
-      card?.image ||
-      card?.url ||
-      card?.src ||
-      getFieldValue(data, `${prefix}image`) ||
-      defaultPillar.image;
+          const image =
+            getFieldValue(data, `${prefix}image`) ||
+            defaultPillar.image;
 
-    return {
-      number: defaultPillar.number,
-      badge,
-      verticalTitle,
-      title,
-      description,
-      image,
-    };
-  });
+          return {
+            number: defaultPillar.number,
+            badge,
+            verticalTitle,
+            title,
+            description,
+            image,
+          };
+        });
 
   return (
     <section
       id="experience"
-      className="relative w-full py-20 lg:py-32 px-6 lg:px-12 bg-[#050505] text-[#f4f0e8] overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
+      className="relative w-full py-20 lg:py-32 px-6 lg:px-12 bg-black text-[#AAA59B] font-sans overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
     >
       <div className="max-w-7xl mx-auto flex flex-col items-center">
         {/* Eyebrow */}
@@ -160,7 +161,7 @@ export default function ArchinetExperienceSection({
 
         {/* Subtitle */}
         <RevealUp delay={0.15}>
-          <p className="text-xs sm:text-sm font-sans text-white/60 text-center max-w-2xl mx-auto mb-10 sm:mb-14 leading-relaxed">
+          <p className="text-xs sm:text-sm font-sans text-[#AAA59B] text-center max-w-2xl mx-auto mb-10 sm:mb-14 leading-relaxed">
             {subtitle}
           </p>
         </RevealUp>

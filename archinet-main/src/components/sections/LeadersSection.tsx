@@ -27,7 +27,7 @@ export default function LeadersSection({ data }: LeadersSectionProps) {
       : rawTitle;
 
   const desc1 =
-    getFieldValue(data, 'description_1', 'desc_1') ||
+    getFieldValue(data, 'description_1', 'desc_1', 'description') ||
     'Archinet brings together established architects, principal architects, leading interior designers and decision-makers from respected design firms.';
   const desc2 =
     getFieldValue(data, 'description_2', 'desc_2') ||
@@ -62,7 +62,7 @@ export default function LeadersSection({ data }: LeadersSectionProps) {
   const marqueeLeaders = [...leaders, ...leaders, ...leaders];
 
   return (
-    <section id="leaders" className="w-full py-20 lg:py-32 bg-[#050505] text-[#f4f0e8] overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16">
+    <section id="leaders" className="w-full py-20 lg:py-32 bg-black text-[#AAA59B] font-sans overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-center">
         {/* Eyebrow */}
         <RevealTitle>
@@ -90,7 +90,7 @@ export default function LeadersSection({ data }: LeadersSectionProps) {
 
         {/* 3 Description Paragraphs */}
         <RevealUp delay={0.15}>
-          <div className="flex flex-col gap-3 text-xs sm:text-sm font-sans text-white/60 text-center max-w-3xl mx-auto mb-12 sm:mb-16 leading-relaxed">
+          <div className="flex flex-col gap-3 text-xs sm:text-sm font-sans text-[#AAA59B] text-center max-w-3xl mx-auto mb-12 sm:mb-16 leading-relaxed">
             <p>{desc1}</p>
             <p>{desc2}</p>
             <p>{desc3}</p>
@@ -124,7 +124,7 @@ export default function LeadersSection({ data }: LeadersSectionProps) {
               </h3>
 
               {/* Company / Designation Below Name */}
-              <p className="text-[11px] font-sans text-white/50 truncate mt-0.5">
+              <p className="text-[11px] font-sans text-[#AAA59B] truncate mt-0.5">
                 {leader.company || leader.role}
               </p>
             </div>
