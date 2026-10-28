@@ -42,7 +42,7 @@ interface ApiResponse {
 const CONTACT_API_URL =
   'https://mail.actifyzone.com/API/Archinet/Contact/Us/Mail';
 
-const EMAIL_TO = 'omkar.more@dextero.in';
+const EMAIL_TO = 'archinet60@gmail.com';
 
 export default function ContactSection({ data }: ContactSectionProps) {
   const eyebrow =
