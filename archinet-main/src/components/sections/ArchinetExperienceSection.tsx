@@ -193,26 +193,28 @@ export default function ArchinetExperienceSection({
     >
       <div className="mx-auto flex w-full max-w-7xl flex-col items-center">
         {/* Eyebrow */}
-        <RevealTitle>
-          <div className="mb-4 flex items-center justify-center gap-3">
-            <span className="h-px w-8 bg-[rgba(215,180,107,0.4)]" />
+       {/* Eyebrow */}
+<RevealTitle>
+  <div className="mb-4 flex items-center justify-center gap-3">
+    <span className="h-px w-8 bg-[rgba(215,180,107,0.4)]" />
 
-            <span
-              className="font-sans text-[16px] font-normal leading-6 tracking-normal text-[#D7B46A]"
-              style={{
-                fontFamily: 'Manrope, sans-serif',
-                fontSize: '16px',
-                lineHeight: '24px',
-                fontWeight: 400,
-                letterSpacing: 'normal',
-              }}
-            >
-              {eyebrow}
-            </span>
+    <span
+      className="font-sans text-[11px] font-semibold uppercase tracking-[3.3px] text-[#D7B46A]"
+      style={{
+        fontFamily: 'Manrope, sans-serif',
+        fontSize: '11px',
+        lineHeight: '16.5px',
+        fontWeight: 600,
+        letterSpacing: '3.3px',
+        color: '#D7B46A',
+      }}
+    >
+      {eyebrow}
+    </span>
 
-            <span className="h-px w-8 bg-[rgba(215,180,107,0.4)]" />
-          </div>
-        </RevealTitle>
+    <span className="h-px w-8 bg-[rgba(215,180,107,0.4)]" />
+  </div>
+</RevealTitle>
 
         {/* Main Heading */}
         <RevealUp delay={0.1}>
