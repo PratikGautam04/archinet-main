@@ -8,7 +8,11 @@ import {
   RevealUp,
 } from '../animations/ScrollReveal';
 import { MetadataField } from '../../types/metadata';
-import { getField, getFieldValue, getCardJsonData } from '../../utils/metadata';
+import {
+  getField,
+  getFieldValue,
+  getCardJsonData,
+} from '../../utils/metadata';
 
 interface ArchinetExperienceSectionProps {
   data?: MetadataField[];
@@ -69,10 +73,9 @@ const DEFAULT_PILLARS: Pillar[] = [
 export default function ArchinetExperienceSection({
   data,
 }: ArchinetExperienceSectionProps) {
-  // Start with Pillar 02 expanded as approved in reference
   const [activePillar, setActivePillar] = useState<number>(0);
 
-  // Dynamic fields from Metadata Master / API
+  // Section content from Metadata Master / API
   const eyebrow =
     getFieldValue(data, 'section_label', 'eyebrow', 'label') ||
     'THE ARCHINET EXPERIENCE';
@@ -85,25 +88,54 @@ export default function ArchinetExperienceSection({
     getFieldValue(data, 'subtitle', 'sub_heading', 'description') ||
     'Where material innovation meets specification: purposeful, high-yield dialogue.';
 
-  // Support repeatable cardJson if provided in Metadata Master
+  // Repeatable card data from Metadata Master
   const cardList = getCardJsonData<Record<string, string>>(
-    getField(data, 'pillars', 'pillar_list', 'cards', 'experience_cards', 'experience', 'four_pillars')
+    getField(
+      data,
+      'pillars',
+      'pillar_list',
+      'cards',
+      'experience_cards',
+      'experience',
+      'four_pillars'
+    )
   );
 
   const pillars: Pillar[] =
     cardList.length > 0
       ? cardList.map((card, idx) => {
-          const defaultPillar = DEFAULT_PILLARS[idx % DEFAULT_PILLARS.length];
+          const defaultPillar =
+            DEFAULT_PILLARS[idx % DEFAULT_PILLARS.length];
+
           const num = String(idx + 1).padStart(2, '0');
-          const title = card.title || card.heading || card.name || defaultPillar.title;
+
+          const title =
+            card.title ||
+            card.heading ||
+            card.name ||
+            defaultPillar.title;
 
           return {
             number: card.number || num,
-            badge: card.badge || card.tag || `${num} • ${title.toUpperCase()}`,
-            verticalTitle: card.vertical_title || card.verticalTitle || title.toUpperCase(),
+            badge:
+              card.badge ||
+              card.tag ||
+              `${num} • ${title.toUpperCase()}`,
+            verticalTitle:
+              card.vertical_title ||
+              card.verticalTitle ||
+              title.toUpperCase(),
             title,
-            description: card.description || card.desc || card.text || defaultPillar.description,
-            image: card.image || card.url || card.src || defaultPillar.image,
+            description:
+              card.description ||
+              card.desc ||
+              card.text ||
+              defaultPillar.description,
+            image:
+              card.image ||
+              card.url ||
+              card.src ||
+              defaultPillar.image,
           };
         })
       : DEFAULT_PILLARS.map((defaultPillar, idx) => {
@@ -114,8 +146,11 @@ export default function ArchinetExperienceSection({
             defaultPillar.title;
 
           const description =
-            getFieldValue(data, `${prefix}description`, `${prefix}desc`) ||
-            defaultPillar.description;
+            getFieldValue(
+              data,
+              `${prefix}description`,
+              `${prefix}desc`
+            ) || defaultPillar.description;
 
           const badge =
             getFieldValue(data, `${prefix}badge`, `${prefix}tag`) ||
@@ -139,41 +174,62 @@ export default function ArchinetExperienceSection({
           };
         });
 
+  // Navigate to the Contact section without changing the active card
+  const handleContactClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.stopPropagation();
+
+    document.getElementById('contact')?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  };
+
   return (
     <section
       id="experience"
-      className="relative w-full py-20 lg:py-32 px-6 lg:px-12 bg-black text-[#AAA59B] font-sans overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
+      className="relative w-full overflow-hidden border-b border-[rgba(255,255,255,0.06)] bg-black px-5 py-16 font-sans text-[#AAA59B] scroll-mt-16 sm:px-6 sm:py-20 lg:px-12 lg:py-32"
     >
-      <div className="max-w-7xl mx-auto flex flex-col items-center">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center">
         {/* Eyebrow */}
         <RevealTitle>
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <span className="w-8 h-[1px] bg-[#D9BC78]/40" />
+          <div className="mb-4 flex items-center justify-center gap-3">
+            <span className="h-px w-8 bg-[rgba(215,180,107,0.4)]" />
 
-            <span className="text-xs font-sans text-[#D9BC78] tracking-[0.25em] uppercase font-semibold">
+            <span
+              className="font-sans text-[16px] font-normal leading-6 tracking-normal text-[#D7B46A]"
+              style={{
+                fontFamily: 'Manrope, sans-serif',
+                fontSize: '16px',
+                lineHeight: '24px',
+                fontWeight: 400,
+                letterSpacing: 'normal',
+              }}
+            >
               {eyebrow}
             </span>
 
-            <span className="w-8 h-[1px] bg-[#D9BC78]/40" />
+            <span className="h-px w-8 bg-[rgba(215,180,107,0.4)]" />
           </div>
         </RevealTitle>
 
-        {/* Heading */}
+        {/* Main Heading */}
         <RevealUp delay={0.1}>
-          <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-[#E8E1D5] font-normal text-center tracking-tight mb-3">
+          <h2 className="mb-3 text-center font-serif text-3xl font-normal tracking-tight text-[#EEEAE2] sm:text-5xl lg:text-6xl">
             {heading}
           </h2>
         </RevealUp>
 
         {/* Subtitle */}
         <RevealUp delay={0.15}>
-          <p className="text-xs sm:text-sm font-sans text-[#AAA59B] text-center max-w-2xl mx-auto mb-10 sm:mb-14 leading-relaxed">
+          <p className="mx-auto mb-10 max-w-2xl text-center font-sans text-xs leading-relaxed text-[#AAA59B] sm:mb-14 sm:text-sm">
             {subtitle}
           </p>
         </RevealUp>
 
-        {/* 4 Interactive Expandable Cards */}
-        <div className="w-full flex flex-col lg:flex-row gap-4 h-auto lg:h-[580px]">
+        {/* Four Interactive Expandable Cards */}
+        <div className="flex h-auto w-full flex-col gap-4 lg:h-[580px] lg:flex-row">
           {pillars.map((pillar, idx) => {
             const isExpanded = activePillar === idx;
 
@@ -181,10 +237,22 @@ export default function ArchinetExperienceSection({
               <div
                 key={pillar.number}
                 onClick={() => setActivePillar(idx)}
-                className={`relative rounded-2xl overflow-hidden border transition-all duration-500 ease-in-out cursor-pointer select-none group ${
+                onKeyDown={(event) => {
+                  if (event.target !== event.currentTarget) return;
+
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    setActivePillar(idx);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+                aria-expanded={isExpanded}
+                aria-label={`${pillar.title}${isExpanded ? ', expanded' : ', expand card'}`}
+                className={`group relative cursor-pointer select-none overflow-hidden rounded-2xl border transition-all duration-500 ease-in-out ${
                   isExpanded
-                    ? 'border-[#D9BC78]/60 shadow-[0_0_30px_rgba(217,188,120,0.15)] min-h-[460px] sm:min-h-[500px] lg:min-h-full lg:flex-[3.5]'
-                    : 'border-white/10 hover:border-white/25 min-h-[88px] lg:min-h-full lg:flex-1'
+                    ? 'min-h-[460px] border-[rgba(215,180,107,0.6)] shadow-[0_0_30px_rgba(215,180,107,0.15)] sm:min-h-[500px] lg:min-h-full lg:flex-[3.5]'
+                    : 'min-h-[88px] border-white/10 hover:border-[rgba(215,180,107,0.4)] lg:min-h-full lg:flex-1'
                 }`}
               >
                 {/* Background Image */}
@@ -199,7 +267,7 @@ export default function ArchinetExperienceSection({
                   }}
                 />
 
-                {/* Subtle Vignette Gradient */}
+                {/* Image Overlay */}
                 <div
                   className={`absolute inset-0 transition-opacity duration-500 ${
                     isExpanded
@@ -208,59 +276,68 @@ export default function ArchinetExperienceSection({
                   }`}
                 />
 
-                {/* Expanded Content */}
                 {isExpanded ? (
-                  <div className="relative z-10 w-full h-full flex flex-col justify-between p-6 sm:p-7">
-                    {/* Top Gold Badge */}
-                    <div className="self-start px-3.5 py-1.5 rounded-full bg-[#D9BC78] text-black text-[10px] font-sans font-bold tracking-wider uppercase shadow-lg">
+                  /* Expanded Card */
+                  <div className="relative z-10 flex h-full min-h-[460px] w-full flex-col justify-between gap-6 p-5 sm:min-h-[500px] sm:p-7 lg:min-h-full lg:p-7">
+                    {/* Upper Gold Badge */}
+                    <div className="self-start rounded-full bg-[#D7B46B] px-3.5 py-1.5 text-[10px] font-sans font-bold uppercase tracking-wider text-black shadow-lg">
                       {pillar.badge}
                     </div>
 
-                    {/* Bottom Cream Floating Card */}
-                    <div className="w-full p-5 sm:p-6 rounded-2xl bg-[#FAF7F2] text-black shadow-2xl flex items-center justify-between gap-4 border border-black/5 transition-transform duration-300">
-                      <div className="flex flex-col">
-                        <h3 className="font-serif text-xl sm:text-2xl text-[#1A1A1A] font-medium tracking-tight mb-1.5">
-                          {pillar.title}
-                        </h3>
+                    {/* Bottom Description Card */}
+                    <div className="mt-auto flex w-full items-center justify-between gap-3 rounded-2xl border border-black/5 bg-[#FAF7F2] p-4 text-black shadow-2xl transition-transform duration-300 sm:gap-4 sm:p-6">
+                      <p className="min-w-0 flex-1 font-sans text-xs font-normal leading-[1.6] text-[#4A4A4A] sm:text-sm">
+                        {pillar.description}
+                      </p>
 
-                        <p className="text-xs sm:text-sm text-[#4A4A4A] leading-relaxed max-w-xl font-sans">
-                          {pillar.description}
-                        </p>
-                      </div>
-
-                      {/* Circular Gold Button with Up-Right Arrow */}
-                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#D9BC78] flex items-center justify-center shrink-0 shadow-md">
-                        <ArrowUpRight className="w-5 h-5 text-black stroke-[2.5]" />
-                      </div>
+                      {/* Contact Arrow Button */}
+                      <button
+                        type="button"
+                        onClick={handleContactClick}
+                        aria-label={`Contact us about ${pillar.title}`}
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#D7B46B] shadow-md transition-transform duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D7B46B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF7F2] sm:h-11 sm:w-11"
+                      >
+                        <ArrowUpRight className="h-5 w-5 stroke-[2.5] text-black" />
+                      </button>
                     </div>
                   </div>
                 ) : (
-                  /* Collapsed Content */
-                  <div className="relative z-10 w-full h-full flex flex-row lg:flex-col items-center justify-between p-5 lg:py-8 lg:px-2">
+                  /* Collapsed Card */
+                  <div className="relative z-10 flex h-full w-full flex-row items-center justify-between p-5 lg:flex-col lg:py-8 lg:px-2">
                     {/* Number */}
-                    <span className="text-xs sm:text-sm font-sans text-[#D9BC78] font-medium tracking-wider">
+                    <span className="font-sans text-xs font-medium tracking-wider text-[#D7B46B] sm:text-sm">
                       {pillar.number}
                     </span>
 
-                    {/* Title: Horizontal on Mobile/Tablet, Vertical on Desktop */}
-                    <span className="block lg:hidden text-xs sm:text-sm font-sans tracking-[0.2em] text-[#AAA59B] uppercase font-semibold">
+                    {/* Horizontal Title on Mobile */}
+                    <span className="block font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#AAA59B] lg:hidden sm:text-sm">
                       {pillar.verticalTitle}
                     </span>
 
-                    <span className="hidden lg:block [writing-mode:vertical-rl] rotate-180 uppercase tracking-[0.25em] text-[11px] font-sans text-[#AAA59B] group-hover:text-[#E8E1D5] transition-colors font-semibold whitespace-nowrap">
+                    {/* Vertical Title on Desktop */}
+                    <span className="hidden whitespace-nowrap font-sans text-[11px] font-semibold uppercase tracking-[0.25em] text-[#AAA59B] transition-colors group-hover:text-[#EEEAE2] lg:block [writing-mode:vertical-rl] rotate-180">
                       {pillar.verticalTitle}
                     </span>
 
-                    {/* Arrow in Circle */}
-                    <div className="w-8 h-8 rounded-full border border-white/20 bg-black/40 flex items-center justify-center text-[#AAA59B] group-hover:border-[#D9BC78] group-hover:text-[#D9BC78] transition-colors shrink-0">
-                      <ArrowRight className="w-4 h-4 block lg:hidden" />
-                      <ArrowUpRight className="w-4 h-4 hidden lg:block" />
+                    {/* Arrow */}
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/20 bg-black/40 text-[#AAA59B] transition-colors group-hover:border-[#D7B46B] group-hover:text-[#D7B46B]">
+                      <ArrowRight className="block h-4 w-4 lg:hidden" />
+                      <ArrowUpRight className="hidden h-4 w-4 lg:block" />
                     </div>
                   </div>
                 )}
               </div>
             );
           })}
+        </div>
+
+        {/* Supporting Description */}
+        <div className="mt-12 flex w-full justify-center sm:mt-16 lg:mt-20">
+          <p className="w-full max-w-[672px] text-center font-sans text-sm font-normal leading-[22.75px] text-[#AAA59B]">
+            From curated product showcases to high-level principal dialogues,
+            Archinet creates the definitive setting where architectural vision
+            transforms into specified reality.
+          </p>
         </div>
       </div>
     </section>

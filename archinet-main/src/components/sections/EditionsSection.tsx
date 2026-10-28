@@ -33,11 +33,13 @@ function EditionVideo({
   isCenter: boolean;
 }) {
   const videoRef = React.useRef<HTMLVideoElement>(null);
+
   const videoSrc =
     src && src.trim().length > 0 ? src.trim() : undefined;
 
   React.useEffect(() => {
     const video = videoRef.current;
+
     if (!video) return;
 
     if (isCenter) {
@@ -131,7 +133,6 @@ export default function EditionsSection({
     );
   };
 
-  // Dynamic edition cards from Metadata Master
   const editionField = getField(
     data,
     'edition',
@@ -171,10 +172,12 @@ export default function EditionsSection({
             fallback.referenceUrl,
         };
       })
-      .filter((edition) => edition.venue || edition.city || edition.video);
+      .filter(
+        (edition) =>
+          edition.venue || edition.city || edition.video
+      );
   }
 
-  // Fallback to individual edition keys
   if (dynamicEditions.length === 0) {
     const editionKeys = [
       'edition_9',
@@ -250,19 +253,15 @@ export default function EditionsSection({
       return { prev: 0, active: 0, next: 0 };
     }
 
-    const prev = (activeIndex - 1 + len) % len;
-    const next = (activeIndex + 1) % len;
-
     return {
-      prev,
+      prev: (activeIndex - 1 + len) % len,
       active: activeIndex,
-      next,
+      next: (activeIndex + 1) % len,
     };
   };
 
   const { prev, active, next } = getIndices();
 
-  // Drag / swipe gesture
   const handleDragEnd = (
     _: any,
     info: { offset: { x: number } }
@@ -279,9 +278,7 @@ export default function EditionsSection({
       id="editions"
       className="relative z-10 w-full bg-black text-[#AAA59B] font-sans overflow-hidden"
     >
-      {/* Main Content */}
       <div className="w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center">
-        {/* Section Heading */}
         <div className="text-center mb-10 sm:mb-14 max-w-3xl mx-auto flex flex-col items-center">
           <RevealTitle>
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -312,39 +309,35 @@ export default function EditionsSection({
           </RevealUp>
         </div>
 
-        {/* Edition Carousel */}
         <RevealZoom
           delay={0.2}
           className="relative w-full flex flex-col items-center overflow-x-hidden"
         >
-          <div className="relative w-full flex items-center justify-center py-6 sm:py-8 lg:py-10 min-h-[480px] sm:min-h-[600px] lg:min-h-[460px]">
-            {/* Previous Edition Button */}
+          <div className="relative w-full flex items-center justify-center py-8 sm:py-10 lg:py-12 min-h-[520px] sm:min-h-[640px] lg:min-h-[720px]">
             <button
               type="button"
               onClick={handlePrev}
-              className="absolute left-1 sm:left-4 lg:left-10 xl:left-16 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-13 sm:h-13 rounded-full border border-[#D9BC78]/60 hover:border-[#D9BC78] bg-[#090909]/90 text-[#D9BC78] flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl cursor-pointer"
               aria-label="Previous edition"
+              className="absolute left-1 sm:left-4 lg:left-8 xl:left-12 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-[#D9BC78]/60 hover:border-[#D9BC78] bg-[#090909]/90 text-[#D9BC78] flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl cursor-pointer"
             >
               <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.75]" />
             </button>
 
-            {/* Next Edition Button */}
             <button
               type="button"
               onClick={handleNext}
-              className="absolute right-1 sm:right-4 lg:left-auto lg:right-10 xl:right-16 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-13 sm:h-13 rounded-full border border-[#D9BC78]/60 hover:border-[#D9BC78] bg-[#090909]/90 text-[#D9BC78] flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl cursor-pointer"
               aria-label="Next edition"
+              className="absolute right-1 sm:right-4 lg:right-8 xl:right-12 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-[#D9BC78]/60 hover:border-[#D9BC78] bg-[#090909]/90 text-[#D9BC78] flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl cursor-pointer"
             >
               <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.75]" />
             </button>
 
-            {/* Carousel Cards */}
             <motion.div
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.2}
               onDragEnd={handleDragEnd}
-              className="flex items-center justify-center -space-x-12 sm:-space-x-20 lg:-space-x-16 xl:-space-x-20 w-full max-w-6xl lg:max-w-[1150px] xl:max-w-[1250px] px-0 sm:px-12"
+              className="flex items-center justify-center -space-x-10 sm:-space-x-16 lg:-space-x-24 w-full max-w-[1500px] px-10 sm:px-16 lg:px-24"
             >
               {[prev, active, next].map(
                 (itemIndex, positionIdx) => {
@@ -359,8 +352,8 @@ export default function EditionsSection({
                       layout
                       initial={false}
                       animate={{
-                        opacity: isCenter ? 1 : 0.45,
-                        scale: isCenter ? 1 : 0.92,
+                        opacity: isCenter ? 1 : 0.48,
+                        scale: isCenter ? 1 : 0.91,
                         filter: isCenter
                           ? 'brightness(1)'
                           : 'brightness(0.75)',
@@ -390,18 +383,16 @@ export default function EditionsSection({
                       className={[
                         'shrink-0 cursor-pointer select-none rounded-[20px] overflow-hidden relative group/card',
                         isCenter
-                          ? 'w-[74vw] max-w-[310px] sm:w-[490px] lg:w-[380px] xl:w-[390px] bg-[#080808] border border-[#D9BC78]/50 shadow-[0_0_40px_rgba(217,188,120,0.10)] p-3 sm:p-5 z-20 relative'
-                          : 'w-[70vw] max-w-[285px] sm:w-[460px] lg:w-[350px] xl:w-[360px] bg-[#0a0a0a] border border-white/10 p-3 sm:p-5 hover:opacity-75 z-10 relative',
+                          ? 'w-[72vw] max-w-[520px] sm:w-[520px] lg:w-[540px] xl:w-[560px] bg-[#080808] border border-[#D9BC78]/50 shadow-[0_0_40px_rgba(217,188,120,0.10)] p-3 sm:p-5 z-20'
+                          : 'w-[62vw] max-w-[420px] sm:w-[420px] lg:w-[440px] xl:w-[460px] bg-[#0a0a0a] border border-white/10 p-3 sm:p-5 hover:opacity-75 z-10',
                       ].join(' ')}
                     >
-                      {/* Video */}
-                      <div className="relative w-full h-[220px] sm:h-[300px] lg:h-[280px] xl:h-[300px] rounded-xl overflow-hidden bg-black/60">
+                      <div className="relative w-full h-[280px] sm:h-[380px] lg:h-[440px] xl:h-[460px] rounded-xl overflow-hidden bg-black/60">
                         <EditionVideo
                           src={edition.video}
                           isCenter={isCenter}
                         />
 
-                        {/* Play Overlay */}
                         {isCenter && (
                           <div className="absolute inset-0 bg-black/30 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2 pointer-events-none">
                             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#D9BC78] text-black flex items-center justify-center shadow-2xl transform scale-90 group-hover/card:scale-100 transition-transform">
@@ -414,14 +405,12 @@ export default function EditionsSection({
                           </div>
                         )}
 
-                        {/* Location Badge */}
                         <div className="absolute bottom-3 left-3 z-10 flex items-center gap-1.5 px-3 py-1 bg-[#17140e]/95 border border-[#D9BC78]/50 text-[#D9BC78] rounded-full text-xs font-sans tracking-wider uppercase shadow-md">
                           <MapPin className="w-3 h-3" />
                           <span>{edition.city}</span>
                         </div>
                       </div>
 
-                      {/* Edition Details */}
                       <div className="mt-4 px-1">
                         <h3 className="font-serif text-xl sm:text-2xl lg:text-2xl text-[#E8E1D5] font-medium tracking-tight truncate flex items-center justify-between">
                           <span>{edition.venue}</span>
@@ -449,26 +438,24 @@ export default function EditionsSection({
             </motion.div>
           </div>
 
-          {/* Pagination */}
           <div className="flex items-center justify-center gap-2 mt-6 sm:mt-10">
             {editions.map((edition, idx) => (
               <button
                 key={`${edition.id}-${idx}`}
                 type="button"
                 onClick={() => setActiveIndex(idx)}
+                aria-label={`Go to ${edition.venue}`}
                 className={`transition-all duration-500 cursor-pointer ${
                   activeIndex === idx
                     ? 'w-7 h-2 bg-[#D9BC78] rounded-full'
                     : 'w-2 h-2 bg-white/20 hover:bg-white/40 rounded-full'
                 }`}
-                aria-label={`Go to ${edition.venue}`}
               />
             ))}
           </div>
         </RevealZoom>
       </div>
 
-      {/* Fullscreen Edition Modal */}
       <AnimatePresence>
         {selectedEdition && (
           <motion.div
@@ -490,7 +477,6 @@ export default function EditionsSection({
               className="relative w-full max-w-[420px] h-[calc(100vh-110px)] max-h-[800px] bg-black border border-[#D9BC78]/50 rounded-2xl overflow-hidden shadow-[0_0_80px_rgba(217,188,120,0.2)] flex flex-col justify-between"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Fullscreen Video */}
               {selectedEdition.video ? (
                 <video
                   src={selectedEdition.video}
@@ -503,7 +489,6 @@ export default function EditionsSection({
                 <div className="absolute inset-0 w-full h-full bg-black z-0" />
               )}
 
-              {/* Modal Header */}
               <div className="relative z-10 bg-gradient-to-b from-black/95 via-black/60 to-transparent p-4 sm:p-5 flex items-center justify-between border-b border-white/10">
                 <div>
                   <span className="text-[10px] font-sans text-[#D9BC78] tracking-widest uppercase block mb-0.5 font-medium">
@@ -518,14 +503,13 @@ export default function EditionsSection({
                 <button
                   type="button"
                   onClick={() => setSelectedEdition(null)}
-                  className="w-9 h-9 rounded-full border border-white/30 hover:border-[#D9BC78] text-[#E8E1D5] hover:text-[#D9BC78] flex items-center justify-center bg-black/60 backdrop-blur-md cursor-pointer transition-all active:scale-95 shadow-xl"
                   aria-label="Close video player"
+                  className="w-9 h-9 rounded-full border border-white/30 hover:border-[#D9BC78] text-[#E8E1D5] hover:text-[#D9BC78] flex items-center justify-center bg-black/60 backdrop-blur-md cursor-pointer transition-all active:scale-95 shadow-xl"
                 >
                   <X className="w-5 h-5 stroke-[2]" />
                 </button>
               </div>
 
-              {/* Modal Footer */}
               <div className="relative z-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent p-4 sm:p-5 flex flex-col gap-2 border-t border-white/10">
                 <div className="flex items-center justify-between gap-4 text-[10px] font-sans text-[#D9BC78]">
                   <span>

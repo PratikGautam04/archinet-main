@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -77,13 +78,15 @@ export default function BrandsSection({ data }: BrandsSectionProps) {
   const dynamicBrands =
     getCardJsonData<Record<string, string>>(brandListField);
 
-  let row1 = ROW_1_BRANDS;
-  let row2 = ROW_2_BRANDS;
+  let row1: string[] = ROW_1_BRANDS;
+  let row2: string[] = ROW_2_BRANDS;
 
-  // Use Metadata API brand data when available
+  // Use brand data from the Metadata API when available.
   if (dynamicBrands.length > 0) {
     const brandNames = dynamicBrands
-      .map((brand) => brand.name || brand.brand || brand.title || '')
+      .map((brand) =>
+        (brand.name || brand.brand || brand.title || '').trim()
+      )
       .filter((name) => name.length > 0);
 
     if (brandNames.length > 0) {
@@ -98,140 +101,82 @@ export default function BrandsSection({ data }: BrandsSectionProps) {
     }
   }
 
-  /*
-   * Duplicate the rows so the marquee can continuously move.
-   * We use two copies instead of repeatedly generating more elements.
-   */
+  // Duplicate the content for continuous marquee scrolling.
   const marqueeRow1 = [...row1, ...row1];
   const marqueeRow2 = [...row2, ...row2];
 
   return (
-    <section className="w-full py-20 lg:py-28 bg-black text-[#AAA59B] font-sans border-b border-white/10 overflow-hidden relative">
-      
-      {/* =========================
-          SECTION HEADER
-      ========================== */}
-      <div className="max-w-7xl mx-auto px-6 flex flex-col items-center">
-        <div className="text-center max-w-3xl mb-14 sm:mb-16">
-
+    <section className="relative w-full overflow-hidden border-b border-white/10 bg-black py-20 font-sans text-[#AAA59B] sm:py-24 lg:py-28">
+      {/* Section heading and introduction */}
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-6">
+        <div className="mb-14 w-full max-w-4xl text-center sm:mb-16">
           <RevealTitle>
-            {title ? (
-              <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-[#f0ab44] tracking-tight leading-[1.06] uppercase whitespace-pre-line">
-                {title}
-              </h2>
-            ) : (
-              <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-[#f0ab44] tracking-tight leading-[1.06] uppercase">
-                THE COMPANY
-                <br />
-                WE KEEP.
-              </h2>
-            )}
+            <h2
+              className="whitespace-pre-line font-serif text-[48px] font-normal uppercase leading-[0.9] tracking-normal text-[#D7B46B] sm:text-[64px] lg:text-[88px]"
+            >
+              {title || (
+                <>
+                  THE COMPANY
+                  <br />
+                  WE KEEP.
+                </>
+              )}
+            </h2>
           </RevealTitle>
 
-          {/* Divider */}
-          <RevealZoom delay={0.1}>
-            <div className="flex items-center justify-center gap-4 my-6">
-              <div className="w-16 sm:w-24 h-px bg-[#f0ab44]/30" />
+          {/* Decorative divider */}
+          <RevealZoom>
+            <div className="my-8 flex items-center justify-center gap-5">
+              <div className="h-px w-16 bg-[#D7B46B]/30 sm:w-24" />
 
-              <span className="text-xs text-[#f0ab44] select-none">
+              <span className="select-none font-serif text-base text-[#D7B46B]">
                 ★
               </span>
 
-              <div className="w-16 sm:w-24 h-px bg-[#f0ab44]/30" />
+              <div className="h-px w-16 bg-[#D7B46B]/30 sm:w-24" />
             </div>
           </RevealZoom>
 
-          {/* Main subtitle */}
-          <RevealUp delay={0.2}>
-            <p className="font-serif italic text-lg sm:text-2xl text-white font-normal tracking-wide leading-relaxed">
+          {/* Subtitle: Playfair Display, 30px, line-height 36px */}
+          <RevealUp>
+            <p className="font-serif text-[24px] font-normal italic leading-[36px] tracking-normal text-[#D7B46B] sm:text-[30px]">
               {subtitle}
             </p>
           </RevealUp>
 
-          {/* Description */}
-          <RevealUp delay={0.4}>
-            <p className="text-[11px] sm:text-xs font-mono text-[#AAA59B] tracking-wider mt-3">
+          {/* Description: Manrope, 16px, line-height 24px */}
+          <RevealUp>
+            <p className="mt-4 font-sans text-[16px] font-normal leading-6 tracking-normal text-[#AAA59B]">
               {description}
             </p>
           </RevealUp>
-
         </div>
       </div>
 
-      {/* =========================
-          BRAND MARQUEE
-      ========================== */}
-      <div className="w-full bg-[#050505] py-7 sm:py-9 relative overflow-hidden flex flex-col gap-6 sm:gap-8">
+      {/* Brand marquee */}
+      <div className="relative flex w-full flex-col gap-8 overflow-hidden border-y border-white/[0.04] bg-[#050505] py-8 sm:gap-10 sm:py-10">
+        {/* Left gradient fade */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-[#050505] to-transparent sm:w-32" />
 
-        {/* Left fade */}
-        <div
-          className="
-            absolute
-            left-0
-            top-0
-            bottom-0
-            w-20
-            sm:w-40
-            z-20
-            bg-gradient-to-r
-            from-[#050505]
-            to-transparent
-            pointer-events-none
-          "
-        />
+        {/* Right gradient fade */}
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-[#050505] to-transparent sm:w-32" />
 
-        {/* Right fade */}
-        <div
-          className="
-            absolute
-            right-0
-            top-0
-            bottom-0
-            w-20
-            sm:w-40
-            z-20
-            bg-gradient-to-l
-            from-[#050505]
-            to-transparent
-            pointer-events-none
-          "
-        />
-
-        {/* =========================
-            ROW 1 — LEFT
-        ========================== */}
-        <div className="flex overflow-hidden whitespace-nowrap">
+        {/* Row 1: moves left */}
+        <div className="flex w-full overflow-hidden whitespace-nowrap">
           <motion.div
-            className="flex shrink-0 items-center gap-8 sm:gap-11 pr-8 sm:pr-11"
-            animate={{
-              x: ['0%', '-50%'],
-            }}
+            className="flex w-max shrink-0 items-center gap-8 pr-8 sm:gap-11 sm:pr-11"
+            animate={{ x: ['0%', '-50%'] }}
             transition={{
               repeat: Infinity,
               repeatType: 'loop',
               ease: 'linear',
-
-              // MEDIUM-FAST SPEED
               duration: 30,
             }}
           >
             {marqueeRow1.map((brand, index) => (
               <span
                 key={`row1-${brand}-${index}`}
-                className="
-                  font-serif
-                  text-base
-                  sm:text-lg
-                  md:text-xl
-                  text-[#f0ab44]/80
-                  hover:text-[#f0ab44]
-                  tracking-[0.24em]
-                  font-light
-                  uppercase
-                  transition-colors
-                  cursor-pointer
-                  select-none
-                "
+                className="cursor-pointer select-none whitespace-nowrap font-serif text-[22px] font-normal uppercase leading-[36px] tracking-[3px] text-[#D7B46B]/40 transition-colors duration-300 hover:text-[#D7B46B] sm:text-[30px]"
               >
                 {brand}
               </span>
@@ -239,48 +184,28 @@ export default function BrandsSection({ data }: BrandsSectionProps) {
           </motion.div>
         </div>
 
-        {/* =========================
-            ROW 2 — RIGHT
-        ========================== */}
-        <div className="flex overflow-hidden whitespace-nowrap">
+        {/* Row 2: moves right */}
+        <div className="flex w-full overflow-hidden whitespace-nowrap">
           <motion.div
-            className="flex shrink-0 items-center gap-8 sm:gap-11 pr-8 sm:pr-11"
-            animate={{
-              x: ['-50%', '0%'],
-            }}
+            className="flex w-max shrink-0 items-center gap-8 pr-8 sm:gap-11 sm:pr-11"
+            animate={{ x: ['-50%', '0%'] }}
             transition={{
               repeat: Infinity,
               repeatType: 'loop',
               ease: 'linear',
-
-              // MEDIUM-FAST SPEED
               duration: 35,
             }}
           >
             {marqueeRow2.map((brand, index) => (
               <span
                 key={`row2-${brand}-${index}`}
-                className="
-                  font-serif
-                  text-base
-                  sm:text-lg
-                  md:text-xl
-                  text-[#f0ab44]/80
-                  hover:text-[#f0ab44]
-                  tracking-[0.24em]
-                  font-light
-                  uppercase
-                  transition-colors
-                  cursor-pointer
-                  select-none
-                "
+                className="cursor-pointer select-none whitespace-nowrap font-serif text-[22px] font-normal uppercase leading-[36px] tracking-[3px] text-[#D7B46B]/40 transition-colors duration-300 hover:text-[#D7B46B] sm:text-[30px]"
               >
                 {brand}
               </span>
             ))}
           </motion.div>
         </div>
-
       </div>
     </section>
   );

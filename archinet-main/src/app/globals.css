@@ -5,11 +5,14 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
+  /* Background Colors */
   --bg-dark: #000000;
   --bg-dark-secondary: #070707;
   --bg-dark-card: #0c0c0c;
 
+  /* Text Colors */
   --text-heading: #EEEEA2;
   --text-primary: #AAA59B;
   --text-ivory: #EEEEA2;
@@ -18,20 +21,29 @@
   --text-warmgrey: #AAA59B;
   --text-cream: #EEEEA2;
 
-  --accent-gold: #f0ab44;
-  --accent-gold-light: #ffd07a;
-  --accent-gold-dark: #b87a1d;
-  --accent-gold-glow: rgba(240, 171, 68, 0.25);
+  /* Primary / Secondary Accent Colors */
+  --accent-gold: #D7B46B;
+  --accent-gold-light: #E8CC91;
+  --accent-gold-dark: #A88442;
+  --accent-gold-glow: rgba(215, 180, 107, 0.25);
 
+  /* Secondary Color Alias */
+  --accent-secondary: #D7B46B;
+  --accent-secondary-light: #E8CC91;
+  --accent-secondary-dark: #A88442;
+
+  /* Borders */
   --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-gold: rgba(240, 171, 68, 0.25);
-  --border-gold-strong: rgba(240, 171, 68, 0.6);
+  --border-gold: rgba(215, 180, 107, 0.25);
+  --border-gold-strong: rgba(215, 180, 107, 0.6);
 
+  /* Fonts */
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Manrope', system-ui, -apple-system, sans-serif;
 
   --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 
 * {
   box-sizing: border-box;
@@ -151,13 +163,13 @@ h3,
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee-scroll 35s linear infinite;
+  animation: marquee-scroll 55s linear infinite;
 }
 
+/* Keep scrolling while hovering */
 .animate-marquee:hover {
-  animation-play-state: paused;
+  animation-play-state: running;
 }
-
 /* Subtle Vignette Overlay */
 .vignette-overlay {
   background: radial-gradient(
@@ -166,3 +178,5 @@ h3,
     rgba(0, 0, 0, 0.85) 100%
   );
 }
+
+

@@ -160,14 +160,24 @@ export default function Archinet2026VideoSection({ data }: Archinet2026VideoSect
               />
 
               <g className="origin-center animate-[spin_24s_linear_infinite]">
-                <text className="fill-[#f0ab44] font-sans text-[12px] font-bold uppercase tracking-[0.28em]">
-                  <textPath
-                    href="#archinet2026CircleText"
-                    startOffset="0%"
-                  >
-                    ARCHINET 2026 • STAY TUNED • ARCHINET 2026 •
-                  </textPath>
-                </text>
+               
+<text
+  className="fill-[#D7B46B] font-sans text-[16px] font-normal"
+  style={{
+    fontFamily: 'Manrope, sans-serif',
+    fontSize: '16px',
+    fontWeight: 400,
+    letterSpacing: 'normal',
+  }}
+>
+  <textPath
+    href="#archinet2026CircleText"
+    startOffset="0%"
+  >
+    ARCHINET 2026 • STAY TUNED • ARCHINET 2026 •
+  </textPath>
+</text>
+
               </g>
             </svg>
 

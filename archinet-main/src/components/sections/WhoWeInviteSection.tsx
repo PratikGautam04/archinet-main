@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   RevealTitle,
   RevealUp,
@@ -90,27 +90,9 @@ export default function WhoWeInviteSection({
   data,
 }: WhoWeInviteSectionProps) {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
 
-  const scrollCards = (direction: 'left' | 'right') => {
-    const container = cardsContainerRef.current;
-
-    if (!container) return;
-
-    const firstCard =
-      container.querySelector<HTMLElement>('[data-attendee-card]');
-
-    const gap = 16;
-    const amount = firstCard
-      ? firstCard.getBoundingClientRect().width + gap
-      : container.clientWidth * 0.82;
-
-    container.scrollBy({
-      left: direction === 'left' ? -amount : amount,
-      behavior: 'smooth',
-    });
-  };
-
-  // Dynamic fields from Metadata Master / API
+  // Dynamic section content
   const eyebrow =
     getFieldValue(data, 'section_label', 'eyebrow', 'label') ||
     'ATTENDEE PROFILE';
@@ -121,7 +103,7 @@ export default function WhoWeInviteSection({
     getFieldValue(data, 'subtitle', 'sub_heading', 'description') ||
     'Archinet is an invitation-only gathering engineered specifically for key decision-makers who evaluate, specify and approve building materials and interior solutions.';
 
-  // Support repeatable cardJson if provided in Metadata Master
+  // Dynamic card data from Metadata Master / API
   const cardList = getCardJsonData<Record<string, string>>(
     getField(
       data,
@@ -140,20 +122,28 @@ export default function WhoWeInviteSection({
           const defaultCard =
             DEFAULT_ATTENDEE_CARDS[idx % DEFAULT_ATTENDEE_CARDS.length];
 
-          const num = String(idx + 1).padStart(2, '0');
-
           return {
-            number: card.number || num,
+            number: card.number || String(idx + 1).padStart(2, '0'),
             category:
-              card.category || card.label || card.role || defaultCard.category,
+              card.category ||
+              card.label ||
+              card.role ||
+              defaultCard.category,
             title:
-              card.title || card.name || card.heading || defaultCard.title,
+              card.title ||
+              card.name ||
+              card.heading ||
+              defaultCard.title,
             description:
               card.description ||
               card.desc ||
               card.text ||
               defaultCard.description,
-            image: card.image || card.url || card.src || defaultCard.image,
+            image:
+              card.image ||
+              card.url ||
+              card.src ||
+              defaultCard.image,
             highlightTitle: idx % 2 === 0,
           };
         })
@@ -161,32 +151,22 @@ export default function WhoWeInviteSection({
           const prefix = `card_${idx + 1}_`;
 
           const title =
-            cardList[idx]?.title ||
-            cardList[idx]?.name ||
-            cardList[idx]?.heading ||
             getFieldValue(data, `${prefix}title`, `${prefix}name`) ||
             defaultCard.title;
 
           const category =
-            cardList[idx]?.category ||
-            cardList[idx]?.label ||
-            cardList[idx]?.role ||
             getFieldValue(data, `${prefix}category`, `${prefix}label`) ||
             defaultCard.category;
 
           const description =
-            cardList[idx]?.description ||
-            cardList[idx]?.desc ||
-            cardList[idx]?.text ||
-            getFieldValue(data, `${prefix}description`, `${prefix}desc`) ||
-            defaultCard.description;
+            getFieldValue(
+              data,
+              `${prefix}description`,
+              `${prefix}desc`
+            ) || defaultCard.description;
 
           const image =
-            cardList[idx]?.image ||
-            cardList[idx]?.url ||
-            cardList[idx]?.src ||
-            getFieldValue(data, `${prefix}image`) ||
-            defaultCard.image;
+            getFieldValue(data, `${prefix}image`) || defaultCard.image;
 
           return {
             number: defaultCard.number,
@@ -198,49 +178,98 @@ export default function WhoWeInviteSection({
           };
         });
 
+  // Update the active pagination dot while swiping on mobile
+  const handleCardsScroll = () => {
+    const container = cardsContainerRef.current;
+    if (!container) return;
+
+    const firstCard =
+      container.querySelector<HTMLElement>('[data-attendee-card]');
+
+    if (!firstCard) return;
+
+    const cardWidth = firstCard.getBoundingClientRect().width;
+    const gap = 16;
+    const step = cardWidth + gap;
+
+    const index = Math.round(container.scrollLeft / step);
+
+    setActiveCardIndex(
+      Math.max(0, Math.min(index, attendeeCards.length - 1))
+    );
+  };
+
+  // Navigate using pagination dots
+  const goToCard = (index: number) => {
+    const container = cardsContainerRef.current;
+    if (!container) return;
+
+    const firstCard =
+      container.querySelector<HTMLElement>('[data-attendee-card]');
+
+    if (!firstCard) return;
+
+    const cardWidth = firstCard.getBoundingClientRect().width;
+    const gap = 16;
+
+    container.scrollTo({
+      left: index * (cardWidth + gap),
+      behavior: 'smooth',
+    });
+
+    setActiveCardIndex(index);
+  };
+
   return (
     <section
       id="who-we-invite"
-      className="relative w-full py-20 lg:py-32 px-6 lg:px-12 bg-black text-[#AAA59B] font-sans overflow-hidden border-b border-[rgba(255,255,255,0.06)] scroll-mt-16"
+      className="relative w-full overflow-hidden border-b border-[rgba(255,255,255,0.06)] bg-black px-6 py-20 font-sans text-[#AAA59B] scroll-mt-16 sm:px-6 lg:px-12 lg:py-32"
     >
-      <div className="max-w-7xl mx-auto flex flex-col">
-        {/* Eyebrow */}
+      <div className="mx-auto flex max-w-7xl flex-col">
+        {/* Section Eyebrow */}
         <RevealTitle>
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <span className="w-8 h-[1px] bg-[#D9BC78]/40" />
+          <div className="mb-4 flex items-center justify-center gap-3">
+            <span className="h-px w-8 bg-[#D7B46A]/40" />
 
-            <span className="text-xs font-sans text-[#D9BC78] tracking-[0.25em] uppercase font-semibold">
+            <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.3em] text-[#D7B46A]">
               {eyebrow}
             </span>
 
-            <span className="w-8 h-[1px] bg-[#D9BC78]/40" />
+            <span className="h-px w-8 bg-[#D7B46A]/40" />
           </div>
         </RevealTitle>
 
-        {/* Heading */}
+        {/* Section Heading */}
         <RevealUp delay={0.1}>
-          <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-[#E8E1D5] font-normal text-center tracking-tight mb-3">
-            Who We{' '}
-            <span className="editorial-italic italic font-serif !text-[#D9BC78]">
-              Invite.
-            </span>
+          <h2 className="mb-3 text-center font-serif text-3xl font-normal tracking-tight text-[#EEEAE2] sm:text-5xl lg:text-6xl">
+            {heading ? (
+              heading
+            ) : (
+              <>
+                Who We{' '}
+                <span className="editorial-italic font-serif italic text-[#D7B46A]">
+                  Invite.
+                </span>
+              </>
+            )}
           </h2>
         </RevealUp>
 
-        {/* Subtitle */}
+        {/* Section Description */}
         <RevealUp delay={0.15}>
-          <p className="text-xs sm:text-sm font-sans text-[#AAA59B] text-center max-w-2xl mx-auto mb-12 sm:mb-16 leading-relaxed">
+          <p className="mx-auto mb-12 max-w-2xl text-center font-sans text-sm font-normal leading-6 text-[#AAA59B] sm:mb-16">
             {subtitle}
           </p>
         </RevealUp>
 
-        {/* Mobile carousel, tablet and desktop grid */}
+        {/* Cards: swipeable on mobile, grid on desktop */}
         <div className="relative">
           <div
             ref={cardsContainerRef}
-            className="w-full overflow-x-auto overflow-y-hidden snap-x snap-mandatory scroll-smooth pb-4 -mx-6 px-[9vw] sm:mx-0 sm:px-0 sm:overflow-visible sm:pb-0"
+            onScroll={handleCardsScroll}
+            className="-mx-6 w-auto snap-x snap-mandatory overflow-x-auto overflow-y-hidden scroll-smooth px-[9vw] pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:w-full sm:overflow-visible sm:px-0 sm:pb-0"
           >
-            <div className="flex w-max min-w-full items-stretch gap-4 sm:w-full sm:min-w-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-8">
+            <div className="flex w-max min-w-full items-stretch gap-4 sm:grid sm:w-full sm:min-w-0 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-8">
               {attendeeCards.map((card) => (
                 <StaggerItem
                   key={card.number}
@@ -248,90 +277,77 @@ export default function WhoWeInviteSection({
                   data-attendee-card
                   initial={false}
                   animate="visible"
-                  className="relative block w-[82vw] max-w-[360px] shrink-0 snap-center self-stretch rounded-2xl overflow-hidden bg-[#0c0c0c] border border-white/10 hover:border-[#D9BC78]/40 transition-all duration-300 flex flex-col group shadow-xl sm:w-auto sm:max-w-none sm:shrink"
+                  className="group relative flex w-[82vw] max-w-[360px] shrink-0 snap-center flex-col self-stretch overflow-hidden rounded-2xl border border-white/10 bg-[#0c0c0c] shadow-xl transition-colors duration-300 hover:border-[#D7B46A]/40 sm:w-auto sm:max-w-none sm:shrink"
                 >
-                  {/* Image with Floating Badges */}
-                  <div className="relative aspect-[4/3] sm:aspect-[16/10] overflow-hidden bg-[#111]">
+                  {/* Card Image */}
+                  <div className="relative aspect-[4/3] shrink-0 overflow-hidden bg-[#111] sm:aspect-[16/10]">
                     <img
                       src={card.image}
                       alt={card.title}
-                      className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                      className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                     />
 
-                    {/* Floating Top Elements */}
-                    <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
-                      <span className="w-7 h-7 rounded-full bg-black/75 backdrop-blur-md border border-[#D9BC78]/30 flex items-center justify-center text-[11px] font-sans font-semibold text-[#D9BC78] shadow-md">
+                    {/* Number and Category Badge */}
+                    <div className="absolute left-3.5 right-3.5 top-3.5 z-10 flex items-start justify-between gap-3">
+                      {/* Number Circle */}
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#D7B46A]/50 bg-black/85 font-serif text-[11px] font-normal text-[#E5C98B] shadow-md backdrop-blur-md">
                         {card.number}
                       </span>
 
-                      <span className="max-w-[75%] px-2.5 py-1 rounded-md bg-black/75 backdrop-blur-md border border-[#D9BC78]/30 text-[9px] font-sans font-semibold text-[#D9BC78] tracking-wider uppercase shadow-md text-right">
+                      {/* Category Label */}
+                      <span className="max-w-[calc(100%-2.75rem)] rounded-full border border-[#D7B46A]/30 bg-black/80 px-3 py-1.5 text-right font-sans text-[10px] font-semibold uppercase leading-[15px] tracking-[2px] text-[#E5C98B] shadow-md backdrop-blur-md sm:text-[10px]">
                         {card.category}
                       </span>
                     </div>
+
+                    {/* Bottom Image Gradient */}
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/50 to-transparent" />
                   </div>
 
-                  {/* Content Area */}
-                  <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between">
-                    <div>
-                      <h3 className="font-serif text-lg sm:text-xl font-normal mb-2 leading-snug text-[#E8E1D5] group-hover:text-[#D9BC78] transition-colors">
-                        {card.title}
-                      </h3>
+                  {/* Card Content: title and description below image */}
+                  <div className="flex flex-1 flex-col p-5 sm:p-6">
+                    <h3
+                      className={`mb-2 font-serif text-lg font-normal leading-snug transition-colors duration-300 sm:text-xl ${
+                        card.highlightTitle
+                          ? 'text-[#E5C98B]'
+                          : 'text-[#EEEAE2]'
+                      } group-hover:text-[#D7B46A]`}
+                    >
+                      {card.title}
+                    </h3>
 
-                      <p className="text-xs text-[#AAA59B] leading-relaxed font-sans">
-                        {card.description}
-                      </p>
-                    </div>
+                    <p className="font-sans text-[13px] font-normal leading-6 text-[#AAA59B] sm:text-sm">
+                      {card.description}
+                    </p>
                   </div>
                 </StaggerItem>
               ))}
             </div>
           </div>
 
-          {/* Mobile left arrow — centered over the image */}
-          <button
-            type="button"
-            onClick={() => scrollCards('left')}
-            aria-label="Previous attendee card"
-            className="absolute left-2 top-[33%] z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-[#D9BC78]/60 bg-black/90 text-[#D9BC78] shadow-lg backdrop-blur-sm transition-colors hover:bg-[#D9BC78] hover:text-black sm:hidden"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
+          {/* Mobile Pagination Dots — no side arrows */}
+          {attendeeCards.length > 1 && (
+            <div
+              className="mt-5 flex items-center justify-center gap-2 sm:hidden"
+              aria-label="Attendee card navigation"
             >
-              <path d="m15 18-6-6 6-6" />
-            </svg>
-          </button>
-
-          {/* Mobile right arrow — centered over the image */}
-          <button
-            type="button"
-            onClick={() => scrollCards('right')}
-            aria-label="Next attendee card"
-            className="absolute right-2 top-[33%] z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-[#D9BC78]/60 bg-black/90 text-[#D9BC78] shadow-lg backdrop-blur-sm transition-colors hover:bg-[#D9BC78] hover:text-black sm:hidden"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="m9 18 6-6-6-6" />
-            </svg>
-          </button>
+              {attendeeCards.map((card, index) => (
+                <button
+                  key={card.number}
+                  type="button"
+                  onClick={() => goToCard(index)}
+                  aria-label={`Go to attendee card ${index + 1}`}
+                  aria-current={activeCardIndex === index ? 'true' : undefined}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    activeCardIndex === index
+                      ? 'w-5 bg-[#D7B46A]'
+                      : 'w-1.5 bg-white/25 hover:bg-[#D7B46A]/60'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -9,22 +9,29 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {
-        gold: {
-          DEFAULT: "#f0ab44",
-          light: "#ffd07a",
-          dark: "#b87a1d",
-        },
-        cream: {
-          DEFAULT: "#f7f5f0",
-          heading: "#EEEEA2",
-        },
-        warmgrey: {
-          DEFAULT: "#AAA59B",
-          body: "#AAA59B",
-          secondary: "#AAA59B",
-        },
-      },
+     
+colors: {
+  gold: {
+    DEFAULT: "#D7B46B",
+    light: "#E8CC91",
+    dark: "#A88442",
+  },
+  secondary: {
+    DEFAULT: "#D7B46B",
+    light: "#E8CC91",
+    dark: "#A88442",
+  },
+  cream: {
+    DEFAULT: "#f7f5f0",
+    heading: "#EEEEA2",
+  },
+  warmgrey: {
+    DEFAULT: "#AAA59B",
+    body: "#AAA59B",
+    secondary: "#AAA59B",
+  },
+},
+
       fontFamily: {
         serif: ["Playfair Display", "Georgia", "serif"],
         sans: ["Manrope", "system-ui", "-apple-system", "sans-serif"],
