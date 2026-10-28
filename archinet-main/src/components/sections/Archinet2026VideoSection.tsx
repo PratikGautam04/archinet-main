@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useRef, useState } from 'react';
@@ -32,22 +33,30 @@ interface Archinet2026VideoSectionProps {
   data?: MetadataField[];
 }
 
-export default function Archinet2026VideoSection({ data }: Archinet2026VideoSectionProps) {
+export default function Archinet2026VideoSection({
+  data,
+}: Archinet2026VideoSectionProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const scallopPath = createScallopPath(100, 100, 95, 89, 36);
 
-  const videoSrc = getFieldValue(data, 'video') || '/assets/videos/archinet-2026-final.mp4';
+  const videoSrc =
+    getFieldValue(data, 'video') ||
+    '/assets/videos/archinet-2026-final.mp4';
+
   const posterVal = getFieldValue(data, 'poster');
-  const posterSrc = posterVal && posterVal.trim().length > 0 ? posterVal.trim() : undefined;
+
+  const posterSrc =
+    posterVal && posterVal.trim().length > 0
+      ? posterVal.trim()
+      : undefined;
 
   const togglePlayback = () => {
     const video = videoRef.current;
 
     if (!video) return;
 
-    // PLAY
     if (video.paused) {
       video.muted = false;
       video.volume = 1;
@@ -64,7 +73,6 @@ export default function Archinet2026VideoSection({ data }: Archinet2026VideoSect
       return;
     }
 
-    // PAUSE
     video.pause();
     setIsPlaying(false);
   };
@@ -92,7 +100,11 @@ export default function Archinet2026VideoSection({ data }: Archinet2026VideoSect
         onClick={handleVideoClick}
         role="button"
         tabIndex={0}
-        aria-label={isPlaying ? 'Pause Archinet 2026 video' : 'Play Archinet 2026 video'}
+        aria-label={
+          isPlaying
+            ? 'Pause Archinet 2026 video'
+            : 'Play Archinet 2026 video'
+        }
         onKeyDown={(event) => {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
@@ -114,10 +126,7 @@ export default function Archinet2026VideoSection({ data }: Archinet2026VideoSect
           }}
         >
           {videoSrc && (
-            <source
-              src={videoSrc}
-              type="video/mp4"
-            />
+            <source src={videoSrc} type="video/mp4" />
           )}
         </video>
       </div>
@@ -139,7 +148,7 @@ export default function Archinet2026VideoSection({ data }: Archinet2026VideoSect
               togglePlayback();
             }}
             aria-label="Play Archinet 2026 video"
-            className="group relative flex h-48 w-48 items-center justify-center rounded-full outline-none transition-transform duration-500 hover:scale-[1.04] focus-visible:ring-2 focus-visible:ring-[#f0ab44] sm:h-56 sm:w-56 lg:h-64 lg:w-64"
+            className="group relative flex h-40 w-40 items-center justify-center rounded-full outline-none transition-transform duration-500 hover:scale-[1.04] focus-visible:ring-2 focus-visible:ring-[#D7B46B] sm:h-44 sm:w-44 lg:h-56 lg:w-56"
           >
             <svg
               viewBox="0 0 200 200"
@@ -149,41 +158,39 @@ export default function Archinet2026VideoSection({ data }: Archinet2026VideoSect
               <path
                 d={scallopPath}
                 fill="rgba(5,5,5,0.12)"
-                stroke="#f0ab44"
+                stroke="#D7B46B"
                 strokeWidth="1.2"
               />
 
               <path
                 id="archinet2026CircleText"
-                d="M 100,100 m -67,0 a 67,67 0 1,1 134,0 a 67,67 0 1,1 -134,0"
+                d="M 100,100 m -64,0 a 64,64 0 1,1 128,0 a 64,64 0 1,1 -128,0"
                 fill="none"
               />
 
               <g className="origin-center animate-[spin_24s_linear_infinite]">
-               
-<text
-  className="fill-[#D7B46B] font-sans text-[16px] font-normal"
-  style={{
-    fontFamily: 'Manrope, sans-serif',
-    fontSize: '16px',
-    fontWeight: 400,
-    letterSpacing: 'normal',
-  }}
->
-  <textPath
-    href="#archinet2026CircleText"
-    startOffset="0%"
-  >
-    ARCHINET 2026 • STAY TUNED • ARCHINET 2026 •
-  </textPath>
-</text>
-
+                <text
+                  className="fill-[#D7B46B] font-sans text-[11px] font-semibold uppercase tracking-[0.22em]"
+                  style={{
+                    fontFamily: 'Manrope, sans-serif',
+                    fontSize: '15px',
+                    fontWeight: 600,
+                    letterSpacing: '0.22em',
+                  }}
+                >
+                  <textPath
+                    href="#archinet2026CircleText"
+                    startOffset="0%"
+                  >
+                    ARCHINET 2026 • STAY TUNED • ARCHINET 2026 •
+                  </textPath>
+                </text>
               </g>
             </svg>
 
             {/* PLAY ICON */}
-            <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full border border-[#f0ab44]/50 bg-[#050505] shadow-[0_8px_30px_rgba(0,0,0,0.45)] transition-colors group-hover:border-[#f0ab44] sm:h-16 sm:w-16">
-              <Play className="ml-0.5 h-5 w-5 fill-[#f0ab44] text-[#f0ab44]" />
+            <span className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border border-[#D7B46B]/50 bg-[#050505] shadow-[0_8px_30px_rgba(0,0,0,0.45)] transition-colors group-hover:border-[#D7B46B] sm:h-14 sm:w-14">
+              <Play className="ml-0.5 h-4 w-4 fill-[#D7B46B] text-[#D7B46B] sm:h-5 sm:w-5" />
             </span>
           </button>
         </RevealZoom>
