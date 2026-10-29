@@ -1,8 +1,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
-import { EDITIONS_DATA, Edition } from '../../data';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ChevronLeft,
   ChevronRight,
@@ -13,6 +12,7 @@ import {
   X,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { EDITIONS_DATA, Edition } from '../../data';
 import {
   RevealTitle,
   RevealUp,
@@ -25,6 +25,28 @@ import {
   getCardJsonData,
 } from '../../utils/metadata';
 
+interface EditionsSectionProps {
+  data?: MetadataField[];
+}
+
+interface EditionMetadata {
+  [key: string]: string | undefined;
+
+  id?: string;
+  edition?: string;
+  number?: string;
+  title?: string;
+  city?: string;
+  venue?: string;
+  date?: string;
+  year?: string;
+  video?: string;
+  instagram_link?: string;
+  instagramLink?: string;
+  referenceUrl?: string;
+  reference_url?: string;
+}
+
 function EditionVideo({
   src,
   isCenter,
@@ -34,39 +56,34 @@ function EditionVideo({
 }) {
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
-  const videoSrc =
-    src && src.trim().length > 0 ? src.trim() : undefined;
-
-  React.useEffect(() => {
+  useEffect(() => {
     const video = videoRef.current;
-
     if (!video) return;
 
     if (isCenter) {
-      video.play().catch(() => {});
+      void video.play().catch(() => {
+        // Autoplay may be blocked by the browser.
+      });
     } else {
       video.pause();
     }
-  }, [isCenter]);
+  }, [isCenter, src]);
 
-  if (!videoSrc) {
-    return <div className="w-full h-full bg-black/60" />;
+  if (!src?.trim()) {
+    return <div className="h-full w-full bg-black/60" />;
   }
 
   return (
     <video
       ref={videoRef}
-      src={videoSrc}
+      src={src.trim()}
       loop
       muted
       playsInline
-      className="w-full h-full object-cover transition-transform duration-700 hover:scale-105 pointer-events-none"
+      preload="metadata"
+      className="pointer-events-none h-full w-full object-cover"
     />
   );
-}
-
-interface EditionsSectionProps {
-  data?: MetadataField[];
 }
 
 export default function EditionsSection({
@@ -78,15 +95,11 @@ export default function EditionsSection({
 
   const rawTitle = getFieldValue(data, 'title');
 
-  const isDefaultOrOldTitle =
-    !rawTitle ||
-    rawTitle.toLowerCase().includes('built over time');
-
   const description1 =
     getFieldValue(data, 'description', 'description_1', 'intro_1') ||
     'Every Archinet edition brings participating manufacturing brands and architecture and interior-design professionals together in a curated environment designed for product discovery, networking and professional engagement.';
 
-  const description2Val = getFieldValue(
+  const description2Value = getFieldValue(
     data,
     'description_2',
     'subtitle',
@@ -94,31 +107,35 @@ export default function EditionsSection({
   );
 
   const description2 =
-    description2Val &&
-    description2Val !==
+    description2Value &&
+    description2Value !==
       'FROM ONE IDEA TO A CURATED DESIGN NETWORK'
-      ? description2Val
+      ? description2Value
       : 'Explore moments from our previous editions, including brand showcases, product displays and conversations between the people shaping the architecture and design industry.';
 
   const renderTitle = () => {
-    if (isDefaultOrOldTitle) {
+    const useDefaultTitle =
+      !rawTitle ||
+      rawTitle.toLowerCase().includes('built over time');
+
+    if (useDefaultTitle) {
       return (
-        <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[#E8E1D5] font-normal tracking-tight leading-tight">
+        <h2 className="font-serif text-4xl font-normal leading-tight tracking-tight text-[#E8E1D5] sm:text-5xl lg:text-6xl">
           A Look Back at{' '}
-          <span className="editorial-italic italic font-serif !text-[#D9BC78]">
+          <span className="editorial-italic font-serif italic !text-[#D9BC78]">
             Archinet.
           </span>
         </h2>
       );
     }
 
-    if (rawTitle && /archinet\.?/i.test(rawTitle)) {
+    if (/archinet\.?/i.test(rawTitle)) {
       const parts = rawTitle.split(/archinet\.?/i);
 
       return (
-        <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[#E8E1D5] font-normal tracking-tight leading-tight">
+        <h2 className="font-serif text-4xl font-normal leading-tight tracking-tight text-[#E8E1D5] sm:text-5xl lg:text-6xl">
           {parts[0]}
-          <span className="editorial-italic italic font-serif !text-[#D9BC78]">
+          <span className="editorial-italic font-serif italic !text-[#D9BC78]">
             Archinet.
           </span>
           {parts[1] || ''}
@@ -127,12 +144,16 @@ export default function EditionsSection({
     }
 
     return (
-      <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[#E8E1D5] font-normal tracking-tight leading-tight whitespace-pre-line">
+      <h2 className="whitespace-pre-line font-serif text-4xl font-normal leading-tight tracking-tight text-[#E8E1D5] sm:text-5xl lg:text-6xl">
         {rawTitle}
       </h2>
     );
   };
 
+  /*
+   * Read edition cards from Metadata Master.
+   * Supported metadata keys remain compatible with the existing section.
+   */
   const editionField = getField(
     data,
     'edition',
@@ -142,22 +163,81 @@ export default function EditionsSection({
   );
 
   const editionCardData =
-    getCardJsonData<Record<string, string>>(editionField);
+    getCardJsonData<EditionMetadata>(editionField);
 
-  let dynamicEditions: Edition[] = [];
+  const editions = useMemo<Edition[]>(() => {
+    let result: Edition[] = [];
 
-  if (editionCardData.length > 0) {
-    dynamicEditions = editionCardData
-      .map((item, idx) => {
+    if (editionCardData.length > 0) {
+      result = editionCardData
+        .map((item, index) => {
+          const fallback =
+            EDITIONS_DATA[index % EDITIONS_DATA.length];
+
+          return {
+            ...fallback,
+            id: `metadata-edition-${index}`,
+            number:
+              item.edition ||
+              item.number ||
+              item.title ||
+              fallback.number,
+            city: item.city || fallback.city,
+            venue: item.venue || fallback.venue,
+            date: item.date || fallback.date,
+            year: item.year || fallback.year || '',
+            video: item.video || fallback.video,
+            referenceUrl:
+              item.instagram_link ||
+              item.instagramLink ||
+              item.referenceUrl ||
+              item.reference_url ||
+              fallback.referenceUrl,
+          };
+        })
+        .filter(
+          (edition) =>
+            Boolean(edition.venue) ||
+            Boolean(edition.city) ||
+            Boolean(edition.video)
+        );
+    }
+
+    /*
+     * Backward compatibility with individual edition_9 through
+     * edition_13 metadata fields.
+     */
+    if (result.length === 0) {
+      const editionKeys = [
+        'edition_9',
+        'edition_10',
+        'edition_11',
+        'edition_12',
+        'edition_13',
+      ];
+
+      editionKeys.forEach((key, index) => {
+        const field = getField(data, key);
+        const cards =
+          getCardJsonData<EditionMetadata>(field);
+        const item = cards[0];
+
+        if (!item) return;
+
         const fallback =
-          EDITIONS_DATA[idx % EDITIONS_DATA.length];
+          EDITIONS_DATA[index % EDITIONS_DATA.length];
 
-        return {
-          id: `edition-${idx + 1}`,
+        if (!item.video && !item.city && !item.venue) {
+          return;
+        }
+
+        result.push({
+          ...fallback,
+          id: key.replace('_', '-'),
           number:
-            item.edition ||
             item.number ||
             item.title ||
+            item.edition ||
             fallback.number,
           city: item.city || fallback.city,
           venue: item.venue || fallback.venue,
@@ -165,105 +245,49 @@ export default function EditionsSection({
           year: item.year || fallback.year || '',
           video: item.video || fallback.video,
           referenceUrl:
-            item.instagram_link ||
-            item.instagramLink ||
             item.referenceUrl ||
             item.reference_url ||
+            item.instagram_link ||
+            item.instagramLink ||
             fallback.referenceUrl,
-        };
-      })
-      .filter(
-        (edition) =>
-          edition.venue || edition.city || edition.video
-      );
-  }
+        });
+      });
+    }
 
-  if (dynamicEditions.length === 0) {
-    const editionKeys = [
-      'edition_9',
-      'edition_10',
-      'edition_11',
-      'edition_12',
-      'edition_13',
-    ];
+    return result.length > 0 ? result : EDITIONS_DATA;
+  }, [data, editionCardData]);
 
-    editionKeys.forEach((key, idx) => {
-      const field = getField(data, key);
-      const cardData =
-        getCardJsonData<Record<string, string>>(field);
-
-      if (cardData && cardData.length > 0) {
-        const item = cardData[0];
-
-        if (item.video || item.city || item.venue) {
-          const fallback =
-            EDITIONS_DATA[idx % EDITIONS_DATA.length];
-
-          dynamicEditions.push({
-            id: key.replace('_', '-'),
-            number:
-              item.number ||
-              item.title ||
-              item.edition ||
-              fallback.number,
-            city: item.city || fallback.city,
-            venue: item.venue || fallback.venue,
-            date: item.date || fallback.date,
-            year: item.year || fallback.year,
-            video: item.video || fallback.video,
-            referenceUrl:
-              item.referenceUrl ||
-              item.reference_url ||
-              item.instagram_link ||
-              fallback.referenceUrl,
-          });
-        }
-      }
-    });
-  }
-
-  const editions =
-    dynamicEditions.length > 0
-      ? dynamicEditions
-      : EDITIONS_DATA;
-
-  const [activeIndex, setActiveIndex] = useState(
-    editions.length > 2 ? 2 : 0
-  );
-
+  const [activeIndex, setActiveIndex] = useState(0);
   const [selectedEdition, setSelectedEdition] =
     useState<Edition | null>(null);
 
-  const handlePrev = () => {
-    setActiveIndex((prev) =>
-      prev === 0 ? editions.length - 1 : prev - 1
-    );
-  };
+  /*
+   * Keep the active index valid if the metadata changes or cards
+   * are added or removed.
+   */
+  useEffect(() => {
+    setActiveIndex((current) => {
+      if (editions.length === 0) return 0;
+      return current >= editions.length ? 0 : current;
+    });
+  }, [editions.length]);
 
-  const handleNext = () => {
-    setActiveIndex((prev) =>
-      prev === editions.length - 1 ? 0 : prev + 1
-    );
-  };
+  const handlePrev = useCallback(() => {
+    setActiveIndex((current) => {
+      if (editions.length <= 1) return current;
+      return (current - 1 + editions.length) % editions.length;
+    });
+  }, [editions.length]);
 
-  const getIndices = () => {
-    const len = editions.length;
-
-    if (len === 0) {
-      return { prev: 0, active: 0, next: 0 };
-    }
-
-    return {
-      prev: (activeIndex - 1 + len) % len,
-      active: activeIndex,
-      next: (activeIndex + 1) % len,
-    };
-  };
-
-  const { prev, active, next } = getIndices();
+  const handleNext = useCallback(() => {
+    setActiveIndex((current) => {
+      if (editions.length <= 1) return current;
+      return (current + 1) % editions.length;
+    });
+  }, [editions.length]);
 
   const handleDragEnd = (
-    _: any,
+    _: unknown,
     info: { offset: { x: number } }
   ) => {
     if (info.offset.x < -50) {
@@ -273,35 +297,82 @@ export default function EditionsSection({
     }
   };
 
+  const getVisibleEditions = () => {
+    const count = editions.length;
+
+    if (count === 0) return [];
+
+    if (count === 1) {
+      return [{ edition: editions[0], position: 'center' as const }];
+    }
+
+    if (count === 2) {
+      const otherIndex = (activeIndex + 1) % count;
+
+      return [
+        {
+          edition: editions[otherIndex],
+          position: 'side' as const,
+        },
+        {
+          edition: editions[activeIndex],
+          position: 'center' as const,
+        },
+      ];
+    }
+
+    const previousIndex =
+      (activeIndex - 1 + count) % count;
+    const nextIndex = (activeIndex + 1) % count;
+
+    return [
+      {
+        edition: editions[previousIndex],
+        position: 'side' as const,
+      },
+      {
+        edition: editions[activeIndex],
+        position: 'center' as const,
+      },
+      {
+        edition: editions[nextIndex],
+        position: 'side' as const,
+      },
+    ];
+  };
+
+  const visibleEditions = getVisibleEditions();
+
   return (
     <section
       id="editions"
-      className="relative z-10 w-full bg-black text-[#AAA59B] font-sans overflow-hidden"
+      className="relative z-10 w-full overflow-hidden bg-black font-sans text-[#AAA59B]"
     >
-      <div className="w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center">
-        <div className="text-center mb-10 sm:mb-14 max-w-3xl mx-auto flex flex-col items-center">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+        {/* Section heading */}
+        <div className="mx-auto mb-10 flex max-w-3xl flex-col items-center text-center sm:mb-14">
           <RevealTitle>
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="w-8 h-px bg-[#D9BC78]/50" />
+            <div className="mb-4 flex items-center justify-center gap-3">
+              <span className="h-px w-8 bg-[#D9BC78]/50" />
 
-              <span className="text-xs font-sans text-[#D9BC78] tracking-[0.25em] uppercase font-semibold">
+              <span className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[#D9BC78]">
                 {eyebrow}
               </span>
 
-              <span className="w-8 h-px bg-[#D9BC78]/50" />
+              <span className="h-px w-8 bg-[#D9BC78]/50" />
             </div>
           </RevealTitle>
 
           <RevealTitle>{renderTitle()}</RevealTitle>
 
           <RevealUp delay={0.15}>
-            <div className="flex flex-col gap-3 mt-4 sm:mt-5 max-w-2xl mx-auto">
-              <p className="text-xs sm:text-sm font-sans text-[#AAA59B] leading-relaxed font-normal">
+            <div className="mx-auto mt-4 flex max-w-2xl flex-col gap-3 sm:mt-5">
+              <p className="text-xs font-normal leading-relaxed text-[#AAA59B] sm:text-sm">
                 {description1}
               </p>
 
               {description2 && (
-                <p className="text-xs sm:text-sm font-sans text-[#AAA59B]/80 leading-relaxed font-normal">
+                <p className="text-xs font-normal leading-relaxed text-[#AAA59B]/80 sm:text-sm">
                   {description2}
                 </p>
               )}
@@ -309,48 +380,53 @@ export default function EditionsSection({
           </RevealUp>
         </div>
 
+        {/* Edition carousel */}
         <RevealZoom
           delay={0.2}
-          className="relative w-full flex flex-col items-center overflow-x-hidden"
+          className="relative flex w-full flex-col items-center"
         >
-          <div className="relative w-full flex items-center justify-center py-8 sm:py-10 lg:py-12 min-h-[520px] sm:min-h-[640px] lg:min-h-[720px]">
+          <div className="relative flex min-h-[420px] w-full items-center justify-center py-8 sm:min-h-[560px] lg:min-h-[650px]">
+            {/* Previous button */}
             <button
               type="button"
               onClick={handlePrev}
+              disabled={editions.length <= 1}
               aria-label="Previous edition"
-              className="absolute left-1 sm:left-4 lg:left-8 xl:left-12 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-[#D9BC78]/60 hover:border-[#D9BC78] bg-[#090909]/90 text-[#D9BC78] flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl cursor-pointer"
+              className="absolute left-0 top-1/2 z-30 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#D9BC78]/60 bg-[#090909]/90 text-[#D9BC78] shadow-xl transition hover:scale-105 hover:border-[#D9BC78] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 sm:left-2 sm:h-12 sm:w-12 lg:left-4"
             >
-              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.75]" />
+              <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
 
+            {/* Next button */}
             <button
               type="button"
               onClick={handleNext}
+              disabled={editions.length <= 1}
               aria-label="Next edition"
-              className="absolute right-1 sm:right-4 lg:right-8 xl:right-12 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-[#D9BC78]/60 hover:border-[#D9BC78] bg-[#090909]/90 text-[#D9BC78] flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl cursor-pointer"
+              className="absolute right-0 top-1/2 z-30 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#D9BC78]/60 bg-[#090909]/90 text-[#D9BC78] shadow-xl transition hover:scale-105 hover:border-[#D9BC78] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 sm:right-2 sm:h-12 sm:w-12 lg:right-4"
             >
-              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.75]" />
+              <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
 
             <motion.div
-              drag="x"
+              drag={editions.length > 1 ? 'x' : false}
               dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.2}
+              dragElastic={0.12}
               onDragEnd={handleDragEnd}
-              className="flex items-center justify-center -space-x-10 sm:-space-x-16 lg:-space-x-24 w-full max-w-[1500px] px-10 sm:px-16 lg:px-24"
+              className="flex w-full items-center justify-center gap-3 px-12 sm:gap-5 sm:px-16 lg:gap-6 lg:px-20"
             >
-              {[prev, active, next].map(
-                (itemIndex, positionIdx) => {
-                  const isCenter = positionIdx === 1;
-                  const edition = editions[itemIndex];
-
-                  if (!edition) return null;
+              <AnimatePresence mode="popLayout" initial={false}>
+                {visibleEditions.map(({ edition, position }) => {
+                  const isCenter = position === 'center';
 
                   return (
                     <motion.div
-                      key={`${edition.id}-${itemIndex}`}
+                      key={`${edition.id}-${position}`}
                       layout
-                      initial={false}
+                      initial={{
+                        opacity: 0,
+                        scale: 0.94,
+                      }}
                       animate={{
                         opacity: isCenter ? 1 : 0.48,
                         scale: isCenter ? 1 : 0.91,
@@ -358,97 +434,101 @@ export default function EditionsSection({
                           ? 'brightness(1)'
                           : 'brightness(0.75)',
                       }}
+                      exit={{
+                        opacity: 0,
+                        scale: 0.94,
+                      }}
                       transition={{
-                        layout: {
-                          duration: 0.75,
-                          ease: [0.16, 1, 0.3, 1],
-                        },
-                        scale: {
-                          duration: 0.75,
-                          ease: [0.16, 1, 0.3, 1],
-                        },
-                        opacity: {
-                          duration: 0.55,
-                          ease: [0.16, 1, 0.3, 1],
-                        },
-                        filter: { duration: 0.55 },
+                        duration: 0.35,
+                        ease: 'easeInOut',
                       }}
                       onClick={() => {
                         if (!isCenter) {
-                          setActiveIndex(itemIndex);
+                          const targetIndex = editions.findIndex(
+                            (item) => item.id === edition.id
+                          );
+
+                          if (targetIndex !== -1) {
+                            setActiveIndex(targetIndex);
+                          }
                         } else {
                           setSelectedEdition(edition);
                         }
                       }}
                       className={[
-                        'shrink-0 cursor-pointer select-none rounded-[20px] overflow-hidden relative group/card',
+                        'relative shrink-0 cursor-pointer select-none overflow-hidden rounded-[20px]',
+                        'border p-2.5 sm:p-4',
                         isCenter
-                          ? 'w-[72vw] max-w-[520px] sm:w-[520px] lg:w-[540px] xl:w-[560px] bg-[#080808] border border-[#D9BC78]/50 shadow-[0_0_40px_rgba(217,188,120,0.10)] p-3 sm:p-5 z-20'
-                          : 'w-[62vw] max-w-[420px] sm:w-[420px] lg:w-[440px] xl:w-[460px] bg-[#0a0a0a] border border-white/10 p-3 sm:p-5 hover:opacity-75 z-10',
+                          ? 'z-20 w-[70%] max-w-[520px] border-[#D9BC78]/50 bg-[#080808] shadow-[0_0_40px_rgba(217,188,120,0.10)]'
+                          : 'z-10 hidden w-[28%] max-w-[300px] border-white/10 bg-[#0a0a0a] sm:block',
                       ].join(' ')}
                     >
-                      <div className="relative w-full h-[280px] sm:h-[380px] lg:h-[440px] xl:h-[460px] rounded-xl overflow-hidden bg-black/60">
+                      {/* Image/video */}
+                      <div className="relative h-[260px] w-full overflow-hidden rounded-xl bg-black/60 sm:h-[340px] lg:h-[420px]">
                         <EditionVideo
                           src={edition.video}
                           isCenter={isCenter}
                         />
 
                         {isCenter && (
-                          <div className="absolute inset-0 bg-black/30 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2 pointer-events-none">
-                            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#D9BC78] text-black flex items-center justify-center shadow-2xl transform scale-90 group-hover/card:scale-100 transition-transform">
-                              <Play className="w-6 h-6 fill-black translate-x-0.5" />
+                          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#D9BC78] text-black shadow-2xl sm:h-14 sm:w-14">
+                              <Play className="h-6 w-6 translate-x-0.5 fill-black" />
                             </div>
 
-                            <span className="text-[10px] font-sans text-[#E8E1D5] tracking-widest uppercase bg-black/70 px-2.5 py-1 rounded-full border border-white/20 backdrop-blur-md">
+                            <span className="rounded-full border border-white/20 bg-black/70 px-2.5 py-1 font-sans text-[10px] uppercase tracking-widest text-[#E8E1D5] backdrop-blur-md">
                               WATCH FULLSCREEN
                             </span>
                           </div>
                         )}
 
-                        <div className="absolute bottom-3 left-3 z-10 flex items-center gap-1.5 px-3 py-1 bg-[#17140e]/95 border border-[#D9BC78]/50 text-[#D9BC78] rounded-full text-xs font-sans tracking-wider uppercase shadow-md">
-                          <MapPin className="w-3 h-3" />
+                        <div className="absolute bottom-3 left-3 z-10 flex items-center gap-1.5 rounded-full border border-[#D9BC78]/50 bg-[#17140e]/95 px-3 py-1 font-sans text-xs uppercase tracking-wider text-[#D9BC78] shadow-md">
+                          <MapPin className="h-3 w-3" />
                           <span>{edition.city}</span>
                         </div>
                       </div>
 
+                      {/* Edition details */}
                       <div className="mt-4 px-1">
-                        <h3 className="font-serif text-xl sm:text-2xl lg:text-2xl text-[#E8E1D5] font-medium tracking-tight truncate flex items-center justify-between">
-                          <span>{edition.venue}</span>
+                        <h3 className="flex items-center justify-between gap-2 truncate font-serif text-xl font-medium tracking-tight text-[#E8E1D5] sm:text-2xl">
+                          <span className="truncate">{edition.venue}</span>
 
                           {isCenter && (
-                            <Maximize2 className="w-4 h-4 text-[#D9BC78] opacity-70 group-hover/card:opacity-100 transition-opacity" />
+                            <Maximize2 className="h-4 w-4 shrink-0 text-[#D9BC78] opacity-70 transition-opacity hover:opacity-100" />
                           )}
                         </h3>
 
-                        <div className="flex items-center justify-between gap-4 mt-2.5 pt-2.5 border-t border-white/[0.08] text-xs sm:text-sm font-sans text-[#AAA59B]">
-                          <span className="text-[#D9BC78] font-sans text-[10px] sm:text-xs font-semibold tracking-[0.08em] uppercase truncate">
+                        <div className="mt-2.5 flex items-center justify-between gap-2 border-t border-white/[0.08] pt-2.5 font-sans text-xs text-[#AAA59B] sm:text-sm">
+                          <span className="truncate font-sans text-[10px] font-semibold uppercase tracking-[0.08em] text-[#D9BC78] sm:text-xs">
                             {edition.number}
                           </span>
 
-                          <span className="text-[#D9BC78] font-sans text-xs flex items-center gap-1.5 shrink-0">
-                            <Calendar className="w-3.5 h-3.5" />
+                          <span className="flex shrink-0 items-center gap-1.5 font-sans text-xs text-[#D9BC78]">
+                            <Calendar className="h-3.5 w-3.5" />
                             {edition.date}
                           </span>
                         </div>
                       </div>
                     </motion.div>
                   );
-                }
-              )}
+                })}
+              </AnimatePresence>
             </motion.div>
           </div>
 
-          <div className="flex items-center justify-center gap-2 mt-6 sm:mt-10">
-            {editions.map((edition, idx) => (
+          {/* Edition pagination */}
+          <div className="mt-6 flex items-center justify-center gap-2 sm:mt-10">
+            {editions.map((edition, index) => (
               <button
-                key={`${edition.id}-${idx}`}
+                key={edition.id || `edition-dot-${index}`}
                 type="button"
-                onClick={() => setActiveIndex(idx)}
+                onClick={() => setActiveIndex(index)}
                 aria-label={`Go to ${edition.venue}`}
-                className={`transition-all duration-500 cursor-pointer ${
-                  activeIndex === idx
-                    ? 'w-7 h-2 bg-[#D9BC78] rounded-full'
-                    : 'w-2 h-2 bg-white/20 hover:bg-white/40 rounded-full'
+                aria-current={activeIndex === index ? 'true' : undefined}
+                className={`cursor-pointer rounded-full transition-all duration-300 ${
+                  activeIndex === index
+                    ? 'h-2 w-7 bg-[#D9BC78]'
+                    : 'h-2 w-2 bg-white/20 hover:bg-white/40'
                 }`}
               />
             ))}
@@ -456,46 +536,49 @@ export default function EditionsSection({
         </RevealZoom>
       </div>
 
+      {/* Fullscreen edition video modal */}
       <AnimatePresence>
         {selectedEdition && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 pt-[90px] pb-6 select-none"
+            className="fixed inset-0 z-[100] flex select-none items-center justify-center bg-black/90 p-4 pb-6 pt-[90px] backdrop-blur-xl"
             onClick={() => setSelectedEdition(null)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              initial={{ scale: 0.94, opacity: 0, y: 16 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              exit={{ scale: 0.94, opacity: 0, y: 16 }}
               transition={{
                 type: 'spring',
                 damping: 25,
                 stiffness: 300,
               }}
-              className="relative w-full max-w-[420px] h-[calc(100vh-110px)] max-h-[800px] bg-black border border-[#D9BC78]/50 rounded-2xl overflow-hidden shadow-[0_0_80px_rgba(217,188,120,0.2)] flex flex-col justify-between"
-              onClick={(e) => e.stopPropagation()}
+              className="relative flex h-[calc(100vh-110px)] max-h-[800px] w-full max-w-[420px] flex-col justify-between overflow-hidden rounded-2xl border border-[#D9BC78]/50 bg-black shadow-[0_0_80px_rgba(217,188,120,0.2)]"
+              onClick={(event) => event.stopPropagation()}
             >
               {selectedEdition.video ? (
                 <video
+                  key={selectedEdition.id}
                   src={selectedEdition.video}
                   controls
                   autoPlay
                   playsInline
-                  className="absolute inset-0 w-full h-full object-cover z-0"
+                  className="absolute inset-0 z-0 h-full w-full object-cover"
                 />
               ) : (
-                <div className="absolute inset-0 w-full h-full bg-black z-0" />
+                <div className="absolute inset-0 z-0 h-full w-full bg-black" />
               )}
 
-              <div className="relative z-10 bg-gradient-to-b from-black/95 via-black/60 to-transparent p-4 sm:p-5 flex items-center justify-between border-b border-white/10">
-                <div>
-                  <span className="text-[10px] font-sans text-[#D9BC78] tracking-widest uppercase block mb-0.5 font-medium">
+              {/* Modal header */}
+              <div className="relative z-10 flex items-center justify-between border-b border-white/10 bg-gradient-to-b from-black/95 via-black/60 to-transparent p-4 sm:p-5">
+                <div className="min-w-0">
+                  <span className="mb-0.5 block font-sans text-[10px] font-medium uppercase tracking-widest text-[#D9BC78]">
                     {selectedEdition.number} · {selectedEdition.city}
                   </span>
 
-                  <h3 className="font-serif text-lg sm:text-xl text-[#E8E1D5] font-medium leading-snug drop-shadow-md">
+                  <h3 className="truncate font-serif text-lg font-medium leading-snug text-[#E8E1D5] drop-shadow-md sm:text-xl">
                     {selectedEdition.venue}
                   </h3>
                 </div>
@@ -504,19 +587,20 @@ export default function EditionsSection({
                   type="button"
                   onClick={() => setSelectedEdition(null)}
                   aria-label="Close video player"
-                  className="w-9 h-9 rounded-full border border-white/30 hover:border-[#D9BC78] text-[#E8E1D5] hover:text-[#D9BC78] flex items-center justify-center bg-black/60 backdrop-blur-md cursor-pointer transition-all active:scale-95 shadow-xl"
+                  className="ml-3 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/30 bg-black/60 text-[#E8E1D5] shadow-xl transition hover:border-[#D9BC78] hover:text-[#D9BC78] active:scale-95"
                 >
-                  <X className="w-5 h-5 stroke-[2]" />
+                  <X className="h-5 w-5" />
                 </button>
               </div>
 
-              <div className="relative z-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent p-4 sm:p-5 flex flex-col gap-2 border-t border-white/10">
-                <div className="flex items-center justify-between gap-4 text-[10px] font-sans text-[#D9BC78]">
-                  <span>
+              {/* Modal footer */}
+              <div className="relative z-10 flex flex-col gap-2 border-t border-white/10 bg-gradient-to-t from-black/95 via-black/60 to-transparent p-4 sm:p-5">
+                <div className="flex items-center justify-between gap-4 font-sans text-[10px] text-[#D9BC78]">
+                  <span className="truncate">
                     {selectedEdition.city} · {selectedEdition.venue}
                   </span>
 
-                  <span className="bg-black/60 px-2.5 py-0.5 rounded-full border border-[#D9BC78]/40">
+                  <span className="shrink-0 rounded-full border border-[#D9BC78]/40 bg-black/60 px-2.5 py-0.5">
                     {selectedEdition.date}
                   </span>
                 </div>
@@ -526,8 +610,8 @@ export default function EditionsSection({
                     href={selectedEdition.referenceUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="pt-2 border-t border-white/15 text-[10px] font-sans text-[#E8E1D5]/80 hover:text-[#D9BC78] tracking-widest uppercase transition-colors"
-                    onClick={(e) => e.stopPropagation()}
+                    className="border-t border-white/15 pt-2 font-sans text-[10px] uppercase tracking-widest text-[#E8E1D5]/80 transition-colors hover:text-[#D9BC78]"
+                    onClick={(event) => event.stopPropagation()}
                   >
                     View Reference Reel ↗
                   </a>
