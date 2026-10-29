@@ -1,7 +1,13 @@
 
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   ChevronLeft,
   ChevronRight,
@@ -31,7 +37,6 @@ interface EditionsSectionProps {
 
 interface EditionMetadata {
   [key: string]: string | undefined;
-
   id?: string;
   edition?: string;
   number?: string;
@@ -47,6 +52,11 @@ interface EditionMetadata {
   reference_url?: string;
 }
 
+type VisibleEdition = {
+  edition: Edition;
+  position: 'center' | 'side';
+};
+
 function EditionVideo({
   src,
   isCenter,
@@ -54,7 +64,7 @@ function EditionVideo({
   src?: string;
   isCenter: boolean;
 }) {
-  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -150,10 +160,6 @@ export default function EditionsSection({
     );
   };
 
-  /*
-   * Read edition cards from Metadata Master.
-   * Supported metadata keys remain compatible with the existing section.
-   */
   const editionField = getField(
     data,
     'edition',
@@ -203,10 +209,6 @@ export default function EditionsSection({
         );
     }
 
-    /*
-     * Backward compatibility with individual edition_9 through
-     * edition_13 metadata fields.
-     */
     if (result.length === 0) {
       const editionKeys = [
         'edition_9',
@@ -261,10 +263,6 @@ export default function EditionsSection({
   const [selectedEdition, setSelectedEdition] =
     useState<Edition | null>(null);
 
-  /*
-   * Keep the active index valid if the metadata changes or cards
-   * are added or removed.
-   */
   useEffect(() => {
     setActiveIndex((current) => {
       if (editions.length === 0) return 0;
@@ -297,13 +295,18 @@ export default function EditionsSection({
     }
   };
 
-  const getVisibleEditions = () => {
+  const visibleEditions = useMemo<VisibleEdition[]>(() => {
     const count = editions.length;
 
     if (count === 0) return [];
 
     if (count === 1) {
-      return [{ edition: editions[0], position: 'center' as const }];
+      return [
+        {
+          edition: editions[0],
+          position: 'center',
+        },
+      ];
     }
 
     if (count === 2) {
@@ -312,11 +315,11 @@ export default function EditionsSection({
       return [
         {
           edition: editions[otherIndex],
-          position: 'side' as const,
+          position: 'side',
         },
         {
           edition: editions[activeIndex],
-          position: 'center' as const,
+          position: 'center',
         },
       ];
     }
@@ -328,20 +331,18 @@ export default function EditionsSection({
     return [
       {
         edition: editions[previousIndex],
-        position: 'side' as const,
+        position: 'side',
       },
       {
         edition: editions[activeIndex],
-        position: 'center' as const,
+        position: 'center',
       },
       {
         edition: editions[nextIndex],
-        position: 'side' as const,
+        position: 'side',
       },
     ];
-  };
-
-  const visibleEditions = getVisibleEditions();
+  }, [editions, activeIndex]);
 
   return (
     <section
@@ -385,14 +386,14 @@ export default function EditionsSection({
           delay={0.2}
           className="relative flex w-full flex-col items-center"
         >
-          <div className="relative flex min-h-[420px] w-full items-center justify-center py-8 sm:min-h-[560px] lg:min-h-[650px]">
+          <div className="relative flex min-h-[440px] w-full items-center justify-center py-8 sm:min-h-[560px] lg:min-h-[650px]">
             {/* Previous button */}
             <button
               type="button"
               onClick={handlePrev}
               disabled={editions.length <= 1}
               aria-label="Previous edition"
-              className="absolute left-0 top-1/2 z-30 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#D9BC78]/60 bg-[#090909]/90 text-[#D9BC78] shadow-xl transition hover:scale-105 hover:border-[#D9BC78] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 sm:left-2 sm:h-12 sm:w-12 lg:left-4"
+              className="absolute left-0 top-1/2 z-40 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#D9BC78]/60 bg-[#090909]/95 text-[#D9BC78] shadow-xl transition hover:scale-105 hover:border-[#D9BC78] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 sm:left-2 sm:h-12 sm:w-12 lg:left-4"
             >
               <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
@@ -403,7 +404,7 @@ export default function EditionsSection({
               onClick={handleNext}
               disabled={editions.length <= 1}
               aria-label="Next edition"
-              className="absolute right-0 top-1/2 z-30 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#D9BC78]/60 bg-[#090909]/90 text-[#D9BC78] shadow-xl transition hover:scale-105 hover:border-[#D9BC78] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 sm:right-2 sm:h-12 sm:w-12 lg:right-4"
+              className="absolute right-0 top-1/2 z-40 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#D9BC78]/60 bg-[#090909]/95 text-[#D9BC78] shadow-xl transition hover:scale-105 hover:border-[#D9BC78] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 sm:right-2 sm:h-12 sm:w-12 lg:right-4"
             >
               <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
@@ -456,10 +457,10 @@ export default function EditionsSection({
                         }
                       }}
                       className={[
-                        'relative shrink-0 cursor-pointer select-none overflow-hidden rounded-[20px]',
+                        'group relative shrink-0 cursor-pointer select-none overflow-hidden rounded-[20px]',
                         'border p-2.5 sm:p-4',
                         isCenter
-                          ? 'z-20 w-[70%] max-w-[520px] border-[#D9BC78]/50 bg-[#080808] shadow-[0_0_40px_rgba(217,188,120,0.10)]'
+                          ? 'z-20 w-[88%] max-w-[520px] border-[#D9BC78]/50 bg-[#080808] shadow-[0_0_40px_rgba(217,188,120,0.10)] sm:w-[70%]'
                           : 'z-10 hidden w-[28%] max-w-[300px] border-white/10 bg-[#0a0a0a] sm:block',
                       ].join(' ')}
                     >
@@ -491,19 +492,21 @@ export default function EditionsSection({
                       {/* Edition details */}
                       <div className="mt-4 px-1">
                         <h3 className="flex items-center justify-between gap-2 truncate font-serif text-xl font-medium tracking-tight text-[#E8E1D5] sm:text-2xl">
-                          <span className="truncate">{edition.venue}</span>
+                          <span className="truncate">
+                            {edition.venue}
+                          </span>
 
                           {isCenter && (
-                            <Maximize2 className="h-4 w-4 shrink-0 text-[#D9BC78] opacity-70 transition-opacity hover:opacity-100" />
+                            <Maximize2 className="h-4 w-4 shrink-0 text-[#D9BC78] opacity-70 transition-opacity group-hover:opacity-100" />
                           )}
                         </h3>
 
                         <div className="mt-2.5 flex items-center justify-between gap-2 border-t border-white/[0.08] pt-2.5 font-sans text-xs text-[#AAA59B] sm:text-sm">
-                          <span className="truncate font-sans text-[10px] font-semibold uppercase tracking-[0.08em] text-[#D9BC78] sm:text-xs">
+                          <span className="min-w-0 truncate font-sans text-[10px] font-semibold uppercase tracking-[0.08em] text-[#D9BC78] sm:text-xs">
                             {edition.number}
                           </span>
 
-                          <span className="flex shrink-0 items-center gap-1.5 font-sans text-xs text-[#D9BC78]">
+                          <span className="flex shrink-0 items-center gap-1.5 whitespace-nowrap font-sans text-xs text-[#D9BC78]">
                             <Calendar className="h-3.5 w-3.5" />
                             {edition.date}
                           </span>
