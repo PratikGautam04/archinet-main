@@ -70,12 +70,58 @@ const DEFAULT_PILLARS: Pillar[] = [
   },
 ];
 
+/**
+ * Removes a leading numbered prefix such as:
+ * "03 • CURATED INDUSTRY NETWORKING"
+ * "04 - PROFESSIONAL RELATIONSHIPS"
+ *
+ * The descriptive text remains unchanged.
+ */
+const removeNumberPrefix = (value?: string): string => {
+  if (!value) return '';
+
+  return value
+    .trim()
+    .replace(/^\s*\d+\s*(?:[•·|:.)\-–—]\s*)+/, '')
+    .trim();
+};
+
+/**
+ * Ensures the badge has exactly one number prefix.
+ * The number always comes from the card's number field.
+ */
+const formatBadge = (
+  badge: string | undefined,
+  number: string,
+  fallbackTitle: string
+): string => {
+  const cleanedBadge = removeNumberPrefix(badge);
+  const label = cleanedBadge || fallbackTitle;
+
+  return `${number} • ${label}`;
+};
+
+const getCardValue = (
+  card: Record<string, string>,
+  ...keys: string[]
+): string => {
+  for (const key of keys) {
+    const value = card[key];
+
+    if (typeof value === 'string' && value.trim()) {
+      return value.trim();
+    }
+  }
+
+  return '';
+};
+
 export default function ArchinetExperienceSection({
   data,
 }: ArchinetExperienceSectionProps) {
   const [activePillar, setActivePillar] = useState<number>(0);
 
-  // Section content from Metadata Master / API
+  // Section content from Metadata Master / API.
   const eyebrow =
     getFieldValue(data, 'section_label', 'eyebrow', 'label') ||
     'THE ARCHINET EXPERIENCE';
@@ -88,7 +134,7 @@ export default function ArchinetExperienceSection({
     getFieldValue(data, 'subtitle', 'sub_heading', 'description') ||
     'Where material innovation meets specification: purposeful, high-yield dialogue.';
 
-  // Repeatable card data from Metadata Master
+  // Repeatable card data from Metadata Master.
   const cardList = getCardJsonData<Record<string, string>>(
     getField(
       data,
@@ -107,43 +153,77 @@ export default function ArchinetExperienceSection({
           const defaultPillar =
             DEFAULT_PILLARS[idx % DEFAULT_PILLARS.length];
 
-          const num = String(idx + 1).padStart(2, '0');
+          const defaultNumber = String(idx + 1).padStart(2, '0');
+
+          const number =
+            getCardValue(card, 'number', 'card_number') ||
+            defaultNumber;
 
           const title =
-            card.title ||
-            card.heading ||
-            card.name ||
+            getCardValue(card, 'title', 'heading', 'name') ||
             defaultPillar.title;
 
+          const verticalTitle =
+            removeNumberPrefix(
+              getCardValue(
+                card,
+                'vertical_title',
+                'verticalTitle',
+                'label'
+              ) || title
+            ) || defaultPillar.verticalTitle;
+
+          const badgeSource = getCardValue(card, 'badge', 'tag');
+
           return {
-            number: card.number || num,
-            badge:
-              card.badge ||
-              card.tag ||
-              `${num} • ${title.toUpperCase()}`,
-            verticalTitle:
-              card.vertical_title ||
-              card.verticalTitle ||
-              title.toUpperCase(),
+            number,
             title,
+            verticalTitle,
+            badge: formatBadge(
+              badgeSource,
+              number,
+              verticalTitle || title.toUpperCase()
+            ),
             description:
-              card.description ||
-              card.desc ||
-              card.text ||
+              getCardValue(card, 'description', 'desc', 'text') ||
               defaultPillar.description,
             image:
-              card.image ||
-              card.url ||
-              card.src ||
+              getCardValue(card, 'image', 'url', 'src') ||
               defaultPillar.image,
           };
         })
       : DEFAULT_PILLARS.map((defaultPillar, idx) => {
           const prefix = `pillar_${idx + 1}_`;
 
+          const number =
+            getFieldValue(
+              data,
+              `${prefix}number`,
+              `${prefix}card_number`
+            ) || defaultPillar.number;
+
           const title =
-            getFieldValue(data, `${prefix}title`, `${prefix}heading`) ||
-            defaultPillar.title;
+            getFieldValue(
+              data,
+              `${prefix}title`,
+              `${prefix}heading`
+            ) || defaultPillar.title;
+
+          const verticalTitle =
+            removeNumberPrefix(
+              getFieldValue(
+                data,
+                `${prefix}vertical_title`,
+                `${prefix}verticalTitle`
+              ) || title
+            ) || defaultPillar.verticalTitle;
+
+          const badgeSource =
+            getFieldValue(
+              data,
+              `${prefix}badge`,
+              `${prefix}tag`
+            ) || defaultPillar.badge;
 
           const description =
             getFieldValue(
@@ -152,29 +232,30 @@ export default function ArchinetExperienceSection({
               `${prefix}desc`
             ) || defaultPillar.description;
 
-          const badge =
-            getFieldValue(data, `${prefix}badge`, `${prefix}tag`) ||
-            defaultPillar.badge;
-
-          const verticalTitle =
-            getFieldValue(data, `${prefix}vertical_title`) ||
-            defaultPillar.verticalTitle;
-
           const image =
             getFieldValue(data, `${prefix}image`) ||
             defaultPillar.image;
 
           return {
-            number: defaultPillar.number,
-            badge,
-            verticalTitle,
+            number,
             title,
+            verticalTitle,
+            badge: formatBadge(
+              badgeSource,
+              number,
+              verticalTitle || title.toUpperCase()
+            ),
             description,
             image,
           };
         });
 
-  // Navigate to the Contact section without changing the active card
+  // Keep the active index valid if Metadata Master changes card count.
+  const safeActivePillar = Math.min(
+    activePillar,
+    Math.max(pillars.length - 1, 0)
+  );
+
   const handleContactClick = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -193,28 +274,27 @@ export default function ArchinetExperienceSection({
     >
       <div className="mx-auto flex w-full max-w-7xl flex-col items-center">
         {/* Eyebrow */}
-       {/* Eyebrow */}
-<RevealTitle>
-  <div className="mb-4 flex items-center justify-center gap-3">
-    <span className="h-px w-8 bg-[rgba(215,180,107,0.4)]" />
+        <RevealTitle>
+          <div className="mb-4 flex items-center justify-center gap-3">
+            <span className="h-px w-8 bg-[rgba(215,180,107,0.4)]" />
 
-    <span
-      className="font-sans text-[11px] font-semibold uppercase tracking-[3.3px] text-[#D7B46A]"
-      style={{
-        fontFamily: 'Manrope, sans-serif',
-        fontSize: '11px',
-        lineHeight: '16.5px',
-        fontWeight: 600,
-        letterSpacing: '3.3px',
-        color: '#D7B46A',
-      }}
-    >
-      {eyebrow}
-    </span>
+            <span
+              className="font-sans text-[11px] font-semibold uppercase tracking-[3.3px] text-[#D7B46A]"
+              style={{
+                fontFamily: 'Manrope, sans-serif',
+                fontSize: '11px',
+                lineHeight: '16.5px',
+                fontWeight: 600,
+                letterSpacing: '3.3px',
+                color: '#D7B46A',
+              }}
+            >
+              {eyebrow}
+            </span>
 
-    <span className="h-px w-8 bg-[rgba(215,180,107,0.4)]" />
-  </div>
-</RevealTitle>
+            <span className="h-px w-8 bg-[rgba(215,180,107,0.4)]" />
+          </div>
+        </RevealTitle>
 
         {/* Main Heading */}
         <RevealUp delay={0.1}>
@@ -233,11 +313,11 @@ export default function ArchinetExperienceSection({
         {/* Four Interactive Expandable Cards */}
         <div className="flex h-auto w-full flex-col gap-4 lg:h-[580px] lg:flex-row">
           {pillars.map((pillar, idx) => {
-            const isExpanded = activePillar === idx;
+            const isExpanded = safeActivePillar === idx;
 
             return (
               <div
-                key={pillar.number}
+                key={`${pillar.number}-${idx}`}
                 onClick={() => setActivePillar(idx)}
                 onKeyDown={(event) => {
                   if (event.target !== event.currentTarget) return;
@@ -305,19 +385,19 @@ export default function ArchinetExperienceSection({
                   </div>
                 ) : (
                   /* Collapsed Card */
-                  <div className="relative z-10 flex h-full w-full flex-row items-center justify-between p-5 lg:flex-col lg:py-8 lg:px-2">
-                    {/* Number */}
-                    <span className="font-sans text-xs font-medium tracking-wider text-[#D7B46B] sm:text-sm">
+                  <div className="relative z-10 flex h-full w-full flex-row items-center justify-between gap-3 p-5 lg:flex-col lg:justify-between lg:gap-5 lg:px-2 lg:py-8">
+                    {/* Number: displayed once */}
+                    <span className="shrink-0 font-sans text-xs font-medium tracking-wider text-[#D7B46B] sm:text-sm">
                       {pillar.number}
                     </span>
 
                     {/* Horizontal Title on Mobile */}
-                    <span className="block font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#AAA59B] lg:hidden sm:text-sm">
+                    <span className="min-w-0 flex-1 break-words font-sans text-xs font-semibold uppercase leading-snug tracking-[0.12em] text-[#AAA59B] transition-colors group-hover:text-[#EEEAE2] sm:text-sm lg:hidden">
                       {pillar.verticalTitle}
                     </span>
 
                     {/* Vertical Title on Desktop */}
-                    <span className="hidden whitespace-nowrap font-sans text-[11px] font-semibold uppercase tracking-[0.25em] text-[#AAA59B] transition-colors group-hover:text-[#EEEAE2] lg:block [writing-mode:vertical-rl] rotate-180">
+                    <span className="hidden max-w-full whitespace-nowrap font-sans text-[11px] font-semibold uppercase tracking-[0.25em] text-[#AAA59B] transition-colors group-hover:text-[#EEEAE2] lg:block [writing-mode:vertical-rl] rotate-180">
                       {pillar.verticalTitle}
                     </span>
 
