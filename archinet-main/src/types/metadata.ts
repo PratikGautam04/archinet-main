@@ -46,6 +46,7 @@ export interface MetadataValues {
   testimonials?: MetadataField[];
   archinet_video?: MetadataField[];
   build_over_time?: MetadataField[];
+  seo_metadata?: MetadataField[];
   [key: string]: MetadataField[] | undefined;
 }
 
