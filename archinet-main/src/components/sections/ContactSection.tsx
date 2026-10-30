@@ -63,21 +63,21 @@ export default function ContactSection({ data }: ContactSectionProps) {
     getFieldValue(data, 'desc_3', 'description_3') ||
     'Whether you represent a manufacturing brand, an architecture firm or an interior design practice, we would be happy to hear from you.';
 
-  const companyName =
-    getFieldValue(data, 'company_name') ||
-    'Riverstone Networking Services';
+  // const companyName =
+  //   getFieldValue(data, 'company_name') ||
+  //   'Riverstone Networking Services';
 
-  const phone =
-    getFieldValue(data, 'company_phone', 'phone') ||
-    '+91 84208 23676';
+  // const phone =
+  //   getFieldValue(data, 'company_phone', 'phone') ||
+  //   '+91 84208 23676';
 
-  const email =
-    getFieldValue(data, 'company_email', 'email') ||
-    'anshu@riverstonenetworking.com';
+  // const email =
+  //   getFieldValue(data, 'company_email', 'email') ||
+  //   'anshu@riverstonenetworking.com';
 
-  const website =
-    getFieldValue(data, 'company_webiste', 'company_website', 'website') ||
-    'riverstonenetworking.com';
+  // const website =
+  //   getFieldValue(data, 'company_webiste', 'company_website', 'website') ||
+  //   'riverstonenetworking.com';
 
   const eventInfoCards = getCardJsonData<{
     title?: string;
@@ -305,7 +305,7 @@ export default function ContactSection({ data }: ContactSectionProps) {
             </RevealUp>
           </div>
 
-          <RevealUp delay={0.25}>
+          {/* <RevealUp delay={0.25}>
             <div className="flex flex-col gap-1 text-xs font-sans text-[#AAA59B] mt-10">
               <span className="text-xs text-[#EEEAE2] font-medium block">
                 {companyName}
@@ -329,7 +329,7 @@ export default function ContactSection({ data }: ContactSectionProps) {
                 {website}
               </a>
             </div>
-          </RevealUp>
+          </RevealUp> */}
         </div>
 
         {/* Right Column: Contact Form */}

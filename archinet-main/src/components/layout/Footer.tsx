@@ -1,8 +1,10 @@
+
 'use client';
 
 import React from 'react';
 import Link from 'next/link';
 import BrandLogo from './BrandLogo';
+import { FaInstagram, FaYoutube } from 'react-icons/fa';
 import {
   RevealUp,
   StaggerContainer,
@@ -56,6 +58,7 @@ const findField = (
 
   if (typeof fields === 'object') {
     if (fields[keyName]) return fields[keyName];
+
     for (const k of Object.keys(fields)) {
       if (normalizeKey(k) === targetKey) {
         return fields[k];
@@ -71,10 +74,15 @@ const findField = (
 ------------------------------------------------- */
 const getFieldResponse = (field?: MetadataField): string => {
   if (!field) return '';
-  if (typeof field.response === 'string') return field.response.trim();
+
+  if (typeof field.response === 'string') {
+    return field.response.trim();
+  }
+
   if (field.response !== undefined && field.response !== null) {
     return String(field.response).trim();
   }
+
   return '';
 };
 
@@ -91,6 +99,7 @@ const normalizeCards = (value: unknown): MetadataCard[] => {
   if (typeof value === 'string' && value.trim().length > 0) {
     try {
       const parsed = JSON.parse(value);
+
       if (Array.isArray(parsed)) {
         return parsed as MetadataCard[];
       }
@@ -114,20 +123,22 @@ const getCardFieldResponse = (
 
   const targets = candidateKeys.map(normalizeKey);
 
-  // 1. Structure with fields array: { fields: [{ keyName: "title", response: "..." }] }
+  // 1. Structure with fields array
   if (Array.isArray(card.fields)) {
     const field = card.fields.find((item) =>
       targets.includes(normalizeKey(item?.keyName || ''))
     );
+
     if (field?.response !== undefined && field?.response !== null) {
       return String(field.response).trim();
     }
   }
 
-  // 2. Direct object structure: { title: "...", links: "..." }
+  // 2. Direct object structure
   for (const key of Object.keys(card)) {
     if (targets.includes(normalizeKey(key))) {
       const value = card[key];
+
       if (typeof value === 'string' || typeof value === 'number') {
         return String(value).trim();
       }
@@ -178,7 +189,10 @@ export default function Footer({ data }: FooterProps) {
         {/* =======================================
             BRAND COLUMN
         ======================================= */}
-        <StaggerItem direction="left" className="lg:col-span-2 flex flex-col gap-4">
+        <StaggerItem
+          direction="left"
+          className="lg:col-span-2 flex flex-col gap-4"
+        >
           <Link
             href="#"
             className="inline-flex w-fit transition-opacity hover:opacity-90"
@@ -206,12 +220,47 @@ export default function Footer({ data }: FooterProps) {
               {description}
             </p>
           )}
+
+          {/* SOCIAL MEDIA LINKS */}
+          <div className="flex flex-col gap-3 mt-3">
+            <span className="text-xs font-mono text-white font-bold tracking-widest uppercase">
+              {/* Follow us on Instagram, YouTube */}
+              Follow us on 
+            </span>
+
+            <div className="flex items-center gap-4">
+              {/* Instagram */}
+              <a
+                href="https://www.instagram.com/riverstonenetworking"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow Riverstone Networking on Instagram"
+                className="text-[var(--text-secondary)] hover:text-[#D7B46B] transition-colors duration-300"
+              >
+                <FaInstagram size={22} strokeWidth={1.8} />
+              </a>
+
+              {/* YouTube */}
+              <a
+                href="https://youtube.com/@archinet_byrns"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow Archinet on YouTube"
+                className="text-[var(--text-secondary)] hover:text-[#D7B46B] transition-colors duration-300"
+              >
+                <FaYoutube size={24} strokeWidth={1.8} />
+              </a>
+            </div>
+          </div>
         </StaggerItem>
 
         {/* =======================================
             EXPLORE COLUMN
         ======================================= */}
-        <StaggerItem direction="up" className="flex flex-col gap-3 font-mono text-xs">
+        <StaggerItem
+          direction="up"
+          className="flex flex-col gap-3 font-mono text-xs"
+        >
           <span className="text-white font-bold tracking-widest uppercase mb-1">
             EXPLORE
           </span>
@@ -224,6 +273,7 @@ export default function Footer({ data }: FooterProps) {
                 'label',
                 'name',
               ]);
+
               const href = getCardFieldResponse(card, [
                 'links',
                 'link',
@@ -251,24 +301,28 @@ export default function Footer({ data }: FooterProps) {
               >
                 ABOUT SUMMIT
               </Link>
+
               <Link
                 href="#edition-14"
                 className="text-[var(--text-secondary)] hover:text-[var(--accent-gold)] transition-colors"
               >
                 14TH EDITION MUMBAI
               </Link>
+
               <Link
                 href="#editions"
                 className="text-[var(--text-secondary)] hover:text-[var(--accent-gold)] transition-colors"
               >
                 PAST EDITIONS
               </Link>
+
               <Link
                 href="#leaders"
                 className="text-[var(--text-secondary)] hover:text-[var(--accent-gold)] transition-colors"
               >
                 INDUSTRY LEADERS
               </Link>
+
               <Link
                 href="#testimonials"
                 className="text-[var(--text-secondary)] hover:text-[var(--accent-gold)] transition-colors"
@@ -282,7 +336,10 @@ export default function Footer({ data }: FooterProps) {
         {/* =======================================
             CONTACT COLUMN
         ======================================= */}
-        <StaggerItem direction="up" className="flex flex-col gap-3 font-mono text-xs">
+        <StaggerItem
+          direction="up"
+          className="flex flex-col gap-3 font-mono text-xs"
+        >
           <span className="text-white font-bold tracking-widest uppercase mb-1">
             CONTACT
           </span>
@@ -294,6 +351,7 @@ export default function Footer({ data }: FooterProps) {
                 'title',
                 'heading',
               ]);
+
               const details = getCardFieldResponse(card, [
                 'contact_details',
                 'details',
@@ -304,12 +362,16 @@ export default function Footer({ data }: FooterProps) {
               if (!title && !details) return null;
 
               return (
-                <div key={`${title || 'contact'}-${idx}`} className="flex flex-col gap-1.5">
+                <div
+                  key={`${title || 'contact'}-${idx}`}
+                  className="flex flex-col gap-1.5"
+                >
                   {title && title.toUpperCase() !== 'CONTACT' && (
                     <span className="text-[var(--accent-gold)] font-semibold tracking-wider uppercase">
                       {title}
                     </span>
                   )}
+
                   {details && (
                     <p className="whitespace-pre-line text-[var(--text-secondary)] leading-relaxed">
                       {details}
@@ -340,6 +402,7 @@ export default function Footer({ data }: FooterProps) {
             <span className="font-sans text-[14px] sm:text-[15px] font-normal text-[#e5e2db]">
               Managed by
             </span>
+
             <img
               src="https://unicladsurface.com/_next/image?url=%2Fhome%2FSalesUpBlackBg.png&w=640&q=75"
               alt={managedBy}
