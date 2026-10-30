@@ -454,12 +454,14 @@ export default function EditionsSection({
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.12}
               onDragEnd={handleDragEnd}
-              className={[
-                'relative flex w-full items-center justify-center',
-                'overflow-visible px-0',
-                '-space-x-[45vw]',
-                'sm:-space-x-20 lg:-space-x-20 xl:-space-x-24',
-              ].join(' ')}
+             className={[
+  'relative flex w-full items-center justify-center',
+  'overflow-visible px-0',
+  '-space-x-[42vw]',
+  'min-[390px]:-space-x-[40vw]',
+  'sm:-space-x-20',
+  'lg:-space-x-20 xl:-space-x-24',
+].join(' ')}
             >
               <AnimatePresence initial={false} mode="popLayout">
                 {visibleEditions.map(
