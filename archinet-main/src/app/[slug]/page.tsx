@@ -83,9 +83,7 @@ async function fetchArchinetTemplate(): Promise<WebTemplate | null> {
       headers: {
         Accept: 'application/json',
       },
-      next: {
-        revalidate: 300,
-      },
+     cache: 'no-store',
     });
 
     if (!response.ok) {
